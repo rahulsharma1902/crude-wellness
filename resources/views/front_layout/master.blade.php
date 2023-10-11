@@ -83,9 +83,7 @@
                         </div>
                         <div class="col-lg-4 brand-ord text-center">
                             <a class="navbar-brand" href="index.html">
-<<<<<<<<< Temporary merge branch 1
-                                <img src="{{ asset('/front/img/site-logo.png') }}" class="img-fluid" alt="">
-=========
+
                                 <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
                             </a>
                         </div>
@@ -95,10 +93,6 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="{{ url('our-story') }}">About</a>
                                     </li>
-<<<<<<<<< Temporary merge branch 1
-                                    <li><a href="#"> <img src="{{ asset('/front/img/user.svg') }}" class="img-fluid" alt=""></a></li>
-                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('/front/img/cart.svg') }}" class="img-fluid" alt=""><span>0</span>
-=========
                                     <li><a href="#"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
                                     <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
                                     </button></li>
