@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-lg-4 brand-ord text-center">
                             <a class="navbar-brand" href="index.html">
-                                <img src="img/site-logo.png" class="img-fluid" alt="">
+                                <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
                             </a>
                         </div>
                         <div class="col-lg-4 brand-ord">
@@ -92,8 +92,8 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="#">About</a>
                                     </li>
-                                    <li><a href="#"> <img src="img/user.svg" class="img-fluid" alt=""></a></li>
-                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="img/cart.svg" class="img-fluid" alt=""><span>0</span>
+                                    <li><a href="#"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
+                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
                                     </button></li>
                                 </ul>
                             </div>
@@ -236,7 +236,7 @@
                 <div class="row">
                     <div class="col-md-3 col-sm-6 b-left p-top">
                         <div class="footer-logo">
-                            <img src="img/footer-toplogo.png" alt="">
+                            <img src="{{ asset('front/img/footer-toplogo.png') ?? '' }}" alt="">
                         </div>
                         <div class="social-links">
                             <ul>
@@ -301,7 +301,7 @@
                         <div class="payment">
                             <span>Payment</span>
                             <div class="payemt-img">
-                                <img src="img/payment-img.png" alt="">
+                                <img src="{{ asset('front/img/payment-img.png') ?? '' }}" alt="">
                             </div>
                             <p>© 2023 Crude Wellness. All Rights Reserved.</p>
                         </div>
