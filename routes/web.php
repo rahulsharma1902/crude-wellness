@@ -11,6 +11,7 @@ use App\Http\Controllers\Front\ReviewController;
 use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\FaqController;
 use App\Http\Controllers\Front\OurStoryController;
+use App\Http\Controllers\Admin\AdminDashController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +48,8 @@ Route::get('review',[ReviewController::class,'index']);
 Route::get('contact',[ContactController::class,'index']);
 
 Route::get('our-story',[OurStoryController::class,'index']);
+
+
+/////Admin Dashboarda
+
+Route::get('admin-dashboard',[AdminDashController::class,'index']);

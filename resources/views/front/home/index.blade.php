@@ -10,7 +10,7 @@
                             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
                         </p>
                     </div>
-                    <a href="#" class="main-btn">Shop Now</a>
+                    <a href="{{ url('shop') }}" class="main-btn">Shop Now</a>
                 </div>
             </div>
         </div>
@@ -84,7 +84,7 @@
                         <p>
                             All our products are third party lab tested for constancy & potency via GMP Certified facility.
                         </p>
-                        <a href="#" class="main-btn btn_light">Shop The Collection</a>
+                        <a href="{{ url('shop') }}" class="main-btn btn_light">Shop The Collection</a>
                     </div>
                 </div>
             </div>

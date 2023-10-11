@@ -7,8 +7,8 @@
                 <div class="col-lg-12">  
                     <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ url('shop') }}">Shop</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Natural Flavour Broad Spectrum 30ml</li>
                         </ol>
                     </nav>
@@ -51,8 +51,8 @@
                                         <div>
                                             <h6>Subscribe And Save</h6>
                                             <p>
-                                                Easy to cencel anytime,<br />
-                                                Free Shipping alwasy
+                                                Easy to cancel anytime,<br />
+                                                Free Shipping always
                                             </p>
                                         </div>
                                         <div class="purcha_text">
