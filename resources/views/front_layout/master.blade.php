@@ -83,7 +83,7 @@
                         </div>
                         <div class="col-lg-4 brand-ord text-center">
                             <a class="navbar-brand" href="index.html">
-                                <img src="{{ asset('/front/img/site-logo.png') }}" class="img-fluid" alt="">
+                                <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
                             </a>
                         </div>
                         <div class="col-lg-4 brand-ord">
@@ -92,8 +92,8 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="#">About</a>
                                     </li>
-                                    <li><a href="#"> <img src="{{ asset('/front/img/user.svg') }}" class="img-fluid" alt=""></a></li>
-                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('/front/img/cart.svg') }}" class="img-fluid" alt=""><span>0</span>
+                                    <li><a href="#"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
+                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
                                     </button></li>
                                 </ul>
                             </div>
@@ -105,14 +105,138 @@
     </header>
 
     @yield('content')
+    <!-- cart  -->
 
+<div class="modal left fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLongTitle">Your Cart</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="cart_content">
+                    <a href="#">
+                        <div class="pro_cart">
+                            <img src="{{ asset('front/img/cart-1.png') ?? '' }}" alt="">
+                        </div>
+                    </a>
+                    <div class="min_wreap">
+                        <div class="text_wreap">
+                            <h5>Natural Flavour Broad Spectrum 30ml</h5>
+                            <span>$89.00</span>
+                        </div>
+                        <div class="number">
+                            <span class="minus">-</span>
+                            <input type="text" value="1">
+                            <span class="plus">+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart_content">
+                    <a href="#">
+                        <div class="pro_cart">
+                            <img src="{{ asset('front/img/cart-2.png') ?? '' }}" alt="">
+                        </div>
+                    </a>
+                    <div class="min_wreap">
+                        <div class="text_wreap">
+                            <h5>Natural Flavour Broad Spectrum 30ml</h5>
+                            <span>$89.00</span>
+                        </div>
+                        <div class="number">
+                            <span class="minus">-</span>
+                            <input type="text" value="1">
+                            <span class="plus">+</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="might_wrapper">
+                    <h3>You might also like</h3>
+                    <div class="prolist_wrapper">
+                        <div class="prolist_wreap">
+                            <div class="card border-0">
+                                <div class="product_img">
+                                    <img class="card-img-top" src="{{ asset('front/img/cart-3.png') ?? '' }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <div class="price">
+                                        <ul class="d-flex list-unstyled">
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li>4.5</li>
+                                        </ul>
+                                        <span class="prodollar">$89.00</span>
+                                    </div>
+                                    <h5 class="card-title">THE BEST OF Prio CBD</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="prolist_wreap">
+                            <div class="card border-0">
+                                <div class="product_img">
+                                    <img class="card-img-top" src="{{ asset('front/img/cart-4.png') ?? '' }}" alt="Card image cap">
+                                </div>
+                                <div class="card-body">
+                                    <div class="price">
+                                        <ul class="d-flex list-unstyled">
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li><i class="fa-solid fa-star"></i></li>
+                                            <li>4.5</li>
+                                        </ul>
+                                        <span class="prodollar">$89.00</span>
+                                    </div>
+                                    <h5 class="card-title">THE BEST OF Prio CBD</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="shoping_list">
+                    <ul class="list-unstyled">
+                        <li>
+                            <div>
+                                <span>Total</span>
+                                <p>Shipping & taxes calculated at checkout</p>
+                            </div>
+                            <span>$178.00</span>
+                        </li>
+                        <li>
+                            <select id="inputState" class="form-control">
+                                <option selected>Select Redeem Points</option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                            <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
+                        </li>
+                    </ul>
+                    <button type="button" onclick="location.href='checkout.html'" class="btn main-btn">Go to
+                        checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- end cart -->
     <footer class="footer_wrapper">
         <div class="footer-top">
             <div class="container">
                 <div class="row">
                     <div class="col-md-3 col-sm-6 b-left p-top">
                         <div class="footer-logo">
-                            <img src="{{ asset('/front/img/footer-toplogo.png') }}" alt="">
+                            <img src="{{ asset('front/img/footer-toplogo.png') ?? '' }}" alt="">
                         </div>
                         <div class="social-links">
                             <ul>
@@ -177,7 +301,7 @@
                         <div class="payment">
                             <span>Payment</span>
                             <div class="payemt-img">
-                                <img src="{{ asset('/front/img/payment-img.png') }}" alt="">
+                                <img src="{{ asset('front/img/payment-img.png') ?? '' }}" alt="">
                             </div>
                             <p>© 2023 Crude Wellness. All Rights Reserved.</p>
                         </div>
