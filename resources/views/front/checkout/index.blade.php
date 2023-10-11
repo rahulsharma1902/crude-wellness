@@ -26,8 +26,10 @@
             <div class="left_side_wreap">
                 <div class="checkout_content">
                     <div class="shipping_img">
+                        <a href="{{ url('/') }}">
                         <img src="{{ asset('front/img/site-logo.png') }}" />
-                        <a href="#">
+                        </a>
+                        <a href="{{ url('shop') }}">
                             Continue shopping <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>

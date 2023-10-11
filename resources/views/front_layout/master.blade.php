@@ -67,22 +67,22 @@
                             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                                 <ul class="navbar-nav">
                                     <li class="nav-item active">
-                                        <a class="nav-link" href="#">Shop +</a>
+                                        <a class="nav-link" href="{{ url('shop') }}">Shop +</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">subscription</a>
+                                        <a class="nav-link" href="{{ url('subscription') }}">subscription</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Account</a>
+                                        <a class="nav-link" href="{{ url('login') }}">Account</a>
                                     </li>
                                     <li class="nav-item ab_mb_show" style="display: none;">
-                                        <a class="nav-link" href="#">About</a>
+                                        <a class="nav-link" href="{{ url('our-story') }}">About</a>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-4 brand-ord text-center">
-                            <a class="navbar-brand" href="index.html">
+                            <a class="navbar-brand" href="{{ url('/') }}">
                                 <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
                             </a>
                         </div>
@@ -90,9 +90,9 @@
                             <div class="nav-icons">
                                 <ul class="navbar-nav">
                                     <li class="nav-item">
-                                        <a class="nav-link ab_mb" href="#">About</a>
+                                        <a class="nav-link ab_mb" href="{{ url('our-story') }}">About</a>
                                     </li>
-                                    <li><a href="#"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
+                                    <li><a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
                                     <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
                                     </button></li>
                                 </ul>
@@ -221,7 +221,7 @@
                             <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
                         </li>
                     </ul>
-                    <button type="button" onclick="location.href='checkout.html'" class="btn main-btn">Go to
+                    <button type="button" onclick="location.href='{{ url('checkout') }}'" class="btn main-btn">Go to
                         checkout</button>
                 </div>
             </div>
@@ -262,11 +262,11 @@
                         <div class="quick-links">
                             <h6>Quick Links</h6>
                             <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="product-cbd-oil.html">Shop</a></li>
-                                <li><a href="blog.html">Blog</a></li>
-                                <li><a href="FAQ.html">Review</a></li>
-                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ url('shop') }}">Shop</a></li>
+                                <li><a href="{{ url('education') }}">Blog</a></li>
+                                <li><a href="{{ url('review') }}">Review</a></li>
+                                <li><a href="{{ url('contact') }}">Contact</a></li>
                             </ul>
                         </div>
                     </div>
@@ -285,9 +285,9 @@
                         <div class="legal-links">
                             <h6>About</h6>
                             <ul>
-                                <li><a href="#">Our Story</a></li>
-                                <li><a href="about.html">Education</a></li>
-                                <li><a href="#">FAQ</a></li>
+                                <li><a href="{{ url('our-story') }}">Our Story</a></li>
+                                <li><a href="{{ url('education') }}">Education</a></li>
+                                <li><a href="{{ url('faq') }}">FAQ</a></li>
                             </ul>
                         </div>
                     </div>
