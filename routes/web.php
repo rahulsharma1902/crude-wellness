@@ -1,6 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Front\EducationController;
+use App\Http\Controllers\Front\ReviewController;
+use App\Http\Controllers\Front\ContactController;
+use App\Http\Controllers\Front\FaqController;
+use App\Http\Controllers\Front\OurStoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +21,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('front_layout.master');
 });
+
+Route::get('education',[EducationController::class,'index']);
+Route::get('education-details/{slug}',[EducationController::class,'details']);
+
+Route::get('faq',[FaqController::class,'index']);
+
+Route::get('review',[ReviewController::class,'index']);
+
+Route::get('contact',[ContactController::class,'index']);
+
+Route::get('our-story',[OurStoryController::class,'index']);
