@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4 brand-ord text-center">
-                            <a class="navbar-brand" href="index.html">
+                            <a class="navbar-brand" href="{{ url('/') ?? ''}}">
 
                                 <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
                             </a>
