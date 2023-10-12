@@ -39,21 +39,23 @@
                     <div class="nk-sidebar-content">
                         <div class="nk-sidebar-menu" data-simplebar>
                             <ul class="nk-menu">
-                               
-                                <!-- <li class="nk-menu-item has-sub">
+                                <li class="nk-menu-heading">
+                                    <h6 class="overline-title text-primary-alt"> <a href="{{ url('admin-dashboard') }}">Dashboard</a></h6>
+                                </li>
+                                <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                        <span class="nk-menu-text">Users</span>
+                                        <span class="nk-menu-text">Memberships</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="html/transaction-basic.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Basic</span></a>
+                                            <a href="{{ url('admin-dashboard/memberships') }}" class="nk-menu-link"><span class="nk-menu-text">Membership list</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="html/transaction-crypto.html" class="nk-menu-link"><span class="nk-menu-text">Tranx List - Crypto</span></a>
+                                            <a href="{{ url('admin-dashboard/memberships/add') }}" class="nk-menu-link"><span class="nk-menu-text">Add New Membership</span></a>
                                         </li>
                                     </ul>
-                                </li> -->
+                                </li>
                               
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->

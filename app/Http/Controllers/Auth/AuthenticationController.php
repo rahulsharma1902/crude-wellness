@@ -37,6 +37,10 @@ class AuthenticationController extends Controller
             return redirect()->back()->with('error','failed to login');
         }
     }
+    public function register(){
+        
+        return view('authentication.register');
+    }
     public function logout(){
         Auth::logout();
         return redirect('/login')->with('success','successfully logged out');
