@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\OurStoryController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
 
 /*
@@ -63,7 +64,6 @@ Route::group(['middleware'=>['auth','admin']],function(){
     //subcription option
 
     Route::get('admin-dashboard/subscriptions-options/',[AdminSubscriptionController::class,'index']);
-    Route::get('admin-dashboard/subscriptions-options/add',[AdminSubscriptionController::class,'addOption']);
     Route::get('admin-dashboard/subscriptions-options/addProcc',[AdminSubscriptionController::class,'addProcc']);
     Route::get('admin-dashboard/subscriptions-options/delete/{id}',[AdminSubscriptionController::class,'delete']);
     
@@ -74,5 +74,9 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('save-category',[CategoriesController::class,'save']);
     Route::get('remove-category/{slug}',[CategoriesController::class,'remove']);
 
+    /* Products : */
+    Route::get('admin-dashboard/products',[ProductsController::class,'index']);
+    Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
+    Route::post('productSave',[ProductsController::class,'save']);
 
 });
