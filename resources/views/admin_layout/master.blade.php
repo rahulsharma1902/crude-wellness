@@ -14,6 +14,7 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css?ver=3.1.2') }}">
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
@@ -45,14 +46,14 @@
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
                                         <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                        <span class="nk-menu-text">Memberships</span>
+                                        <span class="nk-menu-text">Categories</span>
                                     </a>
                                     <ul class="nk-menu-sub">
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/memberships') }}" class="nk-menu-link"><span class="nk-menu-text">Membership list</span></a>
+                                            <a href="{{ url('admin-dashboard/categories') }}" class="nk-menu-link"><span class="nk-menu-text">List</span></a>
                                         </li>
                                         <li class="nk-menu-item">
-                                            <a href="{{ url('admin-dashboard/memberships/add') }}" class="nk-menu-link"><span class="nk-menu-text">Add New Membership</span></a>
+                                            <a href="{{ url('admin-dashboard/add-category') }}" class="nk-menu-link"><span class="nk-menu-text">Add New Category</span></a>
                                         </li>
                                     </ul>
                                 </li>
@@ -203,7 +204,9 @@
                     </div><!-- .container-fliud -->
                 </div>
                 <!-- main header @e -->
-             @yield('content')
+                <div class="nk-content ">
+                    @yield('content')
+                </div>
                 <!-- content @e -->
                 <!-- footer @s -->
                 <div class="nk-footer">

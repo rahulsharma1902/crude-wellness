@@ -12,7 +12,7 @@ use App\Http\Controllers\Front\ContactController;
 use App\Http\Controllers\Front\FaqController;
 use App\Http\Controllers\Front\OurStoryController;
 use App\Http\Controllers\Admin\AdminDashController;
-use App\Http\Controllers\Admin\MembershipController;
+use App\Http\Controllers\Admin\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,9 +50,13 @@ Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
 /////Admin Dashboarda
 Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard',[AdminDashController::class,'index']);
-    Route::get('admin-dashboard/memberships',[MembershipController::class,'index']);
-    Route::get('admin-dashboard/memberships/add',[MembershipController::class,'AddMembership']);
 
-    //
+    /* categories */
+    Route::get('admin-dashboard/categories',[CategoriesController::class,'index']);
+    Route::get('admin-dashboard/add-category/{slug?}',[CategoriesController::class,'AddCategory']);
+
+    Route::post('save-category',[CategoriesController::class,'save']);
+    Route::get('remove-category/{slug}',[CategoriesController::class,'remove']);
+
 
 });
