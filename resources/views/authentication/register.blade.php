@@ -10,15 +10,23 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-ryt-content">
-                        <form method="post" action="{{ url('loginProcc') }}">
+                        <form method="post" action="{{ url('registerProcc') }}">
                             @csrf
                             <div class="form-heading">
-                                <span>Login</span>
+                                <span>Register</span>
                                 <h4>Welcome Back</h4>
                             </div>
                             <div class="form-groups">
-                                <input type="text" class="form-control" id="username" name="username" aria-describedby="userHelp" placeholder="User Name" />
-                            @error('username')
+                                <input type="text" class="form-control" id="name" name="name" aria-describedby="userHelp" placeholder="Name" />
+                            @error('name')
+                            <span class="text-danger">
+                                {{ $message }}
+                            </span>
+                            @enderror
+                            </div>
+                            <div class="form-groups">
+                                <input type="text" class="form-control" id="email" name="email" aria-describedby="userHelp" placeholder="Email" />
+                            @error('email')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             </div>
@@ -33,16 +41,11 @@
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             </div>
-                            <div class="form-text1 d-flex">
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
-                                    <label class="form-check-label" for="exampleCheck1">Remember me</label>
-                                </div>
-                                <a href="#">Forget Password?</a>
-                            </div>
+                        
                             <div class="form-text2 d-flex">
-                                <button type="login" class="btn main-btn">login</button>
-                                <p>Don’t have an account? <a href="{{ url('register') }}">Sign Up</a></p>
+                                <button type="submit" class="btn main-btn">Register</button>
+                                <p>
+                                    Already have an account? <a href="{{ url('login') }}">Sign In</a></p>
                             </div>
                         </form>
                     </div>

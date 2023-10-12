@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Auth;
+use Hash;
 use App\Models\User;
+use App\Mail\UserRegisterMail;
+use Mail;
 
 class AuthenticationController extends Controller
 {
@@ -38,8 +41,25 @@ class AuthenticationController extends Controller
         }
     }
     public function register(){
-        
         return view('authentication.register');
+    }
+    public function registerProcc(Request $request){
+        
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:6',
+        ]);
+        $password = Hash::make($request->password);
+
+        $user = User::create(['name'=>$request->name,'email'=>$request->email,'password'=>$password]);
+        $mailData = [
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
+        $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        
+        return redirect()->back()->with('success','Your account is created successfully');
     }
     public function logout(){
         Auth::logout();

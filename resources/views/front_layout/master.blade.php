@@ -92,7 +92,13 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="{{ url('our-story') }}">About</a>
                                     </li>
-                                    <li><a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a></li>
+                                    <li>
+                                        @if(auth()->check())
+                                            <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
+                                        @else
+                                            <a href="{{ url('logout') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
+                                        @endif
+                                    </li>
                                     <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
                                     </button></li>
                                 </ul>
