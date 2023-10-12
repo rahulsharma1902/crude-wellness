@@ -49,7 +49,7 @@
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                         aria-labelledby="pills-home-tab">
                         <div class="blog_grid">
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -58,7 +58,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog3.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -76,7 +76,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog4.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -85,7 +85,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog5.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog6.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog7.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog8.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog9.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -143,7 +143,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog3.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog4.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -183,7 +183,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
@@ -219,7 +219,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/education-details/ss') ?? '' }}">
                                 <div class="card bg-dark text-white">
                                     <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">

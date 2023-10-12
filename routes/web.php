@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\OurStoryController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\Admin\CategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,9 @@ use App\Http\Controllers\Admin\AdminSubscriptionController;
 |
 */
 
+Route::get('/', function () {
+    return view('front_layout.master');
+});
 // Route::get('/', function () {
 //     return view('front_layout.master');
 // });
@@ -54,8 +58,6 @@ Route::get('our-story',[OurStoryController::class,'index']);
 /////Admin Dashboarda
 Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard',[AdminDashController::class,'index']);
-    Route::get('admin-dashboard/memberships',[MembershipController::class,'index']);
-    Route::get('admin-dashboard/memberships/add',[MembershipController::class,'AddMembership']);
 
 
     //subcription option
@@ -65,5 +67,12 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/subscriptions-options/addProcc',[AdminSubscriptionController::class,'addProcc']);
     Route::get('admin-dashboard/subscriptions-options/delete/{id}',[AdminSubscriptionController::class,'delete']);
     
+    /* categories */
+    Route::get('admin-dashboard/categories',[CategoriesController::class,'index']);
+    Route::get('admin-dashboard/add-category/{slug?}',[CategoriesController::class,'AddCategory']);
+
+    Route::post('save-category',[CategoriesController::class,'save']);
+    Route::get('remove-category/{slug}',[CategoriesController::class,'remove']);
+
 
 });
