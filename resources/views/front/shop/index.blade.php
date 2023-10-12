@@ -9,7 +9,7 @@
                             <h2>Shop</h2>
                             <nav class="breadcrumb_wreap" aria-label="breadcrumb">
                                 <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                    <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page">Shop</li>
                                 </ol>
                             </nav>
@@ -55,7 +55,7 @@
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-allproduct" role="tabpanel" aria-labelledby="pills-allproduct-tab">
                             <div class="shop_wrapper_pro">
-                                <div href="product-detail.html">
+                                <div href="{{ url('shop-detail/adf') }}">
                                     <div class="card border-0">
                                         <div class="product_img">
                                             <img class="card-img-top" src="{{ asset('/front/img/bestimg5.png') }}" alt="Card image cap">
@@ -73,7 +73,7 @@
                                                 <span class="prodollar">$89.00</span>
                                             </div>
                                             <h6 class="card-title">Natural Flavour Broad Spectrum 30ml</h6>
-                                            <a  href="product-detail.html" type="button" class="btn main-btn  btn-lg btn-block">Shop Now</a>
+                                            <a  href="{{ url('shop-detail/adf') }}" type="button" class="btn main-btn  btn-lg btn-block">Shop Now</a>
                                         </div>
                                     </div>
                                 </div>
