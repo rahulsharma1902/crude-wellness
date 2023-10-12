@@ -10,42 +10,18 @@
                                         <div class="card card-bordered card-preview">
                                             <div class="card-inner">
                                                 <div class="row gy-4">
-                                                    <form action="{{ url('admin-dashboard/subscriptions-options/addProcc') }}">
+                                                    <form action="{{ url('admin-dashboard/blogs/categories/addProcc') }}" method="post">
                                                         @csrf
                                                     <div class="col-sm-6">
                                                         <input type="hidden" name="id" value="">
                                                     <div class="form-group">
-                                                        <label class="form-label" for="recurring_period">Recurring Period</label>
+                                                        <label class="form-label" for="name">Name</label>
                                                         <div class="form-control-wrap">
-                                                            <input type="number" class="form-control" name="recurring_period" id="recurring_period" placeholder="Recurring Period">
-                                                        @error('recurring_period')
+                                                            <input type="text" class="form-control" name="name" id="name"  placeholder="Category Name">
+                                                        @error('name')
                                                         <span class="text-danger">{{ $message }}</span>
                                                         @enderror
                                                         </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="recurring_type">Recurring Type</label>
-                                                        <div class="form-control-wrap">
-                                                            <select class="form-control" name="recurring_type" id="recurring_type" >
-                                                                <option value="week">Weekly</option>
-                                                                <option value="month">Monthly</option>
-                                                            </select>
-                                                        </div>
-                                                        @error('recurring_type')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label class="form-label" for="default-05">Discount</label>
-                                                        <div class="form-control-wrap">
-                                                            <div class="form-text-hint">
-                                                                <span class="overline-title">%</span>
-                                                            </div>
-                                                            <input type="number" class="form-control"  name="discount" id="discount" placeholder="Discount Off">
-                                                        </div>
-                                                        @error('discount')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                        @enderror
                                                     </div>
                                                     <div class="form-group" id="save">
                                                         <button type="submit" class="btn btn-primary"> Save </button>
@@ -74,44 +50,39 @@
                                                     <tr class="tb-odr-item">
                                                         <th class="tb-odr-info">
                                                             <span class="tb-odr-id">#</span>
-                                                            <span class="tb-odr-date d-none d-md-inline-block">Recurring time</span>
+                                                            <span class="tb-odr-date d-none d-md-inline-block">name</span>
                                                         </th>
                                                         <th class="tb-odr-amount">
-                                                            <span class="tb-odr-total">Discount</span>
+                                                            <!-- <span class="tb-odr-total">Discount</span> -->
                                                             <!-- <span class="tb-odr-status d-none d-md-inline-block">Status</span> -->
                                                         </th>
-                                                        <th class="tb-odr-action">&nbsp;</th>
+                                                        <th class="tb-odr-action text-center">&nbsp;</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="tb-odr-body">
                                                     <?php $count = 1; ?>
-                                                    @foreach($options as $option)
+                                                    @if(isset($categories))
+                                                    @foreach($categories as $category)
                                                     <tr class="tb-odr-item">
                                                         <td class="tb-odr-info">
                                                             <span class="tb-odr-id">{{ $count++ }}</span>
-                                                            <span class="tb-odr-date">{{ $option->recurring_period ?? '' }} {{ $option->recurring_type ?? '' }}</span>
+                                                            <span class="tb-odr-date">{{ $category->name ?? '' }}</span>
                                                         </td>
-                                                        <td class="tb-odr-amount">
-                                                            <span class="tb-odr-total">
-                                                                <span class="amount">{{ $option->discount_percentage ?? '' }}%</span>
-                                                            </span>
-                                                            <span class="tb-odr-status">
-                                                                <!-- <span class="badge badge-dot bg-success">Complete</span> -->
-                                                            </span>
-                                                        </td>
+                                                        
                                                         <td class="tb-odr-action">
                                                         <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown">
                                                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
                                                                     <ul class="link-list-plain">
-                                                                        <li><a data-id="{{ $option->id ?? '' }}" percentage-off="{{ $option->discount_percentage ?? '' }}" recurring-period="{{ $option->recurring_period ?? '' }}" recurring-type="{{ $option->recurring_type ?? '' }}" href="#" class="text-primary option-edit">Edit</a></li>
-                                                                        <li><a link="{{ url('admin-dashboard/subscriptions-options/delete/'.$option->id) }}" class="text-danger remove">Remove</a></li>
+                                                                        <li><a data-id="{{ $category->id ?? '' }}"  name="{{ $category->name ?? '' }}" href="#" class="text-primary option-edit">Edit</a></li>
+                                                                        <li><a link="{{ url('admin-dashboard/blog/category/delete/'.$category->id) }}" class="text-danger remove">Remove</a></li>
                                                                     </ul>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                     </tr>
                                                     @endforeach
+                                                    @endif
                                                 </tbody>
                                             </table>
                                         </div>
@@ -121,14 +92,10 @@
 <script>
     $('.option-edit').on('click',function(e){
         e.preventDefault();
-        percentageoff = $(this).attr('percentage-off');
-        recurringperiod = $(this).attr('recurring-period');
-        recurringtype = $(this).attr('recurring-type');
+        name = $(this).attr('name');
         id = $(this).attr('data-id');
         $('input[name="id"]').val(id);
-        $('input[name="recurring_period"]').val(recurringperiod);
-        $('option[value="'+recurringtype+'"]').attr("selected",true);
-        $('input[name="discount"]').val(percentageoff);
+        $('input[name="name"]').val(name);
 
         $('#save').addClass('d-none');
         $('#update').removeClass('d-none');
@@ -136,10 +103,7 @@
     });
     $('.addnew').on('click',function(){
         $('input[name="id"]').val('');
-        $('input[name="recurring_period"]').val('');
-        $('input[name="recurring_type"]').val('');
-        $('input[name="discount"]').val('');
-        $('option').removeAttr("selected");
+        $('input[name="name"]').val('');
         $('#save').removeClass('d-none');
         $('#update').addClass('d-none');
     })

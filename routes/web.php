@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
 use App\Http\Controllers\Admin\CategoriesController;
+use App\Http\Controllers\Admin\AdminBlogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -63,7 +64,6 @@ Route::group(['middleware'=>['auth','admin']],function(){
     //subcription option
 
     Route::get('admin-dashboard/subscriptions-options/',[AdminSubscriptionController::class,'index']);
-    Route::get('admin-dashboard/subscriptions-options/add',[AdminSubscriptionController::class,'addOption']);
     Route::get('admin-dashboard/subscriptions-options/addProcc',[AdminSubscriptionController::class,'addProcc']);
     Route::get('admin-dashboard/subscriptions-options/delete/{id}',[AdminSubscriptionController::class,'delete']);
     
@@ -73,6 +73,14 @@ Route::group(['middleware'=>['auth','admin']],function(){
 
     Route::post('save-category',[CategoriesController::class,'save']);
     Route::get('remove-category/{slug}',[CategoriesController::class,'remove']);
+
+    /* blogs  */  
+    Route::get('admin-dashboard/blogs',[AdminBlogController::class,'index']);
+    Route::get('admin-dashboard/blogs/add',[AdminBlogController::class,'addBlog']);
+    Route::post('admin-dashboard/blogs/addProcc',[AdminBlogController::class,'addProcc']);
+    Route::get('admin-dashboard/blogs/categories',[AdminBlogController::class,'categories']);
+    Route::post('admin-dashboard/blogs/categories/addProcc',[AdminBlogController::class,'categoryadd']);
+    Route::get('admin-dashboard/blog/category/delete/{id}',[AdminBlogController::class,'categorydelete']);
 
 
 });
