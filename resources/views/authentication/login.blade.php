@@ -10,17 +10,18 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-ryt-content">
-                        <form>
+                        <form method="post" action="{{ url('loginProcc') }}">
+                            @csrf
                             <div class="form-heading">
                                 <span>Login</span>
                                 <h4>Welcome Back</h4>
                             </div>
                             <div class="form-groups">
-                                <input type="text" class="form-control" id="username" aria-describedby="userHelp" placeholder="User Name" />
+                                <input type="text" class="form-control" id="username" name="username" aria-describedby="userHelp" placeholder="User Name" />
                             </div>
                             <div class="form-groups">
                                 <div class="input-group forget_pw" id="show_hide_password">
-                                    <input class="form-control" type="password" placeholder="Password" />
+                                    <input class="form-control" type="password" name="password" placeholder="Password" />
                                     <div class="input-group-addon">
                                         <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
                                     </div>

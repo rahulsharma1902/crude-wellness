@@ -28,9 +28,10 @@
                         <a href="#" class="nk-nav-compact nk-quick-nav-icon d-none d-xl-inline-flex" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                     </div>
                     <div class="nk-sidebar-brand">
-                        <a href="{{ url('/') }}" class="logo-link nk-sidebar-logo">
-                            <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
-                            <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark">
+                        <a href="{{ url('/admin-dashboard') }}" class="logo-link nk-sidebar-logo">
+                       <h4 class="text-light"> Crude Wellness</h4>
+                            <!-- <img class="logo-light logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo">
+                            <img class="logo-dark logo-img" src="{{ asset('/front/img/site-logo.png') }}" srcset="{{ asset('/front/img/site-logo.png') }}" alt="logo-dark"> -->
                         </a>
                     </div>
                 </div><!-- .nk-sidebar-element -->
@@ -70,10 +71,7 @@
                                 <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
                             </div>
                             <div class="nk-header-brand d-xl-none">
-                                <a href="html/index.html" class="logo-link">
-                                    <img class="logo-light logo-img" src="./images/logo.png" srcset="./images/logo2x.png 2x" alt="logo">
-                                    <img class="logo-dark logo-img" src="./images/logo-dark.png" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
-                                </a>
+                             
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-news d-none d-xl-block">
                                 <div class="nk-news-list">
@@ -81,50 +79,11 @@
                                         <div class="nk-news-icon">
                                             <em class="icon ni ni-card-view"></em>
                                         </div>
-                                        <div class="nk-news-text">
-                                            <p>Do you know the latest update of 2022? <span> A overview of our is now available on YouTube</span></p>
-                                            <em class="icon ni ni-external"></em>
-                                        </div>
                                     </a>
                                 </div>
                             </div><!-- .nk-header-news -->
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
-                                    <li class="dropdown language-dropdown d-none d-sm-block me-n1">
-                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-bs-toggle="dropdown">
-                                            <div class="quick-icon border border-light">
-                                                <img class="icon" src="./images/flags/english-sq.png" alt="">
-                                            </div>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-s1">
-                                            <ul class="language-list">
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/english.png" alt="" class="language-flag">
-                                                        <span class="language-name">English</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/spanish.png" alt="" class="language-flag">
-                                                        <span class="language-name">Español</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/french.png" alt="" class="language-flag">
-                                                        <span class="language-name">Français</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <img src="./images/flags/turkey.png" alt="" class="language-flag">
-                                                        <span class="language-name">Türkçe</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li><!-- .dropdown -->
                                     <li class="dropdown user-dropdown">
                                         <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
                                             <div class="user-toggle">
@@ -159,7 +118,7 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                    <li><a href="{{ url('logout') }}"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
                                                 </ul>
                                             </div>
                                         </div>
@@ -248,42 +207,9 @@
                 <div class="nk-footer">
                     <div class="container-fluid">
                         <div class="nk-footer-wrap">
-                            <div class="nk-footer-copyright"> &copy; 2022 DashLite. Template by <a href="https://softnio.com" target="_blank">Softnio</a>
+                            <div class="nk-footer-copyright"> &copy; 2023 crude wellness. </a>
                             </div>
-                            <div class="nk-footer-links">
-                                <ul class="nav nav-sm">
-                                    <li class="nav-item dropup">
-                                        <a href="#" class="dropdown-toggle dropdown-indicator has-indicator nav-link text-base" data-bs-toggle="dropdown" data-offset="0,10"><span>English</span></a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
-                                            <ul class="language-list">
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">English</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Español</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Français</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="#" class="language-item">
-                                                        <span class="language-name">Türkçe</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a data-bs-toggle="modal" href="#region" class="nav-link"><em class="icon ni ni-globe"></em><span class="ms-1">Select Region</span></a>
-                                    </li>
-                                </ul>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
@@ -298,6 +224,19 @@
     <script src="{{ asset('admin-theme/assets/js/bundle.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
+    <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
+        @if(Session::get('error'))
+        <script>
+            toastr.clear();
+            NioApp.Toast('{{ Session::get("error") }}', 'error', {position: 'top-right'});
+        </script>
+        @endif
+        @if(Session::get('success'))
+        <script>
+            toastr.clear();
+            NioApp.Toast('{{ Session::get("success") }}', 'info', {position: 'top-right'});
+        </script>
+        @endif
 </body>
 
 </html>

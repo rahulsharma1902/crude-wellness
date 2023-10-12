@@ -31,7 +31,7 @@
                         </p>
                         <ul class="list-unstyled">
                             <li>
-                                <a href="#" class="btn main-btn">Become A Member</a>
+                                <a href="{{ url('login') }}" class="btn main-btn">Become A Member</a>
                             </li>
                             <li>Already a Member? <strong>Manage My Subscription</strong></li>
                         </ul>
@@ -259,9 +259,9 @@
                                     Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard
                                 </p>
                                 <ul class="list-unstyled">
-                                    <li><a href="#">Register</a></li>
+                                    <li><a href="{{ url('login') }}">Register</a></li>
                                     <li>or</li>
-                                    <li><a href="#">Login</a></li>
+                                    <li><a href="{{ url('login') }}">Login</a></li>
                                 </ul>
                             </div>
                         </div>
