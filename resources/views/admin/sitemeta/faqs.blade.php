@@ -180,5 +180,15 @@
                                         });
                                     });
                                 </script>
+                                <script>
+                                    ClassicEditor
+                                        .create(document.querySelector('#text'))
+                                        .then(editor => {
+                                            console.log(editor);
+                                        })
+                                        .catch(error => {
+                                            console.error(error);
+                                        });
+                                </script>
 
 @endsection

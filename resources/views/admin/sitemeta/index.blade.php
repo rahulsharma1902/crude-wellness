@@ -84,5 +84,14 @@
                                         </div><!-- .card-preview -->
                                     
                                     </div>
-
+<script>
+     ClassicEditor
+        .create(document.querySelector('#footer_text'))
+        .then(editor => {
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
 @endsection

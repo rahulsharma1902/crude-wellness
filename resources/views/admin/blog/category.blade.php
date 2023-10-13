@@ -123,7 +123,6 @@
             window.location.href = link;
         } 
         });
-
-    })
+    });
 </script>
 @endsection
