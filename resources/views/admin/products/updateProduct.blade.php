@@ -12,9 +12,10 @@
             <div class="card-head">
                 <h5 class="card-title">Product Info </h5>
             </div>
-            <form action="{{ url('productSave') ?? '' }}" class="form-validate" novalidate="novalidate" method="post"
+            <form action="{{ url('productUpdate') ?? '' }}" class="form-validate" novalidate="novalidate" method="post"
                 enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="id" value="{{ $product->id ?? '' }}">
                 <div class="row g-4">
                     <div class="col-lg-6">
                         <div class="form-group">
@@ -23,7 +24,7 @@
                                     @enderror
                             <label class="form-label" for="name">Product Name</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="name" name="name">
+                                <input type="text" class="form-control" id="name" name="name" value="{{$product->name ?? '' }}" />
                             </div>
                         </div>
                     </div>
@@ -34,7 +35,7 @@
                                     @enderror
                             <label class="form-label" for="slug">Slug</label>
                             <div class="form-control-wrap">
-                                <input type="text" class="form-control" id="slug" name="slug">
+                                <input type="text" class="form-control" id="slug" name="slug" value="{{$product->slug ?? '' }}" />
                             </div>
                         </div>
                     </div>
@@ -49,6 +50,12 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-6">
+                           <div class="" style="height: 10rem; overflow: hidden;">
+                            <img style="width:50%; height:100%;" src="{{ asset('productIMG') ?? ''  }}/{{ $product->featured_img ?? '' }}" alt="">
+                           </div>
+                            
+                    </div>
                     <div class="col-lg-6">
                         <div class="form-group">
                         @error('images')
@@ -61,6 +68,19 @@
                         </div>
                     </div>
                     <div class="col-lg-6">
+                            <input type="hidden" name="oldImg" value="{{ $product->media ?? '' }}">
+                            <div class="image-row" style="display: flex; flex-wrap: wrap;gap: 1rem;">
+                                @foreach ($product->media as $media)
+                                    <div class="image-container" style="position: relative;margin-right: 1rem;">
+                                        <i data-id="{{ $media->id ?? '' }}" class="fas fa-trash-alt text-dark remove-image" style="position: absolute; cursor: pointer;"></i>
+                                        <img class="image-fluid" style="max-width: 5rem" src="{{ asset('productIMG') ?? ''  }}/{{ $media->img_name ?? '' }}" alt="">
+                                        <input type="hidden" name="existing_images[]" value="{{ $media->id }}">
+                                    </div>
+                                @endforeach
+                            </div>
+                           
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-group">
                         @error('category_id')
                                         <span class="text text-danger">{{ $message }}</span>
@@ -70,7 +90,11 @@
                                 <select class="form-select js-select2 " id="category_id" name="category_id">
                                     @if($categories)
                                         @foreach ($categories as $category) 
-                                            <option value="{{ $category->id ?? '' }}" >{{ $category->name ?? '' }}</option>
+                                            @if ($category->id == $product->category_id)
+                                            <option value="{{ $category->id ?? '' }} " selected>{{ $category->name ?? ''}}</option>
+                                            @else
+                                            <option value="{{ $category->id ?? '' }} ">{{ $category->name ?? ''}}</option>
+                                            @endif
                                         @endforeach
                                     @else
                                         <option value="">No category found !</option>
@@ -88,7 +112,7 @@
                             <label class="form-label" for="description">Description</label>
                             <div class="form-control-wrap">
                                 <textarea class="form-control form-control-sm" id="description" name="description"
-                                    value="" placeholder="Write your Details"></textarea>
+                                value="<?php echo $product->description ?>"  placeholder="Write your Details"><?php echo $product->description ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -99,8 +123,8 @@
                                     @enderror
                             <label class="form-label" for="direction">Direction</label>
                             <div class="form-control-wrap">
-                                <textarea class="form-control form-control-sm" id="direction" name="direction" value=""
-                                    placeholder="Write your Details"></textarea>
+                                <textarea class="form-control form-control-sm" id="direction" name="direction" value="<?php echo $product->direction ?>"
+                                    placeholder="Write your Details"><?php echo $product->direction ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -112,7 +136,7 @@
                             <label class="form-label" for="ingredients">Ingredients</label>
                             <div class="form-control-wrap">
                                 <textarea class="form-control form-control-sm" id="ingredients" name="ingredients"
-                                    value="" placeholder="Write your Details"></textarea>
+                                    value="<?php echo $product->ingredients ?>" placeholder="Write your Details"><?php echo $product->ingredients ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -124,7 +148,7 @@
                             <label class="form-label" for="lab_results">Lab Results</label>
                             <div class="form-control-wrap">
                                 <textarea class="form-control form-control-sm" id="lab_results" name="lab_results"
-                                    value="" placeholder="Write your Details"></textarea>
+                                    value="<?php echo $product->lab_results ?>" placeholder="Write your Details"><?php echo $product->lab_results ?></textarea>
                             </div>
                         </div>
                     </div>
@@ -133,41 +157,45 @@
                         <div class="form-group">
                             <label class="form-label" for="">Variations</label>
                             <div class="variations-container">
-                                <div class="variation-row">
-                                    <div class="row">
-                                        <div class="col">
-                                        @error('strength')
-                                            <span class="text text-danger">{{ $message }}</span>
-                                        @enderror
-                                            <label class="form-label" for="">Strength</label>
-                                            <div class="form-control-wrap">
-                                                <input type="number" name="strength[]" class="strength" required />
+                                @foreach ($product->variations as $variation)
+                                    <div class="variation-row">
+                                        
+                                        <div class="row">
+                                            <div class="col">
+                                            @error('strength')
+                                                <span class="text text-danger">{{ $message }}</span>
+                                            @enderror
+                                                <label class="form-label" for="">Strength</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="number" value="{{ $variation->strength }}" name="strength[]" class="strength" required />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                        @error('qty')
-                                            <span class="text text-danger">{{ $message }}</span>
-                                        @enderror
-                                            <label class="form-label" for="">Qty</label>
-                                            <div class="form-control-wrap">
-                                                <input type="number" name="qty[]" class="qty" required />
+                                            <div class="col">
+                                            @error('qty')
+                                                <span class="text text-danger">{{ $message }}</span>
+                                            @enderror
+                                                <label class="form-label" for="">Qty</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="number"  value="{{ $variation->qty }}" name="qty[]" class="qty" required />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                        @error('price')
-                                            <span class="text text-danger">{{ $message }}</span>
-                                        @enderror
-                                            <label class="form-label" for="">Price</label>
-                                            <div class="form-control-wrap">
-                                                <input type="number" name="price[]" class="price" required />
+                                            <div class="col">
+                                            @error('price')
+                                                <span class="text text-danger">{{ $message }}</span>
+                                            @enderror
+                                                <label class="form-label" for="">Price</label>
+                                                <div class="form-control-wrap">
+                                                    <input type="number"  value="{{ $variation->price }}" name="price[]" class="price" required />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col">
-                                            <button type="button"
-                                                class="btn btn-danger removeVariation mt-4">Remove</button>
+                                            <div class="col">
+                                                <button type="button"
+                                                    class="btn btn-danger removeVariation mt-4">Remove</button>
+                                            </div>
+
                                         </div>
                                     </div>
-                                </div>
+                                    @endforeach
                             </div>
                             <button type="button" class="btn btn-success addMoreVariation mt-4">Add</button>
                         </div>
@@ -175,7 +203,7 @@
                     <hr>
                     <div class="col-12">
                         <div class="form-group">
-                            <button type="submit" class="btn btn-lg btn-primary">Save Product</button>
+                            <button type="submit" class="btn btn-lg btn-primary">Update Product</button>
                         </div>
                     </div>
                 </div>
@@ -183,16 +211,17 @@
         </div>
     </div>
 </div>
-
+<script>
+        $('.remove-image').on('click', function (){
+        $(this).parent().remove();
+    })
+</script>
 <script>
 $(document).ready(function() {
     // Add new variation
     $('.addMoreVariation').on('click', function() {
         var clone = $('.variation-row:first').clone(true);
-        clone.find('.strength, .qty').val('');
-        clone.find('.price').val('');
-        clone.find('.addMoreVariation').remove();
-        clone.find('.removeVariation').show();
+        clone.find('.strength, .qty, .price').val('');
         $('.variations-container').append(clone);
     });
 
@@ -204,6 +233,7 @@ $(document).ready(function() {
     });
 });
 </script>
+
 
 <script>
 const editorIds = ['#description', '#direction', '#ingredients', '#lab_results'];

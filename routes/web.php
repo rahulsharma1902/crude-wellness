@@ -79,4 +79,9 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
     Route::post('productSave',[ProductsController::class,'save']);
 
+    Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct']);
+    Route::post('productUpdate',[ProductsController::class,'updateProc']);
+
+    Route::get('productRemove/{slug}',[ProductsController::class,'removeProducts']);
+
 });
