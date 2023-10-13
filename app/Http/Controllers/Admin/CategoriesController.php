@@ -36,7 +36,12 @@ class CategoriesController extends Controller
           $category->name = $request->name;
           $category->slug = $request->slug;
           $category->parent_category = $request->parent_category;
-          
+          if($request->hasFile('image')){
+            $file = $request->file('image');
+            $filename = $request->title.rand(0,100).'.'.$file->extension();
+            $file->move(public_path().'/category_images/', $filename);
+            $category->image = $filename;  
+          }
           $category->update();
 
           return redirect('admin-dashboard/add-category/'.$request->slug)->with('success','successfully updated category');  
@@ -44,11 +49,18 @@ class CategoriesController extends Controller
           $request->validate([
                'name' => 'required',
                'slug' => 'required|unique:categories',
+               'image' => 'required'
            ]);
           $category = new Categories;
           $category->name = $request->name;
           $category->slug = $request->slug;
           $category->parent_category = $request->parent_category;
+          if($request->hasFile('image')){
+            $file = $request->file('image');
+            $filename = $request->title.rand(0,100).'.'.$file->extension();
+            $file->move(public_path().'/category_images/', $filename);
+            $category->image = $filename;  
+          }
           $category->save();
 
           return redirect()->back()->with('success','You category has been added .');

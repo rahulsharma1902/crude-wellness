@@ -10,12 +10,14 @@ use App\Models\Blog;
 class AdminBlogController extends Controller
 {
     public function index(){
-       return view('admin.blog.index');
+        $blogs = Blog::all();
+       return view('admin.blog.index',compact('blogs'));
     }
-    public function addBlog(){
+    public function addBlog($slug = null){
         $categories = BlogCategory::where('status',1)->get();
-       
-        return view('admin.blog.addblog',compact('categories'));
+        $blog = Blog::where('slug',$slug)->first();
+              
+        return view('admin.blog.addblog',compact('categories','blog'));
     }
     public function addProcc(Request $request){
     if($request->id){
@@ -40,7 +42,7 @@ class AdminBlogController extends Controller
             $blog->image = $filename;
         }
         $blog->update();
-        return redirect()->back()->with('success','successfully updated blogs');
+        return redirect('admin-dashboard/blogs/add/'.$blog->slug)->with('success','successfully updated blogs');
     }else{
         $request->validate([
             'title' => 'required',
@@ -66,6 +68,15 @@ class AdminBlogController extends Controller
         $blog->save();
         return redirect()->back()->with('success','successfully saved blogs');
     }
+    }
+    public function blogDelete($id){
+        $blog = Blog::find($id);
+        if($blog){
+            $blog->delete();
+            return redirect()->back()->with('success','Successfully deleted blogs');
+        }else{
+            return redirect()->back()->with('error','Failed! Something went wrong');
+        }
     }
     public function categories(){
         $categories = BlogCategory::all();

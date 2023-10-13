@@ -86,7 +86,21 @@
                                        
                                     </ul>
                                 </li>
-                              
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Site Meta</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/site-detail') }}" class="nk-menu-link"><span class="nk-menu-text">Site-detail</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/faqs') }}" class="nk-menu-link"><span class="nk-menu-text">Faqs</span></a>
+                                        </li>
+                                       
+                                    </ul>
+                                </li>
                             </ul><!-- .nk-menu -->
                         </div><!-- .nk-sidebar-menu -->
                     </div><!-- .nk-sidebar-content -->

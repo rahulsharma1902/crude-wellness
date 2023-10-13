@@ -12,13 +12,13 @@
                                             <div class="card-inner">
                                              <form action="{{ url('admin-dashboard/blogs/addProcc') }}" method="post" enctype="multipart/form-data">
                                                 @csrf
-                                                <input type="hidden" name="id" value="">
+                                                <input type="hidden" name="id" value="{{ $blog->id ?? '' }}">
                                                 <div class="row gy-4">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="form-label" for="title">Blog Title</label>
                                                             <div class="form-control-wrap">
-                                                                <input type="text" class="form-control" name="title" id="title" placeholder="Blog Title">
+                                                                <input type="text" class="form-control" name="title" id="title" placeholder="Blog Title" value="{{ $blog->title ?? '' }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -26,7 +26,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="title">Blog Slug</label>
                                                             <div class="form-control-wrap">
-                                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Blog slug">
+                                                                <input type="text" class="form-control" name="slug" id="slug" placeholder="Blog slug" value="{{ $blog->slug ?? '' }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -34,7 +34,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="sub-title">Sub Title</label>
                                                             <div class="form-control-wrap">
-                                                                <input type="text" class="form-control" name="subtitle" id="sub-title" placeholder="Blog Title">
+                                                                <input type="text" class="form-control" name="subtitle" id="sub-title" placeholder="Blog Title" value="{{ $blog->sub_title ?? '' }}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -44,7 +44,7 @@
                                                             <div class="form-control-wrap">
                                                                 <select class="form-control" name="category" id="category">
                                                                     @foreach($categories as $category)
-                                                                    <option value="{{ $category->id ?? '' }}">{{ $category->name ?? '' }}</option>
+                                                                    <option value="{{ $category->id ?? '' }}" @if(isset($blog)) @if($category->id == $blog->cat_id) selected @endif @endif>{{ $category->name ?? '' }}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -58,11 +58,14 @@
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <div class="col-lg-6">
+                                                        <img src="{{ asset('blog_images') }}/{{ $blog->image ?? '' }}" alt="">
+                                                    </div>
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label class="form-label" for="short-description">Short Description</label>
                                                             <div class="form-control-wrap">
-                                                                <textarea name="short_description" class="form-control" id="short-description" ></textarea>
+                                                                <textarea name="short_description" class="form-control" id="short-description" >{{ $blog->short_description ?? '' }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -70,7 +73,7 @@
                                                         <div class="form-group">
                                                             <label class="form-label" for="description">Description</label>
                                                             <div class="form-control-wrap">
-                                                                <textarea name="description" class="form-control" id="description"></textarea>
+                                                                <textarea name="description" class="form-control" id="description">{{ $blog->description ?? '' }}</textarea>
                                                             </div>
                                                         </div>
                                                     </div>

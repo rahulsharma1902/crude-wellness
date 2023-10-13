@@ -4,7 +4,7 @@
                                     <div class="nk-block nk-block-lg">
                                         <div class="nk-block-head">
                                             <div class="nk-block-head-content">
-                                                <h4 class="title nk-block-title">Add Subscriptions Options</h4>
+                                                <h4 class="title nk-block-title">Add Blogs Categories</h4>
                                             </div>
                                         </div>
                                         <div class="card card-bordered card-preview">
@@ -41,7 +41,7 @@
                                     <div class="nk-block nk-block-lg">
                                         <div class="nk-block-head">
                                             <div class="nk-block-head-content">
-                                                <h4 class="title nk-block-title">Subscriptions Options</h4>
+                                                <h4 class="title nk-block-title">Categories list</h4>
                                             </div>
                                         </div>
                                         <div class="card card-bordered card-preview">
@@ -68,7 +68,6 @@
                                                             <span class="tb-odr-id">{{ $count++ }}</span>
                                                             <span class="tb-odr-date">{{ $category->name ?? '' }}</span>
                                                         </td>
-                                                        
                                                         <td class="tb-odr-action">
                                                         <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown" data-offset="-8,0"><em class="icon ni ni-more-h"></em></a>
                                                             <div class="dropdown">

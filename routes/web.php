@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\AdminBlogController;
+use App\Http\Controllers\Admin\AdminSiteMetaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,11 +77,20 @@ Route::group(['middleware'=>['auth','admin']],function(){
 
     /* blogs  */  
     Route::get('admin-dashboard/blogs',[AdminBlogController::class,'index']);
-    Route::get('admin-dashboard/blogs/add',[AdminBlogController::class,'addBlog']);
+    Route::get('admin-dashboard/blogs/add/{id?}',[AdminBlogController::class,'addBlog']);
     Route::post('admin-dashboard/blogs/addProcc',[AdminBlogController::class,'addProcc']);
+    Route::get('admin-dashboard/blogs/delete/{id}',[AdminBlogController::class,'blogDelete']);
+
     Route::get('admin-dashboard/blogs/categories',[AdminBlogController::class,'categories']);
     Route::post('admin-dashboard/blogs/categories/addProcc',[AdminBlogController::class,'categoryadd']);
     Route::get('admin-dashboard/blog/category/delete/{id}',[AdminBlogController::class,'categorydelete']);
 
+
+    /* sitemeta */
+    Route::get('admin-dashboard/site-detail',[AdminSiteMetaController::class,'index']);
+    Route::post('admin-dashboard/site-detail/addProcc',[AdminSiteMetaController::class,'addProcc']);
+    Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs']);
+    Route::post('admin-dashboard/faqs/addProcc',[AdminSiteMetaController::class,'faqaddProcc']);
+    Route::get('admin-dashboard/faqs/delete/{id}',[AdminSiteMetaController::class,'faqDelete']);
 
 });

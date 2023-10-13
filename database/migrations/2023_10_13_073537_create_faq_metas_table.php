@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('faq_metas', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('parent_category')->nullable();
-            $table->string('image');
+            $table->string('title');
+            $table->string('slug');
+            $table->text('text')->nullable();
+            $table->text('questions')->nullable();
+            $table->text('answers')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('faq_metas');
     }
 };
