@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="{{ asset('admin-theme/assets/css/dashlite.css?ver=3.1.2') }}">
     <link id="skin-default" rel="stylesheet" href="{{ asset('admin-theme/assets/css/theme.css?ver=3.1.2') }}">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v5.15.4/css/all.css">
 </head>
 
 <body class="nk-body bg-lighter npc-general has-sidebar ">
@@ -83,7 +86,7 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('admin-dashboard/subscriptions-options/') }}" class="nk-menu-link"><span class="nk-menu-text">List</span></a>
                                         </li>
-                                       
+                                    
                                     </ul>
                                 </li>
                                 <li class="nk-menu-item has-sub">
@@ -98,7 +101,21 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/faqs') }}" class="nk-menu-link"><span class="nk-menu-text">Faqs</span></a>
                                         </li>
-                                       
+                                    </ul>
+                                </li>
+                                    <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-text">Products</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/products/') }}" class="nk-menu-link"><span class="nk-menu-text">List</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('admin-dashboard/add-products/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Products</span></a>
+                                        </li>
+                                    
                                     </ul>
                                 </li>
                             </ul><!-- .nk-menu -->
@@ -273,6 +290,7 @@
     <script src="{{ asset('admin-theme/assets/js/scripts.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/charts/gd-default.js?ver=3.1.2') }}"></script>
     <script src="{{ asset('admin-theme/assets/js/example-toastr.js?ver=3.1.2') }}"></script>
+
         @if(Session::get('error'))
         <script>
             toastr.clear();

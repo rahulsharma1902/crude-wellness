@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\OurStoryController;
 use App\Http\Controllers\Admin\AdminDashController;
 use App\Http\Controllers\Admin\MembershipController;
 use App\Http\Controllers\Admin\AdminSubscriptionController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminSiteMetaController;
@@ -92,5 +93,14 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs']);
     Route::post('admin-dashboard/faqs/addProcc',[AdminSiteMetaController::class,'faqaddProcc']);
     Route::get('admin-dashboard/faqs/delete/{id}',[AdminSiteMetaController::class,'faqDelete']);
+    /* Products : */
+    Route::get('admin-dashboard/products',[ProductsController::class,'index']);
+    Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
+    Route::post('productSave',[ProductsController::class,'save']);
+
+    Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct']);
+    Route::post('productUpdate',[ProductsController::class,'updateProc']);
+
+    Route::get('productRemove/{slug}',[ProductsController::class,'removeProducts']);
 
 });
