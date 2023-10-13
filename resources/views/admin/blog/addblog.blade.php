@@ -99,5 +99,19 @@
                                     });
                                 });
                                 </script>
+                                <script>
+                                    const editorIds = ['#short-description', '#description'];
+
+                                        editorIds.forEach(id => {
+                                            ClassicEditor
+                                                .create(document.querySelector(id))
+                                                .then(editor => {
+                                                    console.log(editor);
+                                                })
+                                                .catch(error => {
+                                                    console.error(error);
+                                                });
+                                        });
+                                </script>
 
 @endsection
