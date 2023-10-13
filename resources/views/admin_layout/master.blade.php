@@ -173,9 +173,9 @@
                                             </div>
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
-                                                    <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
-                                                    <!-- <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Login Activity</span></a></li> -->
+                                                    <!-- <li><a href="#"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li> -->
+                                                    <li><a href="{{url('admin-dashboard/setting') ?? ''}}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                    <li><a href="{{url('admin-dashboard/contact-us') ?? ''}}"><em class="icon ni ni-bell"></em><span>ContactUs Notifications</span></a></li>
                                                     <li><a class="dark-switch" href="#"><em class="icon ni ni-moon"></em><span>Dark Mode</span></a></li>
                                                 </ul>
                                             </div>

@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminSiteMetaController;
+use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\AdminSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +55,10 @@ Route::get('education',[EducationController::class,'index']);
 Route::get('education-details/{slug}',[EducationController::class,'details']);
 Route::get('faq',[FaqController::class,'index']);
 Route::get('review',[ReviewController::class,'index']);
+
 Route::get('contact',[ContactController::class,'index']);
+Route::post('contactProcc',[ContactController::class,'contactProcc']);
+
 Route::get('our-story',[OurStoryController::class,'index']);
 
 
@@ -102,5 +107,14 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('productUpdate',[ProductsController::class,'updateProc']);
 
     Route::get('productRemove/{slug}',[ProductsController::class,'removeProducts']);
+
+
+    /*admin-dashboard/contact-us =>  Contact us */
+    Route::get('admin-dashboard/contact-us',[ContactUsController::class,'index'])->name('contact-us');
+    Route::get('admin-dashboard/removeContactUs/{id}',[ContactUsController::class,'remove']);
+
+    // AdminAccountSetting
+    Route::get('admin-dashboard/setting',[AdminSettingController::class,'index'])->name('account-setting');
+    Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
 
 });
