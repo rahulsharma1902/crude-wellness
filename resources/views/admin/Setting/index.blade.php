@@ -15,7 +15,7 @@
                             @csrf
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <label class="form-label" for="name">Name</label>
+                                    <label class="form-label" for="name">Name</label> 
                                     <div class="form-control-wrap">
                                         <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="{{ auth()->user()->name ?? '' }}">
                                     </div>
