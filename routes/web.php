@@ -93,6 +93,11 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs']);
     Route::post('admin-dashboard/faqs/addProcc',[AdminSiteMetaController::class,'faqaddProcc']);
     Route::get('admin-dashboard/faqs/delete/{id}',[AdminSiteMetaController::class,'faqDelete']);
+    Route::get('admin-dashboard/ourstory-meta',[AdminSiteMetaController::class,'ourStory']);
+    Route::post('admin-dashboard/ourstory-meta/addProcc',[AdminSiteMetaController::class,'ourStoryAdd']);
+
+
+
     /* Products : */
     Route::get('admin-dashboard/products',[ProductsController::class,'index']);
     Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);

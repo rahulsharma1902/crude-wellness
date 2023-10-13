@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SiteMeta;
 use App\Models\FaqMeta;
+use App\Models\OurStoryMeta;
 
 class AdminSiteMetaController extends Controller
 {
@@ -84,5 +85,64 @@ class AdminSiteMetaController extends Controller
         }else{
             return redirect('admin-dashboard/faqs')->with('error','Failed! Something went wrong');
         }
+    }
+    public function ourStory(){
+        $StoryMeta = OurStoryMeta::first();
+        return view('admin.sitemeta.ourstory',compact('StoryMeta'));
+    }
+    public function ourStoryAdd(Request $request){
+       
+        if($request->hasFile('thumnail_image')){
+            $thumnail_image = $request->file('thumnail_image');
+            $filename = 'thumnail'.rand(0,100).'.'.$thumnail_image->extension();
+            $thumnail_image->move(public_path().'/site_meta/', $filename);
+        }else{
+            $filename = null;
+        }
+        if($request->hasFile('profile_image')){
+            $profile_image = $request->file('profile_image');
+            $filename2 = 'profile'.rand(0,100).'.'.$profile_image->extension();
+            $profile_image->move(public_path().'/site_meta/', $filename2);
+           
+        }else{
+            $filename2 = null;
+        }
+        $StoryMeta = OurStoryMeta::first();
+        if($StoryMeta){
+            $StoryMeta->banner_text = $request->banner_text;
+            $StoryMeta->video_text = $request->video_text;
+            if($filename !== null){ 
+            $StoryMeta->video_thumnail_image = $filename;
+            }
+
+            $StoryMeta->video_link = $request->video_url;
+            $StoryMeta->profile_name = $request->profile_name;
+            $StoryMeta->profile_position = $request->profile_position;
+            if($filename2 !== null){ 
+            $StoryMeta->profile_image = $filename2;
+            }   
+            $StoryMeta->profile_text = $request->profile_description;
+            $StoryMeta->message = $request->profile_message;
+            $StoryMeta->save();
+        }else{
+            $StoryMeta = new OurStoryMeta;
+            $StoryMeta->banner_text = $request->banner_text;
+            $StoryMeta->video_text = $request->video_text;
+            if($filename !== null){ 
+            $StoryMeta->video_thumnail_image = $filename;
+            }
+
+            $StoryMeta->video_link = $request->video_url;
+            $StoryMeta->profile_name = $request->profile_name;
+            $StoryMeta->profile_position = $request->profile_position;
+            if($filename2 !== null){ 
+            $StoryMeta->profile_image = $filename2;
+            }   
+            $StoryMeta->profile_text = $request->profile_description;
+            $StoryMeta->message = $request->profile_message;
+            $StoryMeta->save();
+        }
+        return redirect()->back()->with('success','Successfully updated story meta');
+
     }
 }
