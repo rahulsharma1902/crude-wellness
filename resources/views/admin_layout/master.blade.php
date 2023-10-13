@@ -100,6 +100,9 @@
                                             <a href="{{ url('/admin-dashboard/site-detail') }}" class="nk-menu-link"><span class="nk-menu-text">Site-detail</span></a>
                                         </li>
                                         <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/ourstory-meta') }}" class="nk-menu-link"><span class="nk-menu-text">Our-Story Meta</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/faqs') }}" class="nk-menu-link"><span class="nk-menu-text">Faqs</span></a>
                                         </li>
                                     </ul>
@@ -138,13 +141,13 @@
                              
                             </div><!-- .nk-header-brand -->
                             <div class="nk-header-news d-none d-xl-block">
-                                <div class="nk-news-list">
+                                <!-- <div class="nk-news-list">
                                     <a class="nk-news-item" href="#">
                                         <div class="nk-news-icon">
                                             <em class="icon ni ni-card-view"></em>
                                         </div>
                                     </a>
-                                </div>
+                                </div> -->
                             </div><!-- .nk-header-news -->
                             <div class="nk-header-tools">
                                 <ul class="nk-quick-nav">
