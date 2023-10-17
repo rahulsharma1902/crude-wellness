@@ -22,6 +22,10 @@
     <title>home page</title>
 </head>
 <body>
+     <?php
+    $meta_data = App\Models\SiteMeta::class::first();
+    // dd($meta_data);    
+    ?> 
     <div class='popup-onload'>
         <div class="pop_onload_wreap">
             <div class='cnt223'>
@@ -48,7 +52,7 @@
                 <div class="">
                     <div class="col-lg-12">
                         <div class="top_hd_text">
-                            <p>The Fall Sale Is Here! Get 15% Off Sitewide With Code </p>
+                            <p> <?php echo($meta_data->header_text)?></p>
                         </div>
                     </div>
                 </div>
@@ -253,20 +257,20 @@
                         <div class="social-links">
                             <ul>
                                 <li>
-                                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                                    <a href="{{ $meta_data->facebook }}"><i class="fa-brands fa-facebook"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                                    <a href="{{ $meta_data->instagram }}"><i class="fa-brands fa-instagram"></i></a>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+                                    <a href="{{ $meta_data->pintrset }}"><i class="fa-brands fa-pinterest"></i></a>
                                 </li>
                             </ul>
                         </div>
                         <div class="address">
                             <ul>
-                                <li><a href="mailto:support@crudewellness.com">support@crudewellness.com</a></li>
-                                <li><a href="tel:414-296-9640">414-296-9640</a></li>
+                                <li><a href="mailto:support@crudewellness.com">{{ $meta_data->support_email }}</a></li>
+                                <li><a href="tel:414-296-9640">{{ $meta_data->support_phone }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -320,10 +324,9 @@
                     </div>
                     <div class="col-md-9">
                         <div class="foot-para">
-                            <h6>Promise of Quality</h6>
-                            <p>
-                                This product is not for use by or sale to persons under the age of 18. This product should be used only as directed on the label. It should not be used if you are pregnant or nursing. Consult with a physician before use if you have a serious medical condition or use prescription medications. A doctor’s advice should be sought before using this and any supplemental dietary product. All trademarks and copyrights are the property of their respective owners, and they are not affiliated with, nor do they endorse these products. These statements have not been evaluated by the FDA. This product is not intended to diagnose, treat, cure or prevent any disease. By using this site, you agree to follow the Privacy Policy and all Terms & Conditions printed on this site. Void Where Prohibited by Law.
-                            </p>
+                            <h6>{{ $meta_data->footer_title }}</h6>
+                            <p><?php echo($meta_data->footer_text ) ?> </p>
+                                
                         </div>
                     </div>
                 </div>

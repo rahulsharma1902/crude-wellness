@@ -7,6 +7,7 @@ use App\Models\Categories;
 use App\Models\Media;
 use App\Models\Products;
 use App\Models\ProductVariations;
+use App\Models\SubscriptionOption;
 use Illuminate\Support\Facades\DB;
 
 class FrontShopController extends Controller
@@ -18,6 +19,7 @@ class FrontShopController extends Controller
         return view('front.shop.index', compact('categories','products'));
     }
     public function shopdetail($id){
+        $subscription = SubscriptionOption::all();
         $product = Products::find($id);
         $variations = ProductVariations::where('product_id',$id)->pluck('price','strength');
         $first = ProductVariations::where('product_id',$id)->first();
@@ -25,13 +27,8 @@ class FrontShopController extends Controller
         // print_r($variations);
         // die();
         $categories = Products::where('category_id',$product->id)->get();
-        return view('front.shop.shopdetail',compact('product','categories','first','variations'));
+        return view('front.shop.shopdetail',compact('product','subscription','categories','first','variations'));
     }
 
-    public function explorecategory($id){
-        $category = Categories::find($id);
-        $categories = Categories::where('parent_category',$id)->get();
-        $products = Products::where('category_id',$id)->get();
-        return view('front.shop.explorcategory',compact('category','categories','products'));
-    }
+    
 }

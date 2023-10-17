@@ -69,6 +69,7 @@ class AdminSiteMetaController extends Controller
         $faqmeta = new FaqMeta;
         $faqmeta->title = $request->title;
         $faqmeta->slug = $request->slug;
+        $faqmeta->text = $request->text;
         if($request->question && $request->answer){
             $faqmeta->questions = json_encode($request->question);
             $faqmeta->answers = json_encode($request->answer);

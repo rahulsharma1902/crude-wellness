@@ -56,6 +56,12 @@
                                     <label for="test1">
                                         <div>
                                             <h6>Subscribe And Save</h6>
+                                            
+                                            <select name="offer" id="member">
+                                                @foreach($subscription as $sub)
+                                                <option value="{{ $sub->discount_percentage }}">{{ $sub->recurring_type}}{{ $sub->recurring_period }}</option>
+                                                @endforeach
+                                            </select>
                                             <p>
                                                 Easy to cancel anytime,<br />
                                                 Free Shipping always
@@ -105,7 +111,7 @@
                             <h6>You're saving $11.00</h6>
                             <p>Total: <span id="total">${{ $first->price }}</span></p>
                         </div>
-                        <a href="#" class="main-btn">Add To Cart</a>
+                        <a href="" class="main-btn">Add To Cart</a>
                     </div>
                 </div>
             </div>
@@ -138,7 +144,7 @@
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div class="information_cantent">
                                 <p>
-                                    {{ print( $product->description) }}
+                                     <?php echo( $product->description) ?>
                                 </p>
                                 
                             </div>
@@ -146,21 +152,21 @@
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                             <div class="information_cantent">
                                 <p>
-                                    {{ print($product->direction) }}
+                                    <?php echo($product->direction) ?>
                                  </p>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-Ingredients" role="tabpanel" aria-labelledby="pills-Ingredients-tab">
                             <div class="information_cantent">
                                 <p>
-                                    {{ print($product->ingredients) }}
+                                    <?php echo($product->ingredients) ?>
                                 </p>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-Results" role="tabpanel" aria-labelledby="pills-Results-tab">
                             <div class="information_cantent">
                                 <p>
-                                    {{ print($product->lab_results) }}
+                                    <?php echo($product->lab_results) ?>
                                 </p>
                             </div>
                         </div>
@@ -233,4 +239,44 @@
         });
     });
 </script>
+<script>
+    $(document).ready(function () {
+        $('member').on('change', function () {
+            var selectedSize = $(this).val();
+            var price = <?php echo json_encode($variations); ?>[selectedSize];
+            $('#price').text('$' + price);
+            $('#Sprice').text('$' + price); 
+            $('#total').text('$' + price); 
+        });
+    });
+</script>
+// <script>
+//     $(document).ready(function() {
+//         $('#submitButton').on('click', function(e) {
+//             e.preventDefault();
+//             var selectedValue = document.getElementById('input').value;
+//             // var inputValue = $('#input').val();
+//             var csrfToken = $('meta[name="csrf-token"]').attr('content');
+//             $.ajax({
+//                 type: 'POST',
+//                 url: '{{ url('applycoupon') }}',
+//                 data: {
+//                     code: selectedValue,
+//                     _token: csrfToken,
+//                 },
+//                 dataType: 'json',
+//                 success: function(response) {
+//                     $('#submitButton').html(response.btn);
+//                     $('#total').html(response.element);
+//                     $('#after').html(response.d);
+//                     $('#discount').html(response.new);
+//                     $('#final').html(response.n);
+//                 },
+//                 error: function(xhr, status, error) {
+//                     console.log('Error:', xhr, status, error);
+//                 }
+//             });
+//         });
+//     });
+// </script>
 @endsection

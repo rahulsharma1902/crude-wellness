@@ -38,6 +38,7 @@ Route::get('/', function () {
 // Route::get('/', function () {
 //     return view('front_layout.master');
 // });
+// Route::get('/',[FrontHomeController::class,'layout'])->name('layout');
 //Authentications routes
 Route::get('login',[AuthenticationController::class,'index'])->name('login');
 Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
@@ -48,12 +49,11 @@ Route::get('logout',[AuthenticationController::class,'logout']);
 Route::get('/',[FrontHomeController::class,'index']);
 Route::get('/shop',[FrontShopController::class,'index']);
 Route::get('/shop-detail/{id}',[FrontShopController::class,'shopdetail'])->name('shopdetails');
-Route::get('/explorecategory/{id}',[FrontShopController::class,'explorecategory'])->name('explorecategory');
 Route::get('/checkout',[CheckoutController::class,'index']);
 Route::get('/subscription',[FrontSubscriptionController::class,'index']);
 
 Route::get('education',[EducationController::class,'index']);
-Route::get('education-details/{slug}',[EducationController::class,'details']);
+Route::get('education-details/{slug}',[EducationController::class,'details'])->name('education-details');
 Route::get('faq',[FaqController::class,'index']);
 Route::get('review',[ReviewController::class,'index']);
 

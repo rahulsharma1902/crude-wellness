@@ -27,213 +27,68 @@
                             <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home"
                                 role="tab" aria-controls="pills-home" aria-selected="true">All </a>
                         </li>
+                        @foreach($blogcategory as $category)
+                          <span style="display: none"> {{ $posts = DB::table('blogs')->where('cat_id',$category->id)->get() }}</span>
+                         @if($posts->isEmpty())
+                         @else
                         <li class="nav-item">
-                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile"
-                                role="tab" aria-controls="pills-profile" aria-selected="false">Education</a>
+                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#{{$category->name}}"
+                                role="tab" aria-controls="pills-profile" aria-selected="false">{{ $category->name }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact"
-                                role="tab" aria-controls="pills-contact" aria-selected="false">Doctor's Advice</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-privacy-tab" data-toggle="pill" href="#pills-privacy"
-                                role="tab" aria-controls="pills-privacy" aria-selected="false">Hemp Gummies</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="pills-Recurring-tab" data-toggle="pill" href="#pills-Recurring"
-                                role="tab" aria-controls="pills-Recurring" aria-selected="false">Natural Oil</a>
-                        </li>
+                        @endif
+                        @endforeach
                     </ul>
                 </div>
                 <div class="tab-content" id="pills-tabContent">
                     <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                         aria-labelledby="pills-home-tab">
                         <div class="blog_grid">
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
+                            
+                            @foreach($blogs as $blog)
+                            <a href="{{ url('/education-details/'.$blog->slug) ?? '' }}">
                                 <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
+                                    <img src="{{ asset('/blog_images/'.$blog->image) }}" class="card-img" alt="...">
                                     <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
+                                        <h6><?php  echo($blog->title)?></h6>
+                                        <button href="" class="btn ligt_btn">Read More</button>
                                     </div>
                                 </div>
                             </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog3.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog4.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog5.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog6.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog7.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog8.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog9.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                    @foreach ($blogcategory as $category )
+                    <div class="tab-pane fade" id="{{$category->name}}" role="tabpanel" aria-labelledby="pills-profile-tab">
                         <div class="blog_grid">
-                            <a href="#">
+                           <span style="display: none"> {{ $posts = DB::table('blogs')->where('cat_id',$category->id)->get() }}</span>
+                            @foreach($posts as $post)
+                            <a href="{{ url('/education-details/'.$blog->slug) ?? '' }}">
                                 <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
+                                    <img src="{{ asset('/blog_images/'.$post->image) ?? '' }}" class="card-img" alt="..." height="500px" width="500px">
                                     <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
+                                        <h6><?php echo($post->title) ?></h6>
                                         <button href="#" class="btn ligt_btn">Read More</button>
                                     </div>
                                 </div>
                             </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog3.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog4.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
+                            @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-                        <div class="blog_grid">
-                            <a href="#">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-privacy" role="tabpanel" aria-labelledby="pills-privacy-tab">
-                        <div class="blog_grid">
-                            <a href="#">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-Recurring" role="tabpanel"
-                        aria-labelledby="pills-Recurring-tab">
-                        <div class="blog_grid">
-                            <a href="#">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                            <a href="{{ url('/education-details/ss') ?? '' }}">
-                                <div class="card bg-dark text-white">
-                                    <img src="{{ asset('front/img/blog2.png') ?? '' }}" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h6>Lorem Ipsum is simply dummy text</h6>
-                                        <button href="#" class="btn ligt_btn">Read More</button>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </section>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('pills-profile-tab').on('click', function () {
+            var selected = $(this).text();
+            var cat = <?php echo json_encode($blogcategory); ?>[selectedSize];
+            $('.tab-pane fade').attr('id' , cat);
+           
+        });
+    });
+</script>
 @endsection
