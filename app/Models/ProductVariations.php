@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class ProductVariations extends Model
 {
     use HasFactory;
+
+    public function Products(){
+        return $this->belongsTo(Products::class);
+    }
 }

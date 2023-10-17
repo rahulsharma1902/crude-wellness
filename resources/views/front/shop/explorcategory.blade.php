@@ -28,14 +28,13 @@
                     <div class="product_content">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link active" id="pills-allproduct-tab" data-toggle="pill" href="#pills-allproduct" role="tab" aria-controls="pills-allproduct" aria-selected="true">All</a>
+                                <a class="nav-link active" id="pills-allproduct-tab" data-toggle="pill" href="#pills-allproduct" role="tab" aria-controls="pills-allproduct" aria-selected="true">{{ $category->name }}</a>
                             </li>
-                            @foreach ($categories as $category )
+                            @foreach ($categories as $cat )
                             
                             <li class="nav-item">
                                 {{-- <img class="card-img-top" src="{{ asset('/category_images/'.$category->image) }}" height="5px" width="5px"  alt="Card image cap"> --}}
-                                <a class="nav-link" id="pills-capsules-tab"  href="{{ route('explorecategory',['id'=>$category->id]) }}"   >{{ $category->name }}</a>
-                                {{-- <a class="nav-link" type="button" id="pills-capsules-tab" data-toggle="pill" href="{{ route('explorecategory',['id'=>$category->id]) }}" role="tab" aria-controls="pills-capsules" aria-selected="false">{{ $category->name }}</a> --}}
+                                <a class="nav-link" id="pills-capsules-tab" data-toggle="pill" href="{{ route('explorecategory',['id'=>$cat->id]) }}" role="tab" aria-controls="pills-capsules" aria-selected="false">{{ $cat->name }}</a>
                             </li>
 
                             @endforeach

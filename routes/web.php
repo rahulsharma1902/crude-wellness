@@ -47,7 +47,8 @@ Route::get('logout',[AuthenticationController::class,'logout']);
 
 Route::get('/',[FrontHomeController::class,'index']);
 Route::get('/shop',[FrontShopController::class,'index']);
-Route::get('/shop-detail/{id}',[FrontShopController::class,'shopdetail']);
+Route::get('/shop-detail/{id}',[FrontShopController::class,'shopdetail'])->name('shopdetails');
+Route::get('/explorecategory/{id}',[FrontShopController::class,'explorecategory'])->name('explorecategory');
 Route::get('/checkout',[CheckoutController::class,'index']);
 Route::get('/subscription',[FrontSubscriptionController::class,'index']);
 

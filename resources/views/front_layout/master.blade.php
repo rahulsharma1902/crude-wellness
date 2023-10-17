@@ -98,6 +98,9 @@
                                     <li>
                                         @if(auth()->check())
                                             <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
+                                            {{ Auth::user()->name }}
+                                            <a href="{{ url('logout') }}"> logout</a>
+                                             {{-- <span>{{ auth::user() }}</span> --}}
                                         @else
                                             <a href="{{ url('logout') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
                                         @endif
