@@ -77,6 +77,19 @@ class AdminSiteMetaController extends Controller
         return redirect()->back()->with('success','Successfully saved');
         }
     }
+    public function faqhomestatus(Request $request){
+        $faqs = FaqMeta::where('status',1)->get();
+        foreach($faqs as $f){
+           
+             $faqsupdate = FaqMeta::find($f->id);
+             $faqsupdate->home_page = 0;
+             $faqsupdate->update();
+        }
+        $faqmeta = FaqMeta::find($request->id);
+        $faqmeta->home_page = 1;
+        $faqmeta->update();
+        return response()->json(['success'=>'successfully updated']);
+    }
     public function faqDelete($id){
         $faqmeta = FaqMeta::find($id);
         if($faqmeta){

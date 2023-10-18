@@ -2622,3 +2622,8 @@ span.animate-ping {
 .login_wrapper .row {
     align-items: center;
 }
+.natural_wrapper button.main-btn {
+    width: 100%;
+    text-align: center;
+    margin-top: 28px;
+}

@@ -63,7 +63,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-img"></em></span>
                                         <span class="nk-menu-text">Blog</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -80,7 +80,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-grid-alt"></em></span>
                                         <span class="nk-menu-text">Subscription Options</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -92,24 +92,7 @@
                                 </li>
                                 <li class="nk-menu-item has-sub">
                                     <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
-                                        <span class="nk-menu-text">Site Meta</span>
-                                    </a>
-                                    <ul class="nk-menu-sub">
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/site-detail') }}" class="nk-menu-link"><span class="nk-menu-text">Site-detail</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/ourstory-meta') }}" class="nk-menu-link"><span class="nk-menu-text">Our-Story Meta</span></a>
-                                        </li>
-                                        <li class="nk-menu-item">
-                                            <a href="{{ url('/admin-dashboard/faqs') }}" class="nk-menu-link"><span class="nk-menu-text">Faqs</span></a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                    <li class="nk-menu-item has-sub">
-                                    <a href="#" class="nk-menu-link nk-menu-toggle">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span>
+                                        <span class="nk-menu-icon"><em class="icon ni ni-card-view"></em></span>
                                         <span class="nk-menu-text">Products</span>
                                     </a>
                                     <ul class="nk-menu-sub">
@@ -120,6 +103,23 @@
                                             <a href="{{ url('admin-dashboard/add-products/') }}" class="nk-menu-link"><span class="nk-menu-text">Add Products</span></a>
                                         </li>
                                     
+                                    </ul>
+                                </li>
+                                <li class="nk-menu-item has-sub">
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-menu-circled"></em></span>
+                                        <span class="nk-menu-text">Site Meta</span>
+                                    </a>
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/site-detail') }}" class="nk-menu-link"><span class="nk-menu-text">Site-detail</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/ourstory-meta') }}" class="nk-menu-link"><span class="nk-menu-text">Our-Story Meta</span></a>
+                                        </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/faqs') }}" class="nk-menu-link"><span class="nk-menu-text">Faqs Meta</span></a>
+                                        </li>
                                     </ul>
                                 </li>
                             </ul><!-- .nk-menu -->

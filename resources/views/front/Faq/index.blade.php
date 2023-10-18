@@ -20,6 +20,15 @@
                 <div class="col-lg-12">
                     <div class="terms_wreapper">
                         <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            @if($faqmeta->isNotEmpty())
+                            <?php $count = 0 ?>
+                            @foreach($faqmeta as $meta)
+                            <?php $count = $count+1;  ?>
+                                <li class="nav-item">
+                                    <a class="nav-link @if($count == 1) active @endif" id="pills-home-tab" data-toggle="pill" href="#{{ $meta->slug ?? '' }}" role="tab" aria-controls="pills-home" aria-selected="true">{{ $meta->title ?? '' }}</a>
+                                </li>
+                            @endforeach
+                            @else
                             <li class="nav-item">
                                 <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Hemp Extract CBD </a>
                             </li>
@@ -35,10 +44,52 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="pills-Recurring-tab" data-toggle="pill" href="#pills-Recurring" role="tab" aria-controls="pills-Recurring" aria-selected="false">Recurring Orders</a>
                             </li>
+                            @endif
                         </ul>
                     </div>
                     <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                        <?php $num = 0; ?>
+                    @if($faqmeta->isNotEmpty())
+                     @foreach($faqmeta as $meta)
+                     <?php $num = $num+1; ?>
+                        <div class="tab-pane fade @if($num == 1) show active @endif" id="{{ $meta->slug }}" role="tabpanel" aria-labelledby="pills-home-tab">
+                            <div class="extract_wreap">
+                                <h4>{{ $meta->title ?? '' }}</h4>
+                                
+                            </div>
+                            @if(isset($meta->questions) || isset($meta->answers))
+                            <div id="main" class="terms_content_wreapper">
+                                <div class="accordion accordion_wreap" id="faq">
+                                    <?php 
+                                    $questions = json_decode($meta->questions);
+                                    $answers = json_decode($meta->answers);
+                                    ?>
+                                    @for($i = 0; $i < count($questions); $i++ )
+                                    <div class="card">
+                                        <div class="card-header" id="faqhead1">
+                                            <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq{{ $i }}" aria-expanded="false" aria-controls="faq1">{{ $questions[$i] }}</a>
+                                        </div>
+                                        <div id="faq{{ $i }}" class="collapse " aria-labelledby="faqhead1" data-parent="#faq">
+                                            <div class="card-body">
+                                                <p>{{ $answers[$i] ?? '' }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endfor
+                                    
+                                </div>
+                            </div>
+                            @endif
+                            @if(isset($meta->text))
+                            <div>
+                               <?php echo $meta->text; ?>
+                            </div>
+                            @endif
+                        </div>
+                    @endforeach
+                    @else
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                             <div class="extract_wreap">
                                 <h4>Hemp Extract CBD</h4>
                                 <p>
@@ -208,6 +259,8 @@
                                 </p>
                             </div>
                         </div>
+                    </div>
+                    @endif
                     </div>
                 </div>
             </div>

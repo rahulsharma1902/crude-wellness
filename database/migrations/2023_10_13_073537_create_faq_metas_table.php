@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('text')->nullable();
             $table->text('questions')->nullable();
             $table->text('answers')->nullable();
+            $table->integer('home_page')->default(0);
             $table->integer('status')->default(1);
             $table->timestamps();
         });

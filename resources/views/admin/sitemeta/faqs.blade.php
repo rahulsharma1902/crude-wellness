@@ -18,6 +18,9 @@
                                                                     <div class="form-control-wrap">
                                                                         <input type="text" class="form-control" name="title" id="title" value="{{ $editdata->title ?? '' }}">
                                                                     </div>
+                                                                    @error('title')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
                                                                 </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -26,6 +29,9 @@
                                                                     <div class="form-control-wrap">
                                                                         <input type="text" class="form-control" name="slug" id="slug" value="{{ $editdata->slug ?? '' }}" >
                                                                     </div>
+                                                                    @error('slug')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
                                                                 </div>
                                                         </div>
                                                         <div class="col-lg-6">
@@ -34,6 +40,9 @@
                                                                     <div class="form-control-wrap">
                                                                         <textarea class="form-control" name="text" id="text">{{ $editdata->text ?? '' }}</textarea>
                                                                     </div>
+                                                                    @error('text')
+                                                                        <span class="text-danger">{{ $message }}</span>
+                                                                    @enderror
                                                                 </div>
                                                         </div>
                                                    </div>
@@ -99,7 +108,7 @@
                                                         </th>
                                                         <th class="tb-odr-amount">
                                                             <span class="tb-odr-total">Slug</span>
-                                                            <!-- <span class="tb-odr-status d-none d-md-inline-block">Status</span> -->
+                                                            <span class="tb-odr-status d-none d-md-inline-block">Home page show</span>
                                                         </th>
                                                         <th class="tb-odr-action">&nbsp;</th>
                                                     </tr>
@@ -117,7 +126,11 @@
                                                                 <span class="amount">{{ $meta->slug ?? '' }}</span>
                                                             </span>
                                                             <span class="tb-odr-status">
-                                                                <!-- <span class="badge badge-dot bg-success">Complete</span> -->
+                                                                <!-- <input type="radio" name="home_page_status" value="{{ $meta->id ?? '' }}" > -->
+                                                                <div class="custom-control custom-switch">
+                                                                    <input type="radio" name="home_page_status" value="{{ $meta->id ?? '' }}" class="custom-control-input" id="customSwitch{{ $meta->id ?? '' }}" @if($meta->home_page == 1) checked @endif >
+                                                                    <label class="custom-control-label" for="customSwitch{{ $meta->id ?? '' }}"></label>
+                                                                </div>
                                                             </span>
                                                         </td>
                                                         <td class="tb-odr-action">
@@ -189,6 +202,20 @@
                                         .catch(error => {
                                             console.error(error);
                                         });
+                                </script>
+                                <script>
+
+                                    $('input[name="home_page_status"]').on('change',function(){
+                                        val = $(this).val();
+                                        $.ajax({
+                                            method:'post',
+                                            url: '{{ url('admin-dashboard/faqs/homestatus') }}',
+                                            data:{ id:val,_token:"{{ csrf_token() }}" },
+                                            success: function(response){
+                                                NioApp.Toast(response.success, 'info', {position: 'top-right'});
+                                            }
+                                        })
+                                    })
                                 </script>
 
 @endsection

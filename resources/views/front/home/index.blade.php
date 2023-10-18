@@ -25,50 +25,21 @@
                         <p>Choose how you want to feel to get started:</p>
                     </div>
                     <div class="prod_wrapper">
+                        @if($blog->isNotEmpty())
+                        @foreach($blog as $b)
                         <div class="best-box">
                             <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg1.png') }}" alt="" />
+                                <img src="{{ asset('blog_images') }}/{{ $b->image ?? '' }}" alt="" />
                             </div>
                             <div class="best-warp">
                                 <div class="best-text">
-                                    <h6>Neuro Protective</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
+                                    <a href="{{ url('education-details/'.$b->slug) }}"><h6>{{ $b->title ?? '' }}</h6></a>
+                                  
                                 </div>
                             </div>
                         </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg2.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Reduce PTSD</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg3.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Neuro Protective</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg1.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Pain Relief</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -485,46 +456,21 @@
                         <h4>So many ways to enjoy Crude</h4>
                     </div>
                     <div class="prod_wrapper">
+                        @foreach($categories as $cat)
                         <div class="best-box">
                             <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
+                                <img src="{{ asset('category_images') }}/{{ $cat->image ?? '' }}" alt="" />
                             </div>
                             <div class="best-warp" style="background: #FFA500;">
+                            <a href="{{ url('shop/'.$cat->slug) }}">
                                 <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
+                                    <h6>{{ $cat->name ?? '' }}</h6>
                                 </div>
+                            </a>
                             </div>
                         </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg5.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #370060;">
-                                <div class="best-text">
-                                    <h6>Natural Oil</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg6.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FF6823;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FFA500;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                       
                     </div>
                 </div>
             </div>
@@ -541,90 +487,36 @@
                     </div>
                     <div id="main">
                         <div class="accordion" id="faq">
+                            @if($faqs)
+                            @if(isset($faqs->questions) || isset($faqs->answers))
+                            <?php 
+                            $questions = json_decode($faqs->questions);
+                            $answers = json_decode($faqs->answers);
+                            for ($i=0; $i < count($questions); $i++) { 
+                            ?>
                             <div class="card">
                                 <div class="card-header" id="faqhead1">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">What is your best CBD oil to buy online?</a>
+                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq{{ $i }}" aria-expanded="false" aria-controls="faq1">{{ $questions[$i] ?? '' }}</a>
                                 </div>
 
-                                <div id="faq1" class="collapse show" aria-labelledby="faqhead1" data-parent="#faq">
+                                <div id="faq{{ $i }}" class="collapse @if($i == 0) show @endif" aria-labelledby="faqhead1" data-parent="#faq">
                                     <div class="card-body">
                                         <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
+                                            {{ $answers[$i] ?? '' }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead2">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq2" aria-expanded="false" aria-controls="faq2">How long does shipping take?</a>
+                            <?php } ?>
+                            @endif
+                                @if($faqs->text)
+                                <div>
+                                    <?php 
+                                    print_r($faqs->text);
+                                    ?>
                                 </div>
-
-                                <div id="faq2" class="collapse" aria-labelledby="faqhead2" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead3">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq3" aria-expanded="false" aria-controls="faq3">What are your business hours?</a>
-                                </div>
-
-                                <div id="faq3" class="collapse" aria-labelledby="faqhead3" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead4">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq4" aria-expanded="false" aria-controls="faq4">Where is your hemp grown?</a>
-                                </div>
-
-                                <div id="faq4" class="collapse" aria-labelledby="faqhead4" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead4">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq5" aria-expanded="false" aria-controls="faq5">What is your best seller?</a>
-                                </div>
-
-                                <div id="faq5" class="collapse" aria-labelledby="faqhead5" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead6">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq6" aria-expanded="false" aria-controls="faq6">Can I take CBD with Medications?</a>
-                                </div>
-
-                                <div id="faq6" class="collapse" aria-labelledby="faqhead6" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                @endif
+                           @endif
                         </div>
                     </div>
                 </div>
