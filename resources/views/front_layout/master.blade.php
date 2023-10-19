@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -7,14 +8,20 @@
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css" integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+        integrity="sha512-yHknP1/AwR+yx26cB1y0cjvQUMvEa2PFzt1c9LlS4pRQ5NOTZFWbhBig+X9G9eYW/8m0/4OXNx8pxJ6z57x0dw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+        integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
@@ -22,11 +29,12 @@
 
     <title>home page</title>
 </head>
+
 <body>
-     <?php
+    <?php
     $meta_data = App\Models\SiteMeta::class::first();
     // dd($meta_data);    
-    ?> 
+    ?>
     <div class='popup-onload'>
         <div class="pop_onload_wreap">
             <div class='cnt223'>
@@ -53,7 +61,7 @@
                 <div class="">
                     <div class="col-lg-12">
                         <div class="top_hd_text">
-                            <p> <?php echo($meta_data->header_text)?></p>
+                            <p> <?php echo $meta_data->header_text; ?></p>
                         </div>
                     </div>
                 </div>
@@ -64,7 +72,9 @@
                 <div class="header-nav">
                     <nav class="navbar navbar-expand-lg">
                         <div class="col-lg-4 nav-col">
-                            <button class="navbar-toggler btn-ord" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                            <button class="navbar-toggler btn-ord" type="button" data-toggle="collapse"
+                                data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                                aria-label="Toggle navigation">
                                 <div class="ham">
                                     <div class="bars bar1"></div>
                                     <div class="bars bar2"></div>
@@ -88,11 +98,12 @@
                                 </ul>
                             </div>
                         </div>
-                        
-                        <div class="col-lg-4 brand-ord text-center">
-                            <a class="navbar-brand" href="{{ url('/') ?? ''}}">
 
-                                <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid" alt="">
+                        <div class="col-lg-4 brand-ord text-center">
+                            <a class="navbar-brand" href="{{ url('/') ?? '' }}">
+
+                                <img src="{{ asset('front/img/site-logo.png') ?? '' }}" class="img-fluid"
+                                    alt="">
                             </a>
                         </div>
                         <div class="col-lg-4 brand-ord">
@@ -101,27 +112,38 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="{{ url('our-story') }}">About</a>
                                     </li>
-                                    
-                                        @if(Auth::check())
-                                           <li>
-                                            <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
-                                            {{ Auth::user()->name }}</li>
-                                            <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
-                                            @if(!$carts)
-                                            <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
-                                            </button></li>
-                                            @else
-                                            <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>{{ $carts->count() }}</span>
-                                            </button></li>
-                                            @endif
-                                            <li> <a class="btn btn-dark" href="{{ url('logout') }}"> logout</a></li>
+
+                                    @if (Auth::check())
+                                        <li>
+                                            <a href="{{ url('login') }}"> <img
+                                                    src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid"
+                                                    alt=""></a>
+                                            {{ Auth::user()->name }}
+                                        </li>
+                                        <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
+                                        @if (!$carts)
+                                            <li><button data-toggle="modal" data-target="#gotocart"> <img
+                                                        src="{{ asset('front/img/cart.svg') ?? '' }}"
+                                                        class="img-fluid" alt=""><span>0</span>
+                                                </button></li>
                                         @else
-                                            
-                                        <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
-                                        <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
-                                        </button></li>
-                                      
-                                    
+                                            <li><button data-toggle="modal" data-target="#gotocart"> <img
+                                                        src="{{ asset('front/img/cart.svg') ?? '' }}"
+                                                        class="img-fluid"
+                                                        alt=""><span>{{ $carts->count() }}</span>
+                                                </button></li>
+                                        @endif
+                                        <li> <a class="btn btn-dark" href="{{ url('logout') }}"> logout</a></li>
+                                    @else
+                                        <a href="{{ url('login') }}"> <img
+                                                src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid"
+                                                alt=""></a>
+                                        <li><button data-toggle="modal" data-target="#gotocart"> <img
+                                                    src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid"
+                                                    alt=""><span>0</span>
+                                            </button></li>
+
+
                                     @endif
                                 </ul>
                             </div>
@@ -134,104 +156,108 @@
 
     @yield('content')
     <!-- cart  -->
-    @if(Auth::check())
-    <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
-                       
-<div class="modal left fade" id="gotocart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLongTitle">Your Cart</h3>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                @foreach ($carts as $cart )
-                 <?php $product = App\Models\Products::class::find($cart->product_id); ?>
-                 <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
-                <div class="cart_content">
-                    <a href="#">
-                        <div class="pro_cart">
-                            <img src="{{ asset('/productIMG/'.$media->img_name) ?? '' }}" alt="">
+    @if (Auth::check())
+        <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
+
+        <div class="modal left fade" id="gotocart" tabindex="-1" role="dialog"
+            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title" id="exampleModalLongTitle">Your Cart</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @foreach ($carts as $cart)
+                            <?php $product = App\Models\Products::class::find($cart->product_id); ?>
+                            <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
+                            <div class="cart_content">
+                                <a href="#">
+                                    <div class="pro_cart">
+                                        <img src="{{ asset('/productIMG/' . $media->img_name) ?? '' }}" alt="">
+                                    </div>
+                                </a>
+                                <div class="min_wreap">
+                                    <div class="text_wreap">
+                                        <h5>{{ $product->name }}</h5>
+                                        <?php //$total = $cart->total_price*$cart->qty
+                                        ?>
+                                        <span>{{ $cart->total_price }}</span>
+                                    </div>
+                                    <div class="number">
+                                        <span class="minus">-</span>
+                                        <input type="text" value="{{ $cart->qty }}">
+                                        <span class="plus">+</span>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+    @endif
+    <div class="might_wrapper">
+        <h3>You might also like</h3>
+        <?php $products=App\Models\Products::Class::latest()->take(5)->get(); ?>
+        {{-- {{ dd($products) }} --}}
+        @foreach ($products as $product)
+            <?php $m=App\Models\Media::Class::where('product_id',$product->id)->first(); ?>
+            <?php $v=App\Models\ProductVariations::Class::where('product_id',$product->id)->first(); ?>
+            <div class="prolist_wrapper">
+                <div class="prolist_wreap">
+                    <div class="card border-0">
+                        <div class="product_img">
+                            <img class="card-img-top" src="{{ asset('/productIMG/' . $m->img_name) ?? '' }}"
+                                alt="Card image cap">
                         </div>
-                    </a>
-                    <div class="min_wreap">
-                        <div class="text_wreap">
-                            <h5>{{ $product->name }}</h5>
-                            <span>{{ $cart->total_price}}</span>
-                        </div>
-                        <div class="number">
-                            <span class="minus">-</span>
-                            <input type="text" value="{{ $cart->qty }}">
-                            <span class="plus">+</span>
+                        <div class="card-body">
+                            <div class="price">
+                                <ul class="d-flex list-unstyled">
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li><i class="fa-solid fa-star"></i></li>
+                                    <li>4.5</li>
+                                </ul>
+                                <span class="prodollar">{{ $v->price }}</span>
+                            </div>
+                            <h5 class="card-title">{{ $product->name }}</h5>
                         </div>
                     </div>
                 </div>
-                @endforeach
-              @endif
-                <div class="might_wrapper">
-                    <h3>You might also like</h3>
-                    <?php $products=App\Models\Products::Class::latest()->take(5)->get(); ?>
-                   {{-- {{ dd($products) }} --}}
-                    @foreach ($products as $product)
-                        
-                    <?php $m=App\Models\Media::Class::where('product_id',$product->id)->first(); ?>
-                    <?php $v=App\Models\ProductVariations::Class::where('product_id',$product->id)->first(); ?>
-                    <div class="prolist_wrapper">
-                        <div class="prolist_wreap">
-                            <div class="card border-0">
-                                <div class="product_img">
-                                    <img class="card-img-top" src="{{ asset('/productIMG/'.$m->img_name) ?? '' }}" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <div class="price">
-                                        <ul class="d-flex list-unstyled">
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li>4.5</li>
-                                        </ul>
-                                        <span class="prodollar">{{ $v->price }}</span>
-                                    </div>
-                                    <h5 class="card-title">{{ $product->name }}</h5>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                      
-            <div class="modal-footer">
-                <div class="shoping_list">
-                    <ul class="list-unstyled">
-                        <li>
-                            <div>
-                                <span>Total</span>
-                                <p>Shipping & taxes calculated at checkout</p>
-                            </div>
-                            <span>$178.00</span>
-                        </li>
-                        <li>
-                            <select id="inputState" class="form-control">
-                                <option selected>Select Redeem Points</option>
-                                <option>1</option>
-                                <option>2</option>
-                            </select>
-                            <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
-                        </li>
-                    </ul>
-                    <button type="button" onclick="location.href='{{ url('checkout') }}'" class="btn main-btn">Go to
-                        checkout</button>
-                </div>
-            </div>
+        @endforeach
+    </div>
+    </div>
+    </div>
+    <div class="modal-footer">
+        <div class="shoping_list">
+            <ul class="list-unstyled">
+                <li>
+                    <div>
+                        <span>Total</span>
+                        <p>Shipping & taxes calculated at checkout</p>
+                    </div>
+                    <span>$178.00</span>
+                </li>
+                <li>
+                    <select id="inputState" class="form-control">
+                        <option selected>Select Redeem Points</option>
+                        <option>1</option>
+                        <option>2</option>
+                    </select>
+                    <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
+                </li>
+            </ul>
+            <button type="button" onclick="location.href='{{ url('checkout') }}'" class="btn main-btn">Go to
+                checkout</button>
         </div>
     </div>
-</div>
+    </div>
+    </div>
+    </div>
 
     <!-- end cart -->
-    
+
     <footer class="footer_wrapper">
         <div class="footer-top">
             <div class="container">
@@ -255,7 +281,8 @@
                         </div>
                         <div class="address">
                             <ul>
-                                <li><a href="mailto:support@crudewellness.com">{{ $meta_data->support_email }}</a></li>
+                                <li><a href="mailto:support@crudewellness.com">{{ $meta_data->support_email }}</a>
+                                </li>
                                 <li><a href="tel:414-296-9640">{{ $meta_data->support_phone }}</a></li>
                             </ul>
                         </div>
@@ -311,8 +338,8 @@
                     <div class="col-md-9">
                         <div class="foot-para">
                             <h6>{{ $meta_data->footer_title }}</h6>
-                            <p><?php echo($meta_data->footer_text ) ?> </p>
-                                
+                            <p><?php echo $meta_data->footer_text; ?> </p>
+
                         </div>
                     </div>
                 </div>
@@ -324,27 +351,31 @@
         <i class="fa-solid fa-comments"></i>
     </button>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>
 
-    @if(Session::get('error'))
-    <script>
-        iziToast.error({
-            message: "{{ Session::get('error') }}",
-            position: 'topRight' 
-        });
+    @if (Session::get('error'))
+        <script>
+            iziToast.error({
+                message: "{{ Session::get('error') }}",
+                position: 'topRight'
+            });
         </script>
     @endif
-    @if(Session::get('success'))
-    <script>
-        iziToast.success({
-            message: "{{ Session::get('success') }}",
-            position: 'topRight' 
-        });
-    </script>
+    @if (Session::get('success'))
+        <script>
+            iziToast.success({
+                message: "{{ Session::get('success') }}",
+                position: 'topRight'
+            });
+        </script>
     @endif
 </body>
+
 </html>

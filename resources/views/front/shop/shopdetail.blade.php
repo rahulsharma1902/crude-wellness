@@ -254,26 +254,26 @@
            
         });
     });
-    // document.addEventListener('DOMContentLoaded', function () {
-    //     const productPriceElement = $('#Sprice').text();
-    //     const discountInput = document.getElementById('discount');
+    document.addEventListener('DOMContentLoaded', function () {
+        const productPriceElement = document.getElementById('Sprice');;
+        const discountInput = document.getElementById('discount');
         
 
-    //     $('select[name="offer"]').on('change', function () {
-    //         const discount = $(this).val();
-    //         const productPrice = parseFloat(productPriceElement.textContent);
-    //         // const discount = parseFloat(discountInput.value);
+        $('select[name="offer"]').on('change', function () {
+            const discount = $(this).val();
+            const productPrice = parseFloat(productPriceElement.textContent);
+            // const discount = parseFloat(discountInput.value);
 
-    //         if (isNaN(discount)) {
-    //             alert('Please enter a valid discount amount.');
-    //             return;
-    //         }
-    //         var dis = productPrice % discount;
+            if (isNaN(discount)) {
+                alert('Please enter a valid discount amount.');
+                return;
+            }
+            var dis = productPrice % discount;
 
-    //         const discountedPrice = productPrice - discount;
-    //         $('#total').text('$' + dis); 
-    //     });
-    // });
+            const discountedPrice = productPrice - discount;
+            $('#total').text('$' + dis); 
+        });
+    });
 
     $(document).ready(function() {
         $('#addCART').on('click', function(e) {
