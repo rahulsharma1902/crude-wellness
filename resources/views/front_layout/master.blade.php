@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
@@ -87,6 +88,7 @@
                                 </ul>
                             </div>
                         </div>
+                        
                         <div class="col-lg-4 brand-ord text-center">
                             <a class="navbar-brand" href="{{ url('/') ?? ''}}">
 
@@ -99,18 +101,28 @@
                                     <li class="nav-item">
                                         <a class="nav-link ab_mb" href="{{ url('our-story') }}">About</a>
                                     </li>
-                                    <li>
-                                        @if(auth()->check())
+                                    
+                                        @if(Auth::check())
+                                           <li>
                                             <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
-                                            {{ Auth::user()->name }}
-                                            <a href="{{ url('logout') }}"> logout</a>
-                                             {{-- <span>{{ auth::user() }}</span> --}}
+                                            {{ Auth::user()->name }}</li>
+                                            <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
+                                            @if(!$carts)
+                                            <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
+                                            </button></li>
+                                            @else
+                                            <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>{{ $carts->count() }}</span>
+                                            </button></li>
+                                            @endif
+                                            <li> <a class="btn btn-dark" href="{{ url('logout') }}"> logout</a></li>
                                         @else
-                                            <a href="{{ url('logout') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
-                                        @endif
-                                    </li>
-                                    <li><button data-toggle="modal" data-target="#exampleModalLong"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
-                                    </button></li>
+                                            
+                                        <a href="{{ url('login') }}"> <img src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid" alt=""></a>
+                                        <li><button data-toggle="modal" data-target="#gotocart"> <img src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid" alt=""><span>0</span>
+                                        </button></li>
+                                      
+                                    
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -122,8 +134,10 @@
 
     @yield('content')
     <!-- cart  -->
-
-<div class="modal left fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+    @if(Auth::check())
+    <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
+                       
+<div class="modal left fade" id="gotocart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -134,49 +148,42 @@
                 </button>
             </div>
             <div class="modal-body">
+                @foreach ($carts as $cart )
+                 <?php $product = App\Models\Products::class::find($cart->product_id); ?>
+                 <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
                 <div class="cart_content">
                     <a href="#">
                         <div class="pro_cart">
-                            <img src="{{ asset('front/img/cart-1.png') ?? '' }}" alt="">
+                            <img src="{{ asset('/productIMG/'.$media->img_name) ?? '' }}" alt="">
                         </div>
                     </a>
                     <div class="min_wreap">
                         <div class="text_wreap">
-                            <h5>Natural Flavour Broad Spectrum 30ml</h5>
-                            <span>$89.00</span>
+                            <h5>{{ $product->name }}</h5>
+                            <span>{{ $cart->total_price}}</span>
                         </div>
                         <div class="number">
                             <span class="minus">-</span>
-                            <input type="text" value="1">
+                            <input type="text" value="{{ $cart->qty }}">
                             <span class="plus">+</span>
                         </div>
                     </div>
                 </div>
-                <div class="cart_content">
-                    <a href="#">
-                        <div class="pro_cart">
-                            <img src="{{ asset('front/img/cart-2.png') ?? '' }}" alt="">
-                        </div>
-                    </a>
-                    <div class="min_wreap">
-                        <div class="text_wreap">
-                            <h5>Natural Flavour Broad Spectrum 30ml</h5>
-                            <span>$89.00</span>
-                        </div>
-                        <div class="number">
-                            <span class="minus">-</span>
-                            <input type="text" value="1">
-                            <span class="plus">+</span>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+              @endif
                 <div class="might_wrapper">
                     <h3>You might also like</h3>
+                    <?php $products=App\Models\Products::Class::latest()->take(5)->get(); ?>
+                   {{-- {{ dd($products) }} --}}
+                    @foreach ($products as $product)
+                        
+                    <?php $m=App\Models\Media::Class::where('product_id',$product->id)->first(); ?>
+                    <?php $v=App\Models\ProductVariations::Class::where('product_id',$product->id)->first(); ?>
                     <div class="prolist_wrapper">
                         <div class="prolist_wreap">
                             <div class="card border-0">
                                 <div class="product_img">
-                                    <img class="card-img-top" src="{{ asset('front/img/cart-3.png') ?? '' }}" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ asset('/productIMG/'.$m->img_name) ?? '' }}" alt="Card image cap">
                                 </div>
                                 <div class="card-body">
                                     <div class="price">
@@ -188,36 +195,14 @@
                                             <li><i class="fa-solid fa-star"></i></li>
                                             <li>4.5</li>
                                         </ul>
-                                        <span class="prodollar">$89.00</span>
+                                        <span class="prodollar">{{ $v->price }}</span>
                                     </div>
-                                    <h5 class="card-title">THE BEST OF Prio CBD</h5>
+                                    <h5 class="card-title">{{ $product->name }}</h5>
                                 </div>
                             </div>
                         </div>
-                        <div class="prolist_wreap">
-                            <div class="card border-0">
-                                <div class="product_img">
-                                    <img class="card-img-top" src="{{ asset('front/img/cart-4.png') ?? '' }}" alt="Card image cap">
-                                </div>
-                                <div class="card-body">
-                                    <div class="price">
-                                        <ul class="d-flex list-unstyled">
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li><i class="fa-solid fa-star"></i></li>
-                                            <li>4.5</li>
-                                        </ul>
-                                        <span class="prodollar">$89.00</span>
-                                    </div>
-                                    <h5 class="card-title">THE BEST OF Prio CBD</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        @endforeach
+                      
             <div class="modal-footer">
                 <div class="shoping_list">
                     <ul class="list-unstyled">
@@ -246,6 +231,7 @@
 </div>
 
     <!-- end cart -->
+    
     <footer class="footer_wrapper">
         <div class="footer-top">
             <div class="container">

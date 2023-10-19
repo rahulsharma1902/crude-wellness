@@ -137,21 +137,45 @@
                         @endforeach
                         <div class="pro_navigation">
                             <nav aria-label="Page navigation example">
+                                 {{-- {{ $products->links('pagination::simple-bootstrap-4') }}  --}}
                                 <ul class="pagination">
+                                    @if($products->onFirstPage())
+                                    @if($products->HasmorePages())
                                     <li class="page-item arrow_wreap">
-                                        <a class="page-link" href="#" aria-label="Previous">
+                                        <a class="page-link" href="{{ $products->nextPageUrl() }}" aria-label="Next">
+                                            <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                        </a>
+                                    </li>
+                                    @else
+                                    @endif
+                                    @elseif($products->HasMorePages())
+                                    <li class="page-item arrow_wreap">
+                                        <a class="page-link" href="{{ $products->previousPageUrl() }}" aria-label="Previous">
                                             <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
                                         </a>
                                     </li>
-                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item arrow_wreap">
+                                        <a class="page-link" href="{{ $products->nextPageUrl() }}" aria-label="Next">
+                                            <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
+                                        </a>
+                                    </li>
+                                    @else
+                                    <li class="page-item arrow_wreap">
+                                        <a class="page-link" href="{{ $products->previousPageUrl() }}" aria-label="Previous">
+                                            <span aria-hidden="true"><i class="fa-solid fa-chevron-left"></i></span>
+                                        </a>
+                                    </li>
+                                    {{-- @else --}}
+                                    @endif
+                                    {{-- <li class="page-item active"><a class="page-link" href="#">1</a></li>--}}
+                                    {{-- <li class="page-item"><a class="page-link" href=""></a></li> --}}
+                                    {{--<li class="page-item"><a class="page-link" href="#">3</a></li>
                                     <li class="page-item"><a class="page-link" href="#">4</a></li>
                                     <li class="page-item arrow_wreap">
                                         <a class="page-link" href="#" aria-label="Next">
                                             <span aria-hidden="true"><i class="fa-solid fa-chevron-right"></i></span>
                                         </a>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </nav>
                         </div>

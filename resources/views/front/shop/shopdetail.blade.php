@@ -58,19 +58,23 @@
                                             <h6>Subscribe And Save</h6>
                                             
                                             <select name="offer" id="member">
+                                                <option value="" selected>select subscription</option>
                                                 @foreach($subscription as $sub)
-                                                <option value="{{ $sub->discount_percentage }}">{{ $sub->recurring_type}}{{ $sub->recurring_period }}</option>
+                                                <option data-id="{{ $sub->id }}" id="option" value="{{ $sub->id }}">Delivery every {{ $sub->recurring_period }}  {{ $sub->recurring_type}}  {{ $sub->discount_percentage }}%  off</option>
                                                 @endforeach
                                             </select>
                                             <p>
                                                 Easy to cancel anytime,<br />
                                                 Free Shipping always
                                             </p>
+                                           
                                         </div>
                                         
                                         <div class="purcha_text">
                                             <strong id="Sprice">${{ $first->price }}</strong>
                                             <span>Per bottle</span>
+                                            <strong id="discount">  </strong>
+
                                         </div>
                                     </label>
                                 </div>
@@ -99,7 +103,7 @@
                             <div class="radio-tile-group">
                                 @foreach($product->variations as $var)
                                 <div class="input-container">
-                                    <input id="walk" class="radio-button" type="radio" name="radio" value="{{ $var->strength }}" {{$loop->first ? 'checked' : ''}}/>
+                                    <input id="walk" class="radio-button" data-varid="{{ $var->id}}" type="radio" name="radio" value="{{ $var->strength }}" {{$loop->first ? 'checked' : ''}}/>
                                             <div class="radio-tile">
                                         <label for="walk" class="radio-tile-label">  {{ $var->strength }}mg</label>
                                     </div>
@@ -109,9 +113,10 @@
                         </div>
                         <div class="sav_total">
                             <h6>You're saving $11.00</h6>
-                            <p>Total: <span id="total">${{ $first->price }}</span></p>
+                            <p>Total: <span id="total" >${{ $first->price }}</span></p>
                         </div>
-                        <a href="" class="main-btn">Add To Cart</a>
+                        <button data-toggle="modal" id="addCART" data-target="#gotocart" data-id="{{ $product->id }}" class="main-btn"> Add to Cart  </button>
+                      
                     </div>
                 </div>
             </div>
@@ -227,6 +232,8 @@
             </div>
         </div>
     </section>
+    
+    
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
@@ -238,45 +245,74 @@
             $('#total').text('$' + price); 
         });
     });
-</script>
-<script>
+
     $(document).ready(function () {
-        $('member').on('change', function () {
+        $('select[name="offer"]').on('change', function () {
             var selectedSize = $(this).val();
-            var price = <?php echo json_encode($variations); ?>[selectedSize];
-            $('#price').text('$' + price);
-            $('#Sprice').text('$' + price); 
-            $('#total').text('$' + price); 
+            var offer =<?php echo json_encode($offer); ?> [selectedSize];
+            $('#discount').text( offer + '%' +''+'off');
+           
+        });
+    });
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     const productPriceElement = $('#Sprice').text();
+    //     const discountInput = document.getElementById('discount');
+        
+
+    //     $('select[name="offer"]').on('change', function () {
+    //         const discount = $(this).val();
+    //         const productPrice = parseFloat(productPriceElement.textContent);
+    //         // const discount = parseFloat(discountInput.value);
+
+    //         if (isNaN(discount)) {
+    //             alert('Please enter a valid discount amount.');
+    //             return;
+    //         }
+    //         var dis = productPrice % discount;
+
+    //         const discountedPrice = productPrice - discount;
+    //         $('#total').text('$' + dis); 
+    //     });
+    // });
+
+    $(document).ready(function() {
+        $('#addCART').on('click', function(e) {
+            e.preventDefault();
+            var productId = $(this).data('id');
+            var selectedRadioButton = $('input[name="radio"]:checked');
+            var varId = selectedRadioButton.data('varid');
+            var SId = $('#member').val();
+            var p = document.getElementById('total');
+            var price = p.textContent;
+           
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('AddCart') }}',
+                headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+                data: {
+                    id: productId,
+                    Sid: SId,
+                    varID: varId,
+                    Price:price,
+                   
+                },
+                dataType: 'json',
+                success: function(response) {
+                    // $('#submitButton').html(response.btn);
+                    // $('#total').html(response.element);
+                    // $('#after').html(response.d);
+                    // $('#discount').html(response.new);
+                    // $('#final').html(response.n);
+                },
+                error: function(xhr, status, error) {
+                    console.log('Error:', xhr, status, error);
+                }
+            });
+      
         });
     });
 </script>
-// <script>
-//     $(document).ready(function() {
-//         $('#submitButton').on('click', function(e) {
-//             e.preventDefault();
-//             var selectedValue = document.getElementById('input').value;
-//             // var inputValue = $('#input').val();
-//             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-//             $.ajax({
-//                 type: 'POST',
-//                 url: '{{ url('applycoupon') }}',
-//                 data: {
-//                     code: selectedValue,
-//                     _token: csrfToken,
-//                 },
-//                 dataType: 'json',
-//                 success: function(response) {
-//                     $('#submitButton').html(response.btn);
-//                     $('#total').html(response.element);
-//                     $('#after').html(response.d);
-//                     $('#discount').html(response.new);
-//                     $('#final').html(response.n);
-//                 },
-//                 error: function(xhr, status, error) {
-//                     console.log('Error:', xhr, status, error);
-//                 }
-//             });
-//         });
-//     });
-// </script>
+
 @endsection

@@ -485,46 +485,20 @@
                         <h4>So many ways to enjoy Crude</h4>
                     </div>
                     <div class="prod_wrapper">
+                        @foreach ($categories as $category)
+                         
                         <div class="best-box">
                             <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
+                                <img  src="{{ asset('/category_images/'.$category->image) }}" alt="{{ $category->name }}" />
                             </div>
                             <div class="best-warp" style="background: #FFA500;">
                                 <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
+                                    <h6>{{ $category->name }}</h6>
                                 </div>
                             </div>
                         </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg5.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #370060;">
-                                <div class="best-text">
-                                    <h6>Natural Oil</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg6.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FF6823;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FFA500;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                       
                     </div>
                 </div>
             </div>
