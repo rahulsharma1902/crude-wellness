@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\DB;
 class FrontShopController extends Controller
 {
     public function index(){
-        $categories = Categories::whereNull('parent_category')->with('products')->get()->toArray();
-        echo '<pre>';
-        print_r($categories);
-        die();
+        // $categories = Categories::whereNull('parent_category')->with('products')->get()->toArray();
+        // echo '<pre>';
+        // print_r($categories);
+        // die();
         return view('front.shop.index');
     }
     public function shopdetail(){
