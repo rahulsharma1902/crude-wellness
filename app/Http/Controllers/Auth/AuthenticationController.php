@@ -8,6 +8,7 @@ use Auth;
 use Hash;
 use App\Models\User;
 use App\Mail\UserRegisterMail;
+use App\Mail\ForgottenPassword;
 use Mail;
 
 class AuthenticationController extends Controller
@@ -71,13 +72,33 @@ class AuthenticationController extends Controller
         $user = User::where([['email',$request->username],['is_admin',0]])->first();
         if($user){
             $secreat_key = base64_encode($request->username);
-           $url = url('');
+           $url = url('forgotten-password/newpassword/'.$secreat_key);
+           $mailData = [
+            'token' => $secreat_key,
+            'url' => $url,
+           ];
+        $mail = Mail::to($request->username)->send(new ForgottenPassword($mailData)); 
+            return redirect()->back()->with('success','Success! Password reset link sent to your email');
         }else{
             return redirect()->back()->with('error','Failed! this username is not found in our database');
         }
     }
     public function newpassword($secret_key = null){
-        echo $secret_key;
+
+        return view('authentication.newpassword',compact('secret_key'));
+    }
+    public function newpasswordSubmit(Request $request){
+        $request->validate([
+            'password' => 'min:6',
+            'confirmpassword' => 'required_with:password|same:password|min:6'
+        ]);
+        $email = base64_decode($request->token);
+        $password = Hash::make($request->password);
+        // echo $email;
+        $user = User::where('email',$email)->first();
+        $user->password = $password;
+        $user->update();
+        return redirect('/login')->with('success','Successfully updated password');
     }
     public function logout(){
         Auth::logout();

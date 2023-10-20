@@ -50,6 +50,7 @@ Route::get('logout',[AuthenticationController::class,'logout']);
 Route::get('forgotten-password',[AuthenticationController::class,'forgetPassword']);
 Route::get('forgotten-password/newpassword/{secret?}',[AuthenticationController::class,'newPassword']);
 Route::post('forgotten-password/submit',[AuthenticationController::class,'forgetPasswordSubmit']);
+Route::post('new-password/submit',[AuthenticationController::class,'newpasswordSubmit']);
 
 
 Route::get('/',[FrontHomeController::class,'index']);
@@ -74,6 +75,10 @@ Route::post('shop/addCart',[FrontShopController::class,'addtocart']);
 
 //////cart update and delete
 Route::post('cart/update',[FrontCartController::class,'updatecart']);
+
+
+////checkout routes
+Route::post('addresssave',[CheckoutController::class,'addresssave']);
 
 
 /////Admin Dashboarda
@@ -121,6 +126,7 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/products',[ProductsController::class,'index']);
     Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
     Route::post('productSave',[ProductsController::class,'save']);
+    Route::post('product/updatehomestatus',[ProductsController::class,'homestatus']);
 
     Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct']);
     Route::post('productUpdate',[ProductsController::class,'updateProc']);

@@ -17,10 +17,11 @@
 
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}" />
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <title>checkout page</title>
 </head>
 <body>
-
+ 
     <section class="checkout_wrapper">
         <div class="main_wreap">
             <div class="left_side_wreap">
@@ -56,43 +57,46 @@
                                                 <div class="form_wrapper border_bt">
                                                     <div class="contact_chout">
                                                         <h6>Contact </h6>
-                                                        <input type="email" class="form-control" id="inputEmail4" placeholder="E-Mail" />
+                                                        <input type="email" class="form-control" name="email" id="inputEmail4" placeholder="E-Mail" value="{{ auth()->user()->email ?? '' }}" />
                                                         <div class="form-check">
                                                             <input type="checkbox" class="form-check-input" id="exampleCheck3">
                                                             <label class="form-check-label" for="exampleCheck3">  Keep me up to date with news, exclusive offers, & giveaways</label>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <form class="address_form">
+                                                    @csrf
                                                 <div class="row border_bt border-0">
                                                     <div class="col-lg-12">
                                                         <h6>Shipping address</h6>
                                                     </div>
+                                                    <input type="hidden" name="id" value="{{ $address->id ?? '' }}">
                                                     <div class="col-lg-12">
-                                                        <input type="text" class="form-control" placeholder="Country/Region" />
+                                                        <input type="text" class="form-control" name="country" placeholder="Country/Region" value="{{ $address->region ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" placeholder="First Name" />
+                                                        <input type="text" class="form-control" name="first_name" placeholder="First Name" value="{{ $address->first_name ?? '' }}"/>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <input type="text" class="form-control" placeholder="Last name" />
+                                                        <input type="text" class="form-control" name="last_name" placeholder="Last name" value="{{ $address->last_name ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <input type="text" class="form-control" id="inputAddress" placeholder="Address" />
+                                                        <input type="text" class="form-control" name="address" id="inputAddress" placeholder="Address" value="{{ $address->address ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <input type="text" class="form-control" id="inputZip" placeholder="Zip Code" />
+                                                        <input type="text" class="form-control" name="zipcodes" id="inputZip" placeholder="Zip Code" value="{{ $address->zipcodes ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <select id="inputState" class="form-control">
-                                                            <option selected>State</option>
-                                                            <option>Austria</option>
+                                                        <select id="inputState" class="form-control" name="state">
+                                                            <option @if(isset($address->state)) selected @endif>State</option>
+                                                            <option @if(isset($address->state)) selected @endif>Austria</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <input type="text" class="form-control" id="inputCity" placeholder="Zip Code" />
+                                                        <input type="text" class="form-control" id="inputCity" placeholder="City" name="city" value="{{ $address->city ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-12">
-                                                        <input type="number" class="form-control" id="number" placeholder="Phone number" />
+                                                        <input type="number" class="form-control" id="number" placeholder="Phone number" name="phone" value="{{ $address->mobiles ?? '' }}" />
                                                     </div>
                                                     <div class="col-lg-12">
                                                         <div class="form-check">
@@ -104,13 +108,14 @@
                                                         <div class="footer_pd">
                                                             <ul class="list-inline pull-right">
                                                                 <li>
-                                                                    <a href="#" class="conti_bank"><i class="fa-solid fa-chevron-left"></i> Continue to Cart</a>
+                                                                    <a href="{{ url('/') }}" class="conti_bank"><i class="fa-solid fa-chevron-left"></i> Continue to Cart</a>
                                                                 </li>
-                                                                <li class="text-right"><button type="button" class="main-btn default-btn next-step">Continue to Shipping</button></li>
+                                                                <li class="text-right"><button type="button" class="main-btn default-btn next-step first-step">Continue to Shipping</button></li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                </form>
                                             </div>
                                             <div class="formHeader">
                                                 <div>
@@ -131,14 +136,14 @@
                                                 </div>
                                                 <div class="inner border_bt">
                                                     <div class="SummaryComponent">
-                                                        <div class="summary">
+                                                        <div class="summary" id="summary">
                                                             <dl>
                                                                 <dt>Address:</dt>
-                                                                <dd>Zabiro Vasemashkovat, 2089 Rockford Road Westborough, 01581, MA, India</dd>
+                                                                <dd>{{ $address->address ?? '' }},{{ $address->city ?? '' }},{{ $address->state ?? '' }},{{ $address->zipcodes ?? '' }},{{ $address->region ?? '' }} </dd>
                                                             </dl>
                                                             <dl>
                                                                 <dt>Contact information:</dt>
-                                                                <dd>zabirovasemashkovat@schule-breklum.de, 77463 34445</dd>
+                                                                <dd>@if(auth()->check())   {{ auth()->user()->email ?? '' }}  @endif, {{ $address->mobiles ?? '' }}</dd>
                                                             </dl>
                                                         </div>
                                                     </div>
@@ -153,7 +158,7 @@
                                                 <div class="border_bt text-right">
                                                     <ul class="list-inline pull-right justify-content-end">
                                                         <li><a href="#" class="conti_bank"><i class="fa-solid fa-chevron-left"></i>Continue to shipping</a></li>
-                                                        <li><button type="button" class="main-btn default-btn next-step">Continue to Payment</button></li>
+                                                        <li><button type="button" class="main-btn default-btn next-step second-step">Continue to Payment</button></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -283,42 +288,38 @@
                 <div class="checkout_content2">
                     <div class="rightside_content">
                         <h6>Order Summary</h6>
+                        <?php
+                        $totalcartprice = 0;
+                        ?>
+                        @foreach($cartitems as $cart)
                         <div class="order_wrapper">
                             <div class="d-flex">
                                 <div class="order-img">
-                                    <img src="{{ asset('front/img/bestimg5.png') }}" alt="" />
+                                    <img src="{{ asset('productIMG') }}/{{ $cart->product['featured_img'] ?? '' }}" alt="" />
                                 </div>
                                 <div>
-                                    <h5>Natural Flavour Broad Spectrum 30ml</h5>
+                                    <h5>{{ $cart->product->name ?? '' }}</h5>
                                 </div>
                             </div>
                             <div class="add_wreap">
-                                <span>$89.00</span>
+                                <?php 
+                                $price = $cart->price;
+                                $quantity = $cart->quantity;
+                                $totalprice = $price*$quantity;
+                                ?>
+                                <span>${{ number_format($totalprice,2) }}</span>
                                 <div class="number">
-                                    <span class="minus">-</span>
-                                    <input type="text" value="1">
-                                    <span class="plus">+</span>
+                                    <span action="decrease" class="minus change_quantity" cart-id="{{ $cart->id ?? '' }}">-</span>
+                                    <input type="text"  class="cart_quantity" cart-id="{{ $cart->id ?? '' }}" value="{{ $cart->quantity ?? '' }}">
+                                    <span action="increase" class="plus change_quantity" cart-id="{{ $cart->id ?? '' }}">+</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="order_wrapper">
-                            <div class="d-flex">
-                                <div class="order-img">
-                                    <img src="{{ asset('front/img/cart-2.png') }}" alt="" />
-                                </div>
-                                <div>
-                                    <h5>THE BEST OF Prio CBD 500mg</h5>
-                                </div>
-                            </div>
-                            <div class="add_wreap">
-                                <span>$89.00</span>
-                                <div class="number">
-                                    <span class="minus">-</span>
-                                    <input type="text" value="1">
-                                    <span class="plus">+</span>
-                                </div>
-                            </div>
-                        </div>
+                        <?php
+                        $totalcartprice += $totalprice;
+                        ?>
+                        @endforeach
+                        
                         <div class="total_wreap">
                             <div class="gift_apy">
                                 <p>Gift Card or Discount Code</p>
@@ -335,7 +336,7 @@
                                     <tr class="subtotal_wreap">
                                         <th>Subtotal</th>
                                         <td>
-                                            <strong>$178.00</strong>
+                                            <strong>$<?php echo number_format($totalprice,2); ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -353,7 +354,7 @@
                                             <span>Total</span>
                                         </th>
                                         <td class="grand_total">
-                                            <span class="total_count_wreap">$178.00</span>
+                                            <span class="total_count_wreap">$<?php echo number_format($totalprice,2); ?></span>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -368,8 +369,90 @@
     <button class="back_to_top">
         <i class="fa-solid fa-comments"></i>
     </button>
+    <script>
 
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+$(document).ready(function(){
+            $("body").delegate(".change_quantity","click",function(){
+                // console.log('done');
+            // $('.change_quantity').click(function(){
+                cart_id = $(this).attr('cart-id');
+                action = $(this).attr('action');
+                if(action == 'increase'){
+                    quantity = parseInt($('.cart_quantity[cart-id="'+cart_id+'"]').val())+1;
+                }else if(action == 'decrease'){
+                    quantity = parseInt($('.cart_quantity[cart-id="'+cart_id+'"]').val())-1;
+                }
+                if(quantity === 0){
+                    $('#cart_content'+cart_id).remove();
+                   
+                }
+                
+                $.ajax({
+                    method: 'post',
+                    url: '{{ url('cart/update') }}',
+                    data: { quantity:quantity,cart_id:cart_id,_token:"{{ csrf_token() }}" },
+                    success: function(response){
+                        console.log(response);
+                        // $('span.cart_total_price').html(response.price);
+                        // $('span.cart_items_count').html(response.total_items);
+                        // if(response.count == 0){
+                        //     $('.shoping_list').addClass('d-none');
+                        // }
+                    
+                    }
+                })
+            });
+        });
+
+        //formsubmit
+
+        $(document).ready(function(){
+            $('.first-step').on('click',function(){
+                   first_name = $('input[name="first_name"]').val();
+                   last_name = $('input[name="last_name"]').val();
+                   country = $('input[name="country"]').val();
+                   address = $('input[name="address"]').val();
+                   zipcodes = $('input[name="zipcodes"]').val();
+                   city = $('input[name="city"]').val();
+                   phone = $('input[name="phone"]').val();
+                   state = $('select[name="state"]').val();
+                   id=$('input[name="id"]').val();
+
+                   $.ajax({
+                    method:'post',
+                    url: '{{ url('addresssave') }}',
+                    data:{
+                        _token:"{{ csrf_token() }}",
+                        id:id,
+                        first_name:first_name,
+                        last_name:last_name,
+                        country:country,
+                        address:address,
+                        zipcodes:zipcodes,
+                        city:city,
+                        phone:phone,
+                        state:state
+                    },
+                    success: function(response){
+                          var active = $(".wizard .nav-tabs li.active");
+                            active.next().removeClass("disabled");
+                            nextTab(active);
+                            $("#summary").load(location.href + " #summary");
+                    }
+                   })
+             
+            });
+        });
+        $('.second-step').on('click',function(){
+            var active = $(".wizard .nav-tabs li.active");
+            active.next().removeClass("disabled");
+            nextTab(active);
+
+        });
+
+    </script>
+
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>

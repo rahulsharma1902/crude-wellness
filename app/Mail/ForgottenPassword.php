@@ -16,10 +16,9 @@ class ForgottenPassword extends Mailable
     /**
      * Create a new message instance.
      */
-    protected $mailData;
-    public function __construct($mailData)
+    public function __construct(private $mailData)
     {
-        $mailData = $this->mailData;
+
     }
 
     /**
@@ -39,6 +38,9 @@ class ForgottenPassword extends Mailable
     {
         return new Content(
             view: 'mail.forgottenpassword',
+            with: [
+                'mailData' => $this->mailData,
+                ],
         );
     }
 

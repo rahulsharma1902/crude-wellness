@@ -239,18 +239,52 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="natural_img_grid">
-                        <div class="natural_img">
-                            <img src="{{ asset('front/img/natural-img.png') }}" class="img-fluid" alt="" />
+                        <!-- <div class="natural_img">
+                            <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div> -->
+                        <div class="slider slider-for">
+                        <div class="store-img">
+                                <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div>
+                        @if(isset($product->media))
+                            @foreach($product->media as $media)
+                            <div class="store-img">
+                              <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="">
+                            </div>
+                            @endforeach
+                        @endif
+                        </div>
+                        <div class="slider slider-nav">
+                        <div class="store-img">
+                                <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div>
+                        @if(isset($product->media))
+                                @foreach($product->media as $media)
+                             <div class="custom-img">
+                                <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" alt="">
+                              </div>  
+                            @endforeach
+                        @endif
                         </div>
                         <div class="natural_imgbt">
-                            <img src="{{ asset('front/img/natural-img1.png') }}" class="img-fluid" alt="" />
-                            <img src="{{ asset('front/img/natural-img2.png') }}" class="img-fluid" alt="" />
+                            <?php $count = 0; ?>
+                    
+                            <!-- @if(isset($product->media))
+                                @foreach($product->media as $media)
+                                <?php $count = $count+1;  ?>
+                                    <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="" />
+                              
+                                @endforeach
+                            @endif -->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
+                <form method="post" action="{{ url('shop/addCart') }}" id="cartForm" >
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $product->id ?? '' }}">
                     <div class="heading_wreap">
-                        <h4>Natural Flavour Broad Spectrum 30ml</h4>
+                        <h4>{{ $product->name ?? '' }}</h4>
                         <ul class="start_view list-unstyled">
                             <li><i class="fa-solid fa-star"></i></li>
                             <li><i class="fa-solid fa-star"></i></li>
@@ -261,37 +295,51 @@
                         </ul>
                         <div class="purchase_wreap">
                             <h5>Purchase Type:</h5>
-                            <form action="#">
+                           
+                                @if($subscriptions->isNotEmpty())
                                 <div class="purchase_hd">
-                                    <input type="radio" id="test1" name="radio-group" checked />
+                                    <input type="radio" id="test1" name="purchase_type" value="multi_time"  checked="true"/>
                                     <label for="test1">
                                         <div>
                                             <h6>Subscribe And Save</h6>
+                                            <select name="subscription_plan" class="form-control" id="">
+                                                @foreach($subscriptions as $option)
+                                                 <option value="{{ $option->id ?? '' }}">Delivery Every {{ $option->recurring_period ?? '' }} {{ $option->recurring_type ?? '' }} -{{ $option->discount_percentage ?? '' }}% Off</option>
+                                                @endforeach
+                                            </select>
                                             <p>
-                                                Easy to cencel anytime,<br />
-                                                Free Shipping alwasy
+                                                Easy to cancel anytime,<br />
+                                                Free Shipping always
                                             </p>
                                         </div>
+                                        <?php 
+                                            $percentage_off = $subscriptions[0]->discount_percentage;
+                                            $price = number_format($product->variations[0]->price,2);
+                                            $discount = ($percentage_off/100)*$price;
+                                            $final_price = $price - $discount;
+
+                                        ?>
                                         <div class="purcha_text">
-                                            <strong>$89.00</strong>
+                                            <strong>$<span class="multi_time_price">{{ $final_price ?? '' }}</span></strong>
                                             <span>Per bottle</span>
                                         </div>
                                     </label>
                                 </div>
+                                @endif
                                 <div class="purchase_hd">
-                                    <input type="radio" id="test2" name="radio-group" />
+                                    <input type="radio" id="test2" name="purchase_type" value="one_time" />
                                     <label for="test2">
                                         <div>
                                             <h6>One Time</h6>
                                             <p>One time purchase</p>
                                         </div>
                                         <div class="purcha_text">
-                                            <strong>$89.00</strong>
+                                            <strong>$<span class="one_time_price">{{ number_format($product->variations[0]->price,2) ?? '' }}</span></strong>
                                             <span>Per bottle</span>
                                         </div>
                                     </label>
                                 </div>
-                            </form>
+                           
                             <ul class="commitments_text list-unstyled">
                                 <li><i class="fa-solid fa-check"></i> No Commitments</li>
                                 <li><i class="fa-solid fa-check"></i> Skip Months</li>
@@ -301,50 +349,27 @@
                         <div class="strength_wreap">
                             <h5>Strength</h5>
                             <div class="radio-tile-group">
+                                <?php
+                                $n = true;
+                                ?>
+                                @foreach($product->variations as $variation)
                                 <div class="input-container">
-                                    <input id="walk" class="radio-button" type="radio" name="radio" />
+                                    <input id="walk" class="radio-button" type="radio" name="variation" value="{{ $variation->id ?? '' }}" @if($n == true) checked @endif />
                                     <div class="radio-tile">
-                                        <label for="walk" class="radio-tile-label">1000mg</label>
+                                        <label for="walk" class="radio-tile-label">{{ $variation->strength }}mg</label>
                                     </div>
                                 </div>
-                                <div class="input-container">
-                                    <input id="bike" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="bike" class="radio-tile-label">1500mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="drive" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="drive" class="radio-tile-label">2000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">3000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">4000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">5000mg</label>
-                                    </div>
-                                </div>
+                                <?php $n = false; ?>
+                                @endforeach
                             </div>
                         </div>
                         <div class="sav_total">
-                            <h6>You're saving $11.00</h6>
-                            <p>Total: <span>$89.00</span></p>
+                            <h6 class="total_saving">You're saving ${{ number_format($discount,2) ?? '' }}</h6>
+                            <p>Total: <span>$<span class="total_price">{{ number_format($final_price,2) ?? '' }}</span></span></p>
                         </div>
-                        <a href="#" class="main-btn">Add To Cart</a>
+                        <button type="submit" class="main-btn">Add To Cart</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

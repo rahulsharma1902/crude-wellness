@@ -57,9 +57,11 @@
     $cart = App\Models\Cart::where('user_id',$user_id)->with('product','subscription','variations')->get();
     $subscriptions = App\Models\SubscriptionOption::where('status',1)->get();
     
-    
+   
+
     
     ?>
+   
     <header>
         @if(isset($sitemeta->header_text))
         <div class="top-header">
@@ -395,6 +397,10 @@
                     url: '{{ url('cart/update') }}',
                     data: { action:'purchase_type', purchase_type:purchase_type,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
+                        if(response.response == 'quantityupdate'){
+                            $('#cart_content'+cart_id).remove();
+                            $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
+                        }
                         $('span.cart_total_price').html(response.total_price);
                         $('span.item_price'+cart_id).html(response.item_price);
                        if(response.cart.purchase_type == 'one_time'){
@@ -403,7 +409,7 @@
                             $('div#membership_plan'+cart_id).removeClass('d-none');
                        }
                     }
-                })
+                });
         });
         $("body").delegate(".subscription_type","change",function(){
             subscriptionid = $(this).val();
@@ -413,6 +419,10 @@
                     url: '{{ url('cart/update') }}',
                     data: { action:'change_plan', subscriptionid:subscriptionid,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
+                        if(response.response == 'quantityupdate'){
+                            $('#cart_content'+cart_id).remove();
+                            $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
+                        }
                         $('span.cart_total_price').html(response.total_price);
                         $('span.item_price'+cart_id).html(response.item_price);
                     }
@@ -420,6 +430,163 @@
         });
 
     </script>
+
+
+
+<!-- SHOP DETAIL -->
+<script>
+    $(document).ready(function(){
+        $('input.radio-button[name="variation"]').on('change',function(){
+            value = $('input[name="purchase_type"]:checked').val();
+            subscriptionplan = $('select[name="subscription_plan"]').val();
+            variation_id = $(this).val();
+            $.ajax({
+                method: 'post',
+                url: '{{ url('shop/getPrices') }}',
+                data: { id:variation_id, _token:"{{ csrf_token() }}" },
+                success: function(response){
+                    price = parseFloat(response);
+                    subscription = getsubscriptionprice(subscriptionplan,price);
+                    // console.log(subscription);
+                    $('span.multi_time_price').html(subscription.final_price);
+                    $('span.one_time_price').html(price);
+                   if(value == 'one_time'){
+                        $('span.total_price').html(price);
+                        $('h6.total_saving').html('');
+                   }else if(value == 'multi_time'){
+                        $('span.total_price').html(subscription.final_price);
+                        $('h6.total_saving').html('You are saving $'+subscription.final_off);
+                   }
+                }
+            })
+        });
+    });
+
+    $('select[name="subscription_plan"]').on('change',function(){
+            id= $(this).val();
+            purchase_type = $('input[name="purchase_type"]:checked').val();
+            strength = $('input.radio-button[name="variation"]:checked').val();
+            $.ajax({
+                method: 'post',
+                url: '{{  url('shop/getPrices') }}',
+                data: { action:'planchange',plan_id:id,variation:strength, _token:"{{ csrf_token() }}" },
+                success: function(response){
+                    console.log(purchase_type);
+                    $('span.multi_time_price').html(response.final_price);
+                    if(purchase_type === 'multi_time'){
+                        $('span.total_price').html(response.final_price);
+                        $('h6.total_saving').html('You are saving $'+response.final_off);
+                    }
+                    
+                }
+                
+            });            
+    });
+    $('input[name="purchase_type"]').on('change',function(){
+       value = $(this).val();
+       variation_id = $('input.radio-button[name="variation"]:checked').val();
+       subscriptionplan = $('select[name="subscription_plan"]').val();
+       if(value === 'one_time'){
+        $.ajax({
+                method: 'post',
+                url: '{{ url('shop/getPrices') }}',
+                data: { id:variation_id, _token:"{{ csrf_token() }}" },
+                success: function(response){
+                    price = parseFloat(response);
+                    $('span.total_price').html(price);
+                    $('h6.total_saving').html('');
+                }
+            });
+       
+       }else if(value === 'multi_time'){
+            $.ajax({
+                method: 'post',
+                url: '{{  url('shop/getPrices') }}',
+                data: { action:'planchange',plan_id:subscriptionplan,variation:variation_id, _token:"{{ csrf_token() }}" },
+                success: function(response){
+                    $('span.multi_time_price').html(response.final_price);
+                    $('span.total_price').html(response.final_price);
+                    $('h6.total_saving').html('You are saving $'+response.final_off);
+                }
+            });   
+        
+       }
+    })
+    function getsubscriptionprice(id,price){
+          
+         $.ajax({
+                method: 'post',
+                url: '{{ url('shop/getPrices') }}',
+                data: { subscription_id:id,price:price, _token:"{{ csrf_token() }}" },
+                cache:false,
+                dataType:"json",
+                async:false,
+                success: function(response){
+                    res = response;
+                }
+            });
+           return res;
+           
+        }
+</script>
+<script>
+    $(document).ready(function(){
+        $("body").delegate("#cartForm","submit",function(e){
+        // $('#cartForm').on('submit',function(e){
+            e.preventDefault();
+            formdata = new FormData(this);
+            $.ajax({
+                method: 'post',
+                url: '{{ url('shop/addCart') }}',
+                data: formdata,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                success: function(response)
+                {   
+                    if(response.error){
+                        iziToast.error({
+                                message: response.error,
+                                position: 'topRight' 
+                            });   
+                            return true;
+                    }
+                    $('span.cart_items_count').html(response.total_items);
+                    $('#exampleModalLong').modal("show");
+                    if(response.success == 'updated'){
+                       quantity = $('.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
+// console.log(quantity);
+                    }else if(response.success == 'created'){ 
+                        // optionhtml = []; 
+                        options = '';
+                        $.each(response.subcriptions ,function(key,value){
+                            if(value.id == response.cart.subscription_id){
+                                options += '<option value="'+value.id+'" selected >Delivery Every '+value.recurring_period+' '+value.recurring_type+' -'+value.discount_percentage+'% Off</option>';
+                            }else{
+                                options += '<option value="'+value.id+'" >Delivery Every '+value.recurring_period+' '+value.recurring_type+' -'+value.discount_percentage+'% Off</option>';
+                            }
+                          
+                        });
+                        $('p.cart_empty_text').hide();
+                        if(response.cart['purchase_type'] === 'multi_time'){
+                            
+                            checkbox = "checked";
+                            display = '';
+                        }else{
+                            checkbox = "";
+                            display = "d-none";
+                        }
+                        html = '<div class="cart_content" id="cart_content'+response.cart['id']+'"><a href="#"><div class="pro_cart"><img src="{{ asset('productIMG/') }}/'+response.product['featured_img']+'" alt=""></div><div class=""><input type="checkbox" class="membership_status" cart-id="'+response.cart['id']+'}" name="membership_plan" id="membership_status'+response.cart['id']+'" '+checkbox+'></div></a><div class="min_wreap"><div class="text_wreap"><h5>'+response.product.name+'</h5><span>$<span class="item_price'+response.cart['id']+'">'+response.price+'</span></span></div><div class="number"><span class="minus change_quantity" cart-id="'+response.cart['id']+'" action="decrease">-</span><input type="text" class="cart_quantity" cart-id="'+response.cart['id']+'" value="'+response.cart['quantity']+'"><span class="plus change_quantity" cart-id="'+response.cart['id']+'" action="increase">+</span></div><div class="membership_plan '+display+'" id="membership_plan'+response.cart['id']+'"><select name="subscription_id" id="subscription'+response.cart['id']+'" cart-id="'+response.cart['id']+'" class="form-control subscription_type">'+options+'</select></div> </div> </div>';
+                        $('div.cart-products').append(html);
+                        $('.shoping_list').removeClass('d-none');
+                        $('span.cart_total_price').html(response.total_price);
+                    }
+                }
+                });
+        })
+    })
+</script>
+<!-- END SHOP DETAILS -->
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

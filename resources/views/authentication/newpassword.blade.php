@@ -1,5 +1,6 @@
 @extends('front_layout/master')
 @section('content')
+
 <section class="login_wrapper p_120">
         <div class="container">
             <div class="row">
@@ -10,14 +11,21 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="form-ryt-content">
-                        <form method="post" action="{{ url('forgotten-password/submit') }}">
+                        <form method="post" action="{{ url('new-password/submit') }}">
                             @csrf
+                            <input type="hidden" name="token" value="{{ $secret_key ?? '' }}">
                             <div class="form-heading">
-                                <span>Forgotten Password</span>
+                                <span>Set New Password</span>
                             </div>
                             <div class="form-groups">
-                                <input type="email" class="form-control" id="username" name="username" aria-describedby="userHelp" placeholder="User Name" />
-                            @error('username')
+                                <input type="password" class="form-control" id="password" name="password" />
+                            @error('password')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
+                            </div>
+                            <div class="form-groups">
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword" />
+                            @error('confirmpassword')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                             </div>
