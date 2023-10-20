@@ -178,7 +178,6 @@ class ProductsController extends Controller
             $productVariations->product_id = $product->id;
             $productVariations->save();
         }
-
         $product->save();
         return redirect('admin-dashboard/product-edit/' . $request->slug)->with('success', 'Product updated successfully.');
 

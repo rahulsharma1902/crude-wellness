@@ -200,6 +200,8 @@
                                                 </div>
                                                 <div class="border_bt text-right"></div>
                                             </div>
+                                            <form action="{{ url('paymentProcc') }}" method="post" id="payment-form">
+                                                @csrf
                                             <div class="step_wrapper">
                                                 <div class="form_wrapper border_bt">
                                                     <div class="shipping_hd">
@@ -223,21 +225,32 @@
                                                                 </a>
                                                             </div>
                                                         </div>
+                                                        
+                                                        <div class="card-detail payment-option" id="card">
+                                                            <div class="form-group">
+                                                                <label for="cardnumber">Card Details</label>
+                                                                <div id="card-elements"></div>
+                                                                <div class="text text-danger mt-2" id="card-error-message"></div>
+                                                            </div>
+                                                        </div>
                                                         <div class="row border-0 custom-mx">
-                                                            <div class="col-lg-12 custom-px">
+                                                            <!-- <div class="col-lg-12 custom-px">
                                                                 <input type="number" class="form-control" id="number" placeholder="Card Number" />
-                                                            </div>
+                                                            </div> -->
+                                                      
                                                             <div class="col-lg-12 custom-px">
-                                                                <input type="number" class="form-control" id="number" placeholder="Name on Card" />
+                                                                <input type="text" class="form-control" id="name" name="name" placeholder="Name on Card" />
                                                             </div>
-                                                            <div class="col-lg-6 custom-px">
+                                                            <!-- <div class="col-lg-6 custom-px">
                                                                 <input type="number" class="form-control" id="number" placeholder="Expiration date (MM / YY)" />
                                                             </div>
                                                             <div class="col-lg-6 custom-px">
                                                                 <input type="number" class="form-control" id="number" placeholder="Security code" />
-                                                            </div>
+                                                            </div> -->
                                                         </div>
+                                                       
                                                     </div>
+                                                    </form>
                                                     <div class="boynow_wreap">
                                                         <label class="radio_wreap">
                                                             Buy Now, Pay Later with Sezzle
@@ -271,12 +284,13 @@
                                                             <li>
                                                                 <a href="#" class="conti_bank"><i class="fa-solid fa-chevron-left"></i> Continue to shipping</a>
                                                             </li>
-                                                            <li><button type="button" class="main-btn default-btn next-step">Place Your Order</button></li>
+                                                            <li><button type="submit" class="main-btn default-btn next-step" data-secret="{{ $intent->client_secret }}" id="card-button">Place Your Order</button></li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </form>
                                     </div>
                                 </form>
                             </div>
@@ -336,7 +350,7 @@
                                     <tr class="subtotal_wreap">
                                         <th>Subtotal</th>
                                         <td>
-                                            <strong>$<?php echo number_format($totalprice,2); ?></strong>
+                                            <strong>$<?php echo number_format($totalcartprice,2); ?></strong>
                                         </td>
                                     </tr>
                                     <tr>
@@ -354,7 +368,7 @@
                                             <span>Total</span>
                                         </th>
                                         <td class="grand_total">
-                                            <span class="total_count_wreap">$<?php echo number_format($totalprice,2); ?></span>
+                                            <span class="total_count_wreap">$<?php echo number_format($totalcartprice,2); ?></span>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -456,6 +470,56 @@ $(document).ready(function(){
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+    const stripe = Stripe('{{ env('STRIPE_PUBLIC_KEY') }}');
+    // console.log(stripe);
+    const elements= stripe.elements();
+    const cardElement= elements.create('card');
+    cardElement.mount('#card-elements');
+    const cardBtn = document.getElementById('card-button');
 
+
+    const form = document.getElementById('payment-form');
+    cardBtn.addEventListener('click',function(){
+      form.addEventListener('submit', async (e) => {
+      
+      const cardBtn = document.getElementById('card-button');
+      const name = $('#name').val();
+        console.log(cardBtn);
+      const cardHolderName = name; 
+          e.preventDefault()
+      
+          // cardBtn.disabled = true
+          const { setupIntent, error } = await stripe.confirmCardSetup(
+              cardBtn.dataset.secret, {
+                  payment_method: {
+                      card: cardElement,
+                      billing_details: {
+                          name: cardHolderName.value
+                      }   
+                  }
+              }
+          )
+    
+          if(error) {
+              cardBtn.disable = false
+              if(error.message != ''){
+                $("#card-error-message").html(error.message);
+              }
+          } else {
+              let token = document.createElement('input')
+              token.setAttribute('type', 'hidden')
+              token.setAttribute('name', 'token')
+              token.setAttribute('value', setupIntent.payment_method)
+              form.appendChild(token)
+        
+              form.submit();
+          }
+      });
+    });
+    // ajax 
+    
+  </script>
 </body>
 </html>

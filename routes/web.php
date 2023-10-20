@@ -79,6 +79,10 @@ Route::post('cart/update',[FrontCartController::class,'updatecart']);
 
 ////checkout routes
 Route::post('addresssave',[CheckoutController::class,'addresssave']);
+Route::post('paymentProcc',[CheckoutController::class,'paymentProcc']);
+
+////StripeWebhookcall
+Route::post('/stripe/webhook',[StripeWebHooks::class,'index']);
 
 
 /////Admin Dashboarda

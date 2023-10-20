@@ -233,7 +233,7 @@
             </div>
         </div>
     </section>
-
+@if(isset($product))
     <section class="natural_wrapper">
         <div class="container">
             <div class="row">
@@ -374,7 +374,7 @@
             </div>
         </div>
     </section>
-
+@endif
     <section class="testimonial-sec crude_wrapper p_m_120" style="background-color: rgb(255 104 35 / 6%);">
         <div class="container">
             <div class="heading_wreap">
