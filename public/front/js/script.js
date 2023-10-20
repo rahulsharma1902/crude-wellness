@@ -40,7 +40,10 @@ $(document).ready(function(){
 
 
   // Add to cart 
-  $(".minus").click(function () {
+  $('body').delegate(".minus","click",function(){
+
+  // })
+  // $(".minus").click(function () {
     var $input = $(this).parent().find("input");
     var count = parseInt($input.val()) - 1;
     count = count < 1 ? 1 : count;
@@ -48,7 +51,8 @@ $(document).ready(function(){
     $input.change();
     return false;
   });
-  $(".plus").click(function () {
+  $('body').delegate(".plus","click",function(){
+  // $(".plus").click(function () {
     var $input = $(this).parent().find("input");
     $input.val(parseInt($input.val()) + 1);
     $input.change();
@@ -181,11 +185,11 @@ $(document).ready(function () {
     }
   });
 
-  $(".next-step").click(function (e) {
-    var active = $(".wizard .nav-tabs li.active");
-    active.next().removeClass("disabled");
-    nextTab(active);
-  });
+  // $(".next-step").click(function (e) {
+    // var active = $(".wizard .nav-tabs li.active");
+    // active.next().removeClass("disabled");
+    // nextTab(active);
+  // });
   $(".prev-step").click(function (e) {
     var active = $(".wizard .nav-tabs li.active");
     prevTab(active);
@@ -202,4 +206,28 @@ function prevTab(elem) {
 $(".nav-tabs").on("click", "li", function () {
   $(".nav-tabs li.active").removeClass("active");
   $(this).addClass("active");
+});
+
+$(".slider-for").slick({
+  slidesToShow: 1,
+  slidesToScroll: 1,
+  arrows: false,
+  fade: true,
+  adaptiveHeight: true,
+  asNavFor: ".slider-nav",
+  centerMode: false,
+});
+$(".slider-nav").slick({
+  slidesToShow: 8,
+  slidesToScroll: 1,
+  asNavFor: ".slider-for",
+  dots: true,
+  focusOnSelect: true,
+  centerMode: false,
+});
+
+$("a[data-slide]").click(function (e) {
+  e.preventDefault();
+  var slideno = $(this).data("slide");
+  $(".slider-nav").slick("slickGoTo", slideno - 1);
 });

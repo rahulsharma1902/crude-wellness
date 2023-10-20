@@ -15,6 +15,6 @@ class Products extends Model
         return $this->hasMany(ProductVariations::class,'product_id','id');
     }
     public function media(){
-        return $this->hasMany(Media::class,'product_id','id');
+        return $this->hasMany(Media::class,'product_id','id')->orderBy('created_at','desc');
     }
 }

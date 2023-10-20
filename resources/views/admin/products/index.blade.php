@@ -69,7 +69,11 @@
                     
                         <td class="nk-tb-col nk-tb-col-tools">
                             <ul class="nk-tb-actions gx-1">
-                                <li>
+                                <li class="d-flex">
+                                    <div class="custom-control custom-switch"  data-bs-toggle="tooltip" data-bs-placement="top" title="Show on Home page">
+                                        <input type="radio" name="home_page_status" value="{{ $product->id ?? '' }}" class="custom-control-input homepageproduct" id="customSwitch{{ $product->id ?? '' }}" @if($product->home_page_status == 1) checked @endif>
+                                        <label class="custom-control-label" for="customSwitch{{ $product->id ?? '' }}" ></label>
+                                    </div>
                                     <div class="drodown">
                                         <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                         <div class="dropdown-menu dropdown-menu-end">
@@ -91,4 +95,19 @@
         </div>
     </div><!-- .card-preview -->
 </div> <!-- nk-block -->
+
+<script>
+    $('input.homepageproduct').on('change',function(){
+       id = $(this).val();
+       $.ajax({
+        method: 'post',
+        url: "{{ url('product/updatehomestatus') }}",
+        data: { id:id,_token:"{{ csrf_token() }}" },
+        success:function(response){
+            NioApp.Toast(response.success, 'info', {position: 'top-right'});
+        }
+       })
+    });
+
+</script>
 @endsection

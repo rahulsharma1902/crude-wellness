@@ -44,7 +44,7 @@ class ProductsController extends Controller
             'qty.*' => 'required_with:strength.*,price.*|numeric',
             'price.*' => 'required_with:strength.*,qty.*|numeric',
         ]);
-        try {
+        // try {
             $product = new Products;
 
             $product->name = $request->name;
@@ -63,8 +63,14 @@ class ProductsController extends Controller
                 $featuredImage->move(public_path('productIMG'), $featuredImageName);
                 $product->featured_img = $featuredImageName;
             }
-            
-            
+            $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+
+            // Create product //////////////////////////////////
+            $productstripe = $stripe->products->create([
+                'name' => $request->name,
+                'description' => $request->description,
+            ]);
+            $product->stripe_product_id = $productstripe->id;
 
             $product->save();
 
@@ -81,9 +87,9 @@ class ProductsController extends Controller
             }
             
             return redirect()->back()->with('success','Product has been uploaded.');
-        } catch (\Exception $e) {
-            return redirect()->back()->with('error', 'An error occurred while adding the product.');
-        }
+        // } catch (\Exception $e) {
+        //     return redirect()->back()->with('error', 'An error occurred while adding the product.');
+        // }
     }
 
 
@@ -195,7 +201,10 @@ class ProductsController extends Controller
                     }
                     $mediaItem->delete();
                 });
-    
+                $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+
+                $stripe->products->delete( $product->stripe_product_id, [] );
+            
                 $product->delete();
             } else {
                 return redirect()->back()->with('error', 'Invalid Request.');
@@ -203,7 +212,18 @@ class ProductsController extends Controller
             return redirect()->back()->with('success', 'Product has been removed');
         }
     }
-    
+    public function homestatus(Request $request){
+        $products = Products::where('status',1)->get();
+        foreach($products as $p){
+          $pro =  Products::find($p->id);
+          $pro->home_page_status = 0;
+          $pro->update();
+        }
+        $product = Products::find($request->id);
+        $product->home_page_status = 1;
+        $product->update();
+        return response()->json(['success'=>'Successfully updated']);
+    }
     
 
     protected function uploadImages(Request $request,$id)
@@ -221,7 +241,6 @@ class ProductsController extends Controller
                 $media->img_url = url('productIMG/' . $name);
                 $media->product_id = $id;
                 $media->save();
-    
             }
         }
     

@@ -20,6 +20,9 @@ use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminSiteMetaController;
 use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\AdminSettingController;
+use App\Http\Controllers\Front\FrontCartController;
+use App\Http\Controllers\User\UserDashController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -32,11 +35,11 @@ use App\Http\Controllers\Admin\AdminSettingController;
 |
 */
 
-Route::get('/', function () {
-    return view('front_layout.master');
-});
 // Route::get('/', function () {
 //     return view('front_layout.master');
+// });
+// Route::get('/test', function () {
+//     return view('test');
 // });
 //Authentications routes
 Route::get('login',[AuthenticationController::class,'index'])->name('login');
@@ -44,9 +47,14 @@ Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
 Route::get('register',[AuthenticationController::class,'register'])->name('register');
 Route::post('registerProcc',[AuthenticationController::class,'registerProcc']);
 Route::get('logout',[AuthenticationController::class,'logout']);
+Route::get('forgotten-password',[AuthenticationController::class,'forgetPassword']);
+Route::get('forgotten-password/newpassword/{secret?}',[AuthenticationController::class,'newPassword']);
+Route::post('forgotten-password/submit',[AuthenticationController::class,'forgetPasswordSubmit']);
+Route::post('new-password/submit',[AuthenticationController::class,'newpasswordSubmit']);
+
 
 Route::get('/',[FrontHomeController::class,'index']);
-Route::get('/shop',[FrontShopController::class,'index']);
+Route::get('/shop/{id?}',[FrontShopController::class,'index']);
 Route::get('/shop-detail/{id}',[FrontShopController::class,'shopdetail']);
 Route::get('/checkout',[CheckoutController::class,'index']);
 Route::get('/subscription',[FrontSubscriptionController::class,'index']);
@@ -61,6 +69,16 @@ Route::post('contactProcc',[ContactController::class,'contactProcc']);
 
 Route::get('our-story',[OurStoryController::class,'index']);
 
+////////buy now proccesss routes
+Route::post('shop/getPrices',[FrontShopController::class,'getPrice']);
+Route::post('shop/addCart',[FrontShopController::class,'addtocart']);
+
+//////cart update and delete
+Route::post('cart/update',[FrontCartController::class,'updatecart']);
+
+
+////checkout routes
+Route::post('addresssave',[CheckoutController::class,'addresssave']);
 
 
 /////Admin Dashboarda
@@ -97,6 +115,7 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('admin-dashboard/site-detail/addProcc',[AdminSiteMetaController::class,'addProcc']);
     Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs']);
     Route::post('admin-dashboard/faqs/addProcc',[AdminSiteMetaController::class,'faqaddProcc']);
+    Route::post('admin-dashboard/faqs/homestatus',[AdminSiteMetaController::class,'faqhomestatus']);
     Route::get('admin-dashboard/faqs/delete/{id}',[AdminSiteMetaController::class,'faqDelete']);
     Route::get('admin-dashboard/ourstory-meta',[AdminSiteMetaController::class,'ourStory']);
     Route::post('admin-dashboard/ourstory-meta/addProcc',[AdminSiteMetaController::class,'ourStoryAdd']);
@@ -107,6 +126,7 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/products',[ProductsController::class,'index']);
     Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
     Route::post('productSave',[ProductsController::class,'save']);
+    Route::post('product/updatehomestatus',[ProductsController::class,'homestatus']);
 
     Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct']);
     Route::post('productUpdate',[ProductsController::class,'updateProc']);
@@ -123,3 +143,8 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
 
 });
+
+Route::group(['middleware' =>['auth','user']],function(){
+    Route::get('account',[UserDashController::class,'index']);
+});
+

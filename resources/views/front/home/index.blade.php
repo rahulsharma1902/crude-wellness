@@ -25,50 +25,21 @@
                         <p>Choose how you want to feel to get started:</p>
                     </div>
                     <div class="prod_wrapper">
+                        @if($blog->isNotEmpty())
+                        @foreach($blog as $b)
                         <div class="best-box">
                             <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg1.png') }}" alt="" />
+                                <img src="{{ asset('blog_images') }}/{{ $b->image ?? '' }}" alt="" />
                             </div>
                             <div class="best-warp">
                                 <div class="best-text">
-                                    <h6>Neuro Protective</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
+                                    <a href="{{ url('education-details/'.$b->slug) }}"><h6>{{ $b->title ?? '' }}</h6></a>
+                                  
                                 </div>
                             </div>
                         </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg2.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Reduce PTSD</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg3.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Neuro Protective</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg1.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp">
-                                <div class="best-text">
-                                    <h6>Pain Relief</h6>
-                                    <p>Lorem Ipsum is simply dummy</p>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
@@ -268,18 +239,52 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="natural_img_grid">
-                        <div class="natural_img">
-                            <img src="{{ asset('front/img/natural-img.png') }}" class="img-fluid" alt="" />
+                        <!-- <div class="natural_img">
+                            <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div> -->
+                        <div class="slider slider-for">
+                        <div class="store-img">
+                                <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div>
+                        @if(isset($product->media))
+                            @foreach($product->media as $media)
+                            <div class="store-img">
+                              <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="">
+                            </div>
+                            @endforeach
+                        @endif
+                        </div>
+                        <div class="slider slider-nav">
+                        <div class="store-img">
+                                <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
+                        </div>
+                        @if(isset($product->media))
+                                @foreach($product->media as $media)
+                             <div class="custom-img">
+                                <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" alt="">
+                              </div>  
+                            @endforeach
+                        @endif
                         </div>
                         <div class="natural_imgbt">
-                            <img src="{{ asset('front/img/natural-img1.png') }}" class="img-fluid" alt="" />
-                            <img src="{{ asset('front/img/natural-img2.png') }}" class="img-fluid" alt="" />
+                            <?php $count = 0; ?>
+                    
+                            <!-- @if(isset($product->media))
+                                @foreach($product->media as $media)
+                                <?php $count = $count+1;  ?>
+                                    <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="" />
+                              
+                                @endforeach
+                            @endif -->
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
+                <form method="post" action="{{ url('shop/addCart') }}" id="cartForm" >
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $product->id ?? '' }}">
                     <div class="heading_wreap">
-                        <h4>Natural Flavour Broad Spectrum 30ml</h4>
+                        <h4>{{ $product->name ?? '' }}</h4>
                         <ul class="start_view list-unstyled">
                             <li><i class="fa-solid fa-star"></i></li>
                             <li><i class="fa-solid fa-star"></i></li>
@@ -290,37 +295,51 @@
                         </ul>
                         <div class="purchase_wreap">
                             <h5>Purchase Type:</h5>
-                            <form action="#">
+                           
+                                @if($subscriptions->isNotEmpty())
                                 <div class="purchase_hd">
-                                    <input type="radio" id="test1" name="radio-group" checked />
+                                    <input type="radio" id="test1" name="purchase_type" value="multi_time"  checked="true"/>
                                     <label for="test1">
                                         <div>
                                             <h6>Subscribe And Save</h6>
+                                            <select name="subscription_plan" class="form-control" id="">
+                                                @foreach($subscriptions as $option)
+                                                 <option value="{{ $option->id ?? '' }}">Delivery Every {{ $option->recurring_period ?? '' }} {{ $option->recurring_type ?? '' }} -{{ $option->discount_percentage ?? '' }}% Off</option>
+                                                @endforeach
+                                            </select>
                                             <p>
-                                                Easy to cencel anytime,<br />
-                                                Free Shipping alwasy
+                                                Easy to cancel anytime,<br />
+                                                Free Shipping always
                                             </p>
                                         </div>
+                                        <?php 
+                                            $percentage_off = $subscriptions[0]->discount_percentage;
+                                            $price = number_format($product->variations[0]->price,2);
+                                            $discount = ($percentage_off/100)*$price;
+                                            $final_price = $price - $discount;
+
+                                        ?>
                                         <div class="purcha_text">
-                                            <strong>$89.00</strong>
+                                            <strong>$<span class="multi_time_price">{{ $final_price ?? '' }}</span></strong>
                                             <span>Per bottle</span>
                                         </div>
                                     </label>
                                 </div>
+                                @endif
                                 <div class="purchase_hd">
-                                    <input type="radio" id="test2" name="radio-group" />
+                                    <input type="radio" id="test2" name="purchase_type" value="one_time" />
                                     <label for="test2">
                                         <div>
                                             <h6>One Time</h6>
                                             <p>One time purchase</p>
                                         </div>
                                         <div class="purcha_text">
-                                            <strong>$89.00</strong>
+                                            <strong>$<span class="one_time_price">{{ number_format($product->variations[0]->price,2) ?? '' }}</span></strong>
                                             <span>Per bottle</span>
                                         </div>
                                     </label>
                                 </div>
-                            </form>
+                           
                             <ul class="commitments_text list-unstyled">
                                 <li><i class="fa-solid fa-check"></i> No Commitments</li>
                                 <li><i class="fa-solid fa-check"></i> Skip Months</li>
@@ -330,50 +349,27 @@
                         <div class="strength_wreap">
                             <h5>Strength</h5>
                             <div class="radio-tile-group">
+                                <?php
+                                $n = true;
+                                ?>
+                                @foreach($product->variations as $variation)
                                 <div class="input-container">
-                                    <input id="walk" class="radio-button" type="radio" name="radio" />
+                                    <input id="walk" class="radio-button" type="radio" name="variation" value="{{ $variation->id ?? '' }}" @if($n == true) checked @endif />
                                     <div class="radio-tile">
-                                        <label for="walk" class="radio-tile-label">1000mg</label>
+                                        <label for="walk" class="radio-tile-label">{{ $variation->strength }}mg</label>
                                     </div>
                                 </div>
-                                <div class="input-container">
-                                    <input id="bike" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="bike" class="radio-tile-label">1500mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="drive" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="drive" class="radio-tile-label">2000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">3000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">4000mg</label>
-                                    </div>
-                                </div>
-                                <div class="input-container">
-                                    <input id="fly" class="radio-button" type="radio" name="radio" />
-                                    <div class="radio-tile">
-                                        <label for="fly" class="radio-tile-label">5000mg</label>
-                                    </div>
-                                </div>
+                                <?php $n = false; ?>
+                                @endforeach
                             </div>
                         </div>
                         <div class="sav_total">
-                            <h6>You're saving $11.00</h6>
-                            <p>Total: <span>$89.00</span></p>
+                            <h6 class="total_saving">You're saving ${{ number_format($discount,2) ?? '' }}</h6>
+                            <p>Total: <span>$<span class="total_price">{{ number_format($final_price,2) ?? '' }}</span></span></p>
                         </div>
-                        <a href="#" class="main-btn">Add To Cart</a>
+                        <button type="submit" class="main-btn">Add To Cart</button>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -485,46 +481,21 @@
                         <h4>So many ways to enjoy Crude</h4>
                     </div>
                     <div class="prod_wrapper">
+                        @foreach($categories as $cat)
                         <div class="best-box">
                             <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
+                                <img src="{{ asset('category_images') }}/{{ $cat->image ?? '' }}" alt="" />
                             </div>
                             <div class="best-warp" style="background: #FFA500;">
+                            <a href="{{ url('shop/'.$cat->slug) }}">
                                 <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
+                                    <h6>{{ $cat->name ?? '' }}</h6>
                                 </div>
+                            </a>
                             </div>
                         </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg5.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #370060;">
-                                <div class="best-text">
-                                    <h6>Natural Oil</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg6.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FF6823;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="best-box">
-                            <div class="best-img">
-                                <img src="{{ asset('front/img/bestimg4.png') }}" alt="" />
-                            </div>
-                            <div class="best-warp" style="background: #FFA500;">
-                                <div class="best-text">
-                                    <h6>Hemp Gummies</h6>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
+                       
                     </div>
                 </div>
             </div>
@@ -541,90 +512,36 @@
                     </div>
                     <div id="main">
                         <div class="accordion" id="faq">
+                            @if($faqs)
+                            @if(isset($faqs->questions) || isset($faqs->answers))
+                            <?php 
+                            $questions = json_decode($faqs->questions);
+                            $answers = json_decode($faqs->answers);
+                            for ($i=0; $i < count($questions); $i++) { 
+                            ?>
                             <div class="card">
                                 <div class="card-header" id="faqhead1">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq1" aria-expanded="false" aria-controls="faq1">What is your best CBD oil to buy online?</a>
+                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq{{ $i }}" aria-expanded="false" aria-controls="faq1">{{ $questions[$i] ?? '' }}</a>
                                 </div>
 
-                                <div id="faq1" class="collapse show" aria-labelledby="faqhead1" data-parent="#faq">
+                                <div id="faq{{ $i }}" class="collapse @if($i == 0) show @endif" aria-labelledby="faqhead1" data-parent="#faq">
                                     <div class="card-body">
                                         <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
+                                            {{ $answers[$i] ?? '' }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead2">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq2" aria-expanded="false" aria-controls="faq2">How long does shipping take?</a>
+                            <?php } ?>
+                            @endif
+                                @if($faqs->text)
+                                <div>
+                                    <?php 
+                                    print_r($faqs->text);
+                                    ?>
                                 </div>
-
-                                <div id="faq2" class="collapse" aria-labelledby="faqhead2" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead3">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq3" aria-expanded="false" aria-controls="faq3">What are your business hours?</a>
-                                </div>
-
-                                <div id="faq3" class="collapse" aria-labelledby="faqhead3" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead4">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq4" aria-expanded="false" aria-controls="faq4">Where is your hemp grown?</a>
-                                </div>
-
-                                <div id="faq4" class="collapse" aria-labelledby="faqhead4" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead4">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq5" aria-expanded="false" aria-controls="faq5">What is your best seller?</a>
-                                </div>
-
-                                <div id="faq5" class="collapse" aria-labelledby="faqhead5" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-header" id="faqhead6">
-                                    <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq6" aria-expanded="false" aria-controls="faq6">Can I take CBD with Medications?</a>
-                                </div>
-
-                                <div id="faq6" class="collapse" aria-labelledby="faqhead6" data-parent="#faq">
-                                    <div class="card-body">
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique nobis animi sed earum pariatur magni iusto, unde cumque officiis corporis impedit ipsa, accusantium nostrum dolor saepe quidem
-                                            blanditiis id facilis?
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                                @endif
+                           @endif
                         </div>
                     </div>
                 </div>

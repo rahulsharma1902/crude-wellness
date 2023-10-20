@@ -20,6 +20,9 @@
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control" name="title" id="title" placeholder="Blog Title" value="{{ $blog->title ?? '' }}">
                                                             </div>
+                                                            @error('title')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -28,6 +31,9 @@
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control" name="slug" id="slug" placeholder="Blog slug" value="{{ $blog->slug ?? '' }}">
                                                             </div>
+                                                            @error('slug')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -36,6 +42,9 @@
                                                             <div class="form-control-wrap">
                                                                 <input type="text" class="form-control" name="subtitle" id="sub-title" placeholder="Blog Title" value="{{ $blog->sub_title ?? '' }}">
                                                             </div>
+                                                            @error('subtitle')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -48,6 +57,9 @@
                                                                     @endforeach
                                                                 </select>
                                                             </div>
+                                                            @error('category')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
@@ -57,6 +69,9 @@
                                                                 <input type="file" class="form-control" name="image" id="image" >
                                                             </div>
                                                         </div>
+                                                        @error('image')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-lg-6">
                                                         <img src="{{ asset('blog_images') }}/{{ $blog->image ?? '' }}" alt="">
@@ -68,6 +83,9 @@
                                                                 <textarea name="short_description" class="form-control" id="short-description" >{{ $blog->short_description ?? '' }}</textarea>
                                                             </div>
                                                         </div>
+                                                        @error('short_description')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-sm-12">
                                                         <div class="form-group">
@@ -76,13 +94,15 @@
                                                                 <textarea name="description" class="form-control" id="description">{{ $blog->description ?? '' }}</textarea>
                                                             </div>
                                                         </div>
+                                                        @error('description')
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-sm-12">
                                                     <div class="form-group" id="save">
                                                         <button type="submit" class="btn btn-primary"> Save </button>
                                                     </div>
                                                     </div>
-                                                    
                                                     
                                                 </div>
                                                 </form>
