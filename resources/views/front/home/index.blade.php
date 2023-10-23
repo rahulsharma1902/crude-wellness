@@ -233,7 +233,7 @@
             </div>
         </div>
     </section>
-    @if(isset($product))
+@if(isset($product))
     <section class="natural_wrapper">
         <div class="container">
             <div class="row">
