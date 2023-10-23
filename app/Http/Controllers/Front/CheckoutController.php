@@ -31,7 +31,7 @@ class CheckoutController extends Controller
         return view('front.checkout.index',compact('cartitems','address','intent'));
     }
     public function addresssave(Request $request){
-        // return $request->all();
+     
         if($request->id){
             $address = Address::find($request->id);
             $address->first_name = $request->first_name;
@@ -62,9 +62,11 @@ class CheckoutController extends Controller
 
     public function paymentProcc(Request $request){
 
-
+        // echo '<pre>'
+        // return $request->all();
+        // die();
         $user = User::find(Auth::user()->id);
-        $cartitems = Cart::where('user_id',$user->id)->get();
+        $cartitems = Cart::with('product')->where('user_id',$user->id)->get();
         $totalprice = 0;
         foreach($cartitems as $items){
             $totalprice +=  $items->price*$items->quantity;
@@ -80,8 +82,11 @@ class CheckoutController extends Controller
         $order->save();
 
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-
+        // echo '<pre>';
+        // print_r($cartitems);
+        // die();
         foreach($cartitems as $items){
+        
         if($items->purchase_type == 'multi_time'){
             $price = $stripe->prices->create(
                 [
@@ -118,7 +123,15 @@ class CheckoutController extends Controller
 
         // $payment = $this->Payment($request->token,$order->id);
         $payment = $this->onetimepayment($request->token,$order->id);
-     
+        // if($payment == true){
+        //     echo '<pre>';
+        //     echo 'Done:';
+        //     echo '<br>';
+        //     print_r($ordermeta);
+        // }else{
+        //     echo '<pre>';
+        //     print_r($ordermeta);
+        // }
     }
 
     protected function Payment($token,$orderid){
@@ -177,12 +190,13 @@ class CheckoutController extends Controller
             'invoice_pdf' => $payment->invoice_pdf,
             'payment_status' => $payment->payment_status,
          ]; 
-
+        //  echo '<pre>';
+        //  print_r($mailData);
+        //  die();
          $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
          
           }
         }
-        //  $payment->
 
         return true;
     }

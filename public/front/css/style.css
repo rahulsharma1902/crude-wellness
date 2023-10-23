@@ -2627,3 +2627,12 @@ span.animate-ping {
     text-align: center;
     margin-top: 28px;
 }
+
+/* slider css:: */
+.slick-list.draggable {
+    margin-top: 2rem;
+}
+.slick-track img{
+    cursor: pointer;
+}
+/* slider css end here : */
