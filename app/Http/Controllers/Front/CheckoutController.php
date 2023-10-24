@@ -22,6 +22,8 @@ class CheckoutController extends Controller
         }else{
             $address = null;
         }
+        $invoice = $this->getinvoice('in_1O4dUvSHFLlPQCJ7cGnVZ8Vc');
+        // dd($invoice);
         $cartitems = Cart::where('user_id',Auth::user()->id)->get();
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
         #################### Create setupintent ##########################
@@ -82,7 +84,23 @@ class CheckoutController extends Controller
         $order->save();
 
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+        $customer =  $stripe->customers->create([
+            'name' => Auth::user()->name,
+            'email' => Auth::user()->email,
+            'payment_method' => $request->token,
+            'invoice_settings' => [
+            'default_payment_method' => $request->token,
+            ],
+            'address' => [
+            'line1' => '510 Townsend St',
+            'postal_code' => '98140',
+            'city' => 'San Francisco',
+            'state' => 'CA',
+            'country' => 'US',
+            ],
+        ]);
         // echo '<pre>';
+
         // print_r($cartitems);
         // die();
         foreach($cartitems as $items){
@@ -99,6 +117,16 @@ class CheckoutController extends Controller
                 ],
                 ]
             );
+            $ordermeta = new OrderMeta;
+            $ordermeta->order_id = $order->id;
+            $ordermeta->price = $items->price;
+            $ordermeta->quantity = $items->quantity;
+            $ordermeta->total_price = $items->price*$items->quantity;
+            $ordermeta->stripe_price_id = $price->id;
+            $ordermeta->order_type = $items->purchase_type;
+            $ordermeta->variation_id = $items->variation_id;
+            $ordermeta->product_id = $items->product_id;
+            $ordermeta->save();
         }else{
             // $price = $stripe->prices->create(
             //     [
@@ -107,53 +135,48 @@ class CheckoutController extends Controller
             //     'currency' => 'USD',
             //     ]
             //     );
+            $ordermeta = new OrderMeta;
+            $ordermeta->order_id = $order->id;
+            $ordermeta->price = $items->price;
+            $ordermeta->quantity = $items->quantity;
+            $ordermeta->total_price = $items->price*$items->quantity;
+            $ordermeta->stripe_price_id = null;
+            $ordermeta->order_type = $items->purchase_type;
+            $ordermeta->variation_id = $items->variation_id;
+            $ordermeta->product_id = $items->product_id;
+            $ordermeta->save();
         }
 
-        $ordermeta = new OrderMeta;
-        $ordermeta->order_id = $order->id;
-        $ordermeta->price = $items->price;
-        $ordermeta->quantity = $items->quantity;
-        $ordermeta->total_price = $items->price*$items->quantity;
-        $ordermeta->stripe_price_id = $price->id;
-        $ordermeta->order_type = $items->purchase_type;
-        $ordermeta->variation_id = $items->variation_id;
-        $ordermeta->product_id = $items->product_id;
-        $ordermeta->save();
+        
         }
 
-        // $payment = $this->Payment($request->token,$order->id);
-        $payment = $this->onetimepayment($request->token,$order->id);
-        // if($payment == true){
-        //     echo '<pre>';
-        //     echo 'Done:';
-        //     echo '<br>';
-        //     print_r($ordermeta);
-        // }else{
-        //     echo '<pre>';
-        //     print_r($ordermeta);
-        // }
+        $payment = $this->Payment($customer->id,$request->token,$order->id);
+        $payment = $this->onetimepayment($customer,$request->token,$order->id);
+
+        return redirect()->back()->with('success','Please check your email for payment confirmation');
+        
     }
 
-    protected function Payment($token,$orderid){
+    protected function Payment($customer,$token,$orderid){
         $ordermeta = OrderMeta::where('order_id',$orderid)->get();
         
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
 
-        $customer =  $stripe->customers->create([
-            'name' => Auth::user()->name,
-            'email' => Auth::user()->email,
-            'payment_method' => $token,
-            'invoice_settings' => [
-            'default_payment_method' => $token,
-            ],
-            'address' => [
-            'line1' => '510 Townsend St',
-            'postal_code' => '98140',
-            'city' => 'San Francisco',
-            'state' => 'CA',
-            'country' => 'US',
-            ],
-          ]);
+        // $customer =  $stripe->customers->create([
+        //     'name' => Auth::user()->name,
+        //     'email' => Auth::user()->email,
+        //     'payment_method' => $token,
+        //     'invoice_settings' => [
+        //     'default_payment_method' => $token,
+        //     ],
+        //     'address' => [
+        //     'line1' => '510 Townsend St',
+        //     'postal_code' => '98140',
+        //     'city' => 'San Francisco',
+        //     'state' => 'CA',
+        //     'country' => 'US',
+        //     ],
+        //   ]);
 
           $order = Order::find($orderid);
           $order->stripe_customer_id = $customer->id;
@@ -200,7 +223,7 @@ class CheckoutController extends Controller
 
         return true;
     }
-    private function onetimepayment($token,$orderid){
+    private function onetimepayment($customer,$token,$orderid){
         $orderMeta = OrderMeta::where([['order_id',$orderid],['order_type','one_time']])->get();
         if($orderMeta->isEmpty()){
         return true;
@@ -210,9 +233,54 @@ class CheckoutController extends Controller
                 $totalprice += $order->price*$order->quantity;
             }
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-        
-        
+            // $customer =  $stripe->customers->create([
+            //     'name' => Auth::user()->name,
+            //     'email' => Auth::user()->email,
+            //     'payment_method' => $token,
+            //     'invoice_settings' => [
+            //     'default_payment_method' => $token,
+            //     ],
+            //     'address' => [
+            //     'line1' => '510 Townsend St',
+            //     'postal_code' => '98140',
+            //     'city' => 'San Francisco',
+            //     'state' => 'CA',
+            //     'country' => 'US',
+            //     ],
+            // ]);
 
+            $totalAmountCents = (int)($totalprice * 100);
+            $stripePaymentIntent = $stripe->paymentIntents->create([
+                'customer' => $customer->id,
+                'amount' => $totalAmountCents,
+                'currency' => 'inr',
+                'payment_method' => $token,
+                'off_session' => true,
+                'confirm' => true,
+                'description' => 'test description',
+            ]);
+          if($stripePaymentIntent->status === 'succeeded'){
+           $invoice = $stripe->invoices->create([
+                'customer' => $customer->id,
+              ]);
+            $payment = new PaymentCollection;
+            $payment->order_id = $orderid;
+            $payment->inovice_id = $invoice->id;
+            $payment->payment_intent = $stripePaymentIntent->id;
+            // $payment->invoice_url = $invoice->hosted_invoice_url;
+            // $payment->invoice_pdf = $invoice->invoice_pdf;
+            $payment->payment_amount = $stripePaymentIntent->amount / 100;
+            $payment->payment_status = $stripePaymentIntent->status;
+            $payment->save();
+          }
+
+          $mailData = [
+            'name' => Auth::user()->name,
+            'payment_status' => $payment->payment_status,
+          ];
+
+         $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+          return true;
         }
 
     }
@@ -224,7 +292,7 @@ class CheckoutController extends Controller
          $invoice_number,
           []
         );
-        return $invoice;
+        
     }
 
     public function test(){
