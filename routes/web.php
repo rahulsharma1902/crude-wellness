@@ -156,3 +156,7 @@ Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
 });
 
+
+
+
+Route::get('test',[CheckoutController::class,'test']);
