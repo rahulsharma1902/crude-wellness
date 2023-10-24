@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('product_id');
-            $table->integer('subscription_id');
+            $table->integer('subscription_id')->nullable();
             $table->string('purchase_type');
             // $table->integer('variation');
             $table->integer('variation_id');
