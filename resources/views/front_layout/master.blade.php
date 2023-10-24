@@ -142,8 +142,6 @@
                                                     src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid"
                                                     alt=""><span>0</span>
                                             </a></li>
-
-
                                     @endif
                                 </ul>
                             </div>
@@ -187,7 +185,7 @@
                                 <div class="number">
                                     <span class="minus"><button class="deletebtn"
                                             data-id="">-</button></span>
-                                    <input type="text" id="qty" readonly
+                                    <input type="text" class="qty" readonly
                                         value="1">
                                     <button class="updatebtn" data-id="">+</button>
                                 </div>
@@ -200,7 +198,7 @@
                                 <?php   $product = App\Models\Products::class::find($cart->product_id); ?>
                                 <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
 
-                                <div class="cart_content">
+                                <div id="{{ $cart->id }}" class="cart_content">
                                     <a href="#">
                                         <div class="pro_cart">
                                             <img src="{{ asset('/productIMG/' . $media->img_name) ?? '' }}"
@@ -217,9 +215,9 @@
                                         <div class="number">
                                             <span class="minus"><button class="deletebtn"
                                                     data-id="{{ $cart->id }}">-</button></span>
-                                            <input type="text" id="qty" readonly
+                                            <input type="text" name="value" id="qty" readonly
                                                 value="{{ $cart->qty }}">
-                                            <button class="updatebtn" data-id="{{ $cart->id }}">+</button>
+                                             <span class="plus"><button class="updatebtn" data-id="{{ $cart->id }}">+</button></span>
                                         </div>
                                     </div>
                                 </div>
@@ -421,17 +419,12 @@
                     },
                     data: {
                         id: productId,
-
-
                     },
                     dataType: 'json',
                     success: function(response) {
-                        if(response.msg1){
-
-                            $(this).remove();
-                        }else{
-                        document.getElementById('qty').value = response.msg;
-                    }},
+                        
+                        $('input[name="value"]').value = response.data;
+                    },
                     error: function(xhr, status, error) {
                         console.log('Error:', xhr, status, error);
                     }
@@ -443,9 +436,11 @@
         $(document).ready(function() {
 
             $('.deletebtn').click(function(e) {
+               
                 e.preventDefault();
-                // const cartproduct =  document.getElementById('cart_content');
                 var productId = $(this).data('id');
+                const cartproduct =  document.getElementById(productId);
+               
                 $.ajax({
                     type: 'POST',
                     url: '{{ url('delCart') }}',
@@ -459,11 +454,11 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        if (response.msg) {
-
-                            document.getElementById('qty').value = response.msg;
+                        if (response.msg1) {
+                            cartproduct.remove();
+                            
                         } else {
-
+                            $('#qty').value = response.qty;
                         }
 
                     },

@@ -293,7 +293,6 @@
             $('input[name="radio-group"]').on('change', function() {
                 var selectedtype = $(this).val();
                 
-                // Saving.textContent = 0;
                 $('#total').text(selectedtype);
 
             });
@@ -393,8 +392,7 @@
                                 pquantity.textContent = response.qty;
                                 cartprice.textContent = ` $${response.price}`;
                                 pimage.innerHTML = response.image;
-                                // console.log(response.image);
-                                // $('#submitButton').html(response.msg);
+                          
                             }
                             },
                             error: function(xhr, status, error) {
@@ -429,8 +427,7 @@
                          if(response.msg==="new"){
                             cartDIV.style.display = 'block';
                                 pname.innerHTML = response.name;
-                                // pquantity.textContent = response.qty;
-                                cartprice.innerHTML = response.price;
+                                cartprice.innerHTML = ` $${response.price}`;
                                 pimage.innerHTML = response.image;
                             }else{
 
