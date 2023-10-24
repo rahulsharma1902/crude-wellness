@@ -8,12 +8,13 @@ use App\Models\Order;
 use Auth;
 class OrdersController extends Controller
 {
-    //
+    //customer_id
     public function index(){
-        $orders =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.productDetails.category')->get()->toArray();
-        echo '<pre>';
-        print_r($orders);
-        die();
+        $orders =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.paymentStatus','orderDetails.productDetails.category','user','user.address')->get();
+        // $orders =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.paymentStatus','orderDetails.productDetails.category','user','user.address')->get()->toArray();
+        // echo '<pre>';
+        // print_r($orders);
+        // die();
         return view('admin.orders.index',compact('orders'));
     }
 }

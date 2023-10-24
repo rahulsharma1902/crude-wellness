@@ -66,8 +66,12 @@
                                                     <li><i class="fa-solid fa-star"></i></li>
                                                     <li>4.5</li>
                                                 </ul>
-                                                
-                                                <span class="prodollar">${{ number_format($product->variations[0]->price,2) ?? '0.00' }}</span>
+                                                @if(isset($product->variations) && count($product->variations) > 0)
+                                                    @if(isset($product->variations[0]))
+                                                        <span class="prodollar">${{ number_format($product->variations[0]->price, 2) ?? '0.00' }}</span>
+                                                    @endif
+                                                @endif
+
                                             </div>
                                             <h6 class="card-title">{{ $product->name ?? '' }}</h6>
                                             <a  href="{{ url('shop-detail') }}/{{ $product->slug ?? '' }}" type="button" class="btn main-btn  btn-lg btn-block">Shop Now</a>

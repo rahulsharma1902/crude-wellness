@@ -11,4 +11,7 @@ class OrderMeta extends Model
     public function productDetails(){
         return $this->hasOne(Products::class,'id','product_id');
     }
+    public function paymentStatus(){
+        return $this->hasOne(PaymentCollection::class,'order_meta_id','id');
+    }
 }
