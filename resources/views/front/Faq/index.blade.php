@@ -67,9 +67,9 @@
                                     @for($i = 0; $i < count($questions); $i++ )
                                     <div class="card">
                                         <div class="card-header" id="faqhead1">
-                                            <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq{{ $i }}" aria-expanded="false" aria-controls="faq1">{{ $questions[$i] }}</a>
+                                            <a href="#" class="btn btn-header-link collapsed" data-toggle="collapse" data-target="#faq{{ $i }}{{ $questions[$i] }}" aria-expanded="false" aria-controls="faq1">{{ $questions[$i] }}</a>
                                         </div>
-                                        <div id="faq{{ $i }}" class="collapse " aria-labelledby="faqhead1" data-parent="#faq">
+                                        <div id="faq{{ $i }}{{ $questions[$i] }}" class="collapse " aria-labelledby="faqhead1" data-parent="#faq">
                                             <div class="card-body">
                                                 <p>{{ $answers[$i] ?? '' }}
                                                 </p>

@@ -17,10 +17,12 @@ class PaymentConfirmation extends Mailable
      * Create a new message instance.
      */
 
-    public function __construct(private $mailData)
-    {
-        //
-    }
+     public $mailData;
+     public function __construct($mailData)
+     {
+         $mailData = $this->mailData;
+     }
+ 
 
     /**
      * Get the message envelope.

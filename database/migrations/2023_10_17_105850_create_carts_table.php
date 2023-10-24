@@ -17,7 +17,9 @@ return new class extends Migration
             $table->integer('product_id');
             $table->integer('subscription_id');
             $table->string('purchase_type');
-            $table->integer('variation');
+            // $table->integer('variation');
+            $table->integer('variation_id');
+            $table->integer('price');
             $table->integer('quantity')->default(1);
             $table->integer('status')->default(0);
             $table->timestamps();
