@@ -50,6 +50,8 @@ Route::get('/',[FrontHomeController::class,'index']);
 Route::get('/shop',[FrontShopController::class,'index']);
 Route::get('/shop-detail/{id}',[FrontShopController::class,'shopdetail'])->name('shopdetails');
 Route::post('/AddCart',[FrontShopController::class,'AddCart'])->name('AddCart');
+Route::post('/delCart',[FrontShopController::class,'delCart'])->name('delCart');
+Route::post('/updateCart',[FrontShopController::class,'updateCart'])->name('updateCart');
 Route::get('/checkout',[CheckoutController::class,'index']);
 Route::get('/subscription',[FrontSubscriptionController::class,'index']);
 

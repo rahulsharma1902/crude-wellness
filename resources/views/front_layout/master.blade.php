@@ -138,10 +138,10 @@
                                         <a href="{{ url('login') }}"> <img
                                                 src="{{ asset('front/img/user.svg') ?? '' }}" class="img-fluid"
                                                 alt=""></a>
-                                        <li><button data-toggle="modal" data-target="#gotocart"> <img
+                                        <li><a href="{{ url('login') }}"> <img
                                                     src="{{ asset('front/img/cart.svg') ?? '' }}" class="img-fluid"
                                                     alt=""><span>0</span>
-                                            </button></li>
+                                            </a></li>
 
 
                                     @endif
@@ -156,104 +156,149 @@
 
     @yield('content')
     <!-- cart  -->
-    @if (Auth::check())
-        <?php $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
 
-        <div class="modal left fade" id="gotocart" tabindex="-1" role="dialog"
-            aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title" id="exampleModalLongTitle">Your Cart</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+
+
+    <div class="modal left fade" id="gotocart" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLongTitle">Your Cart</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @if (Auth::check())
+                    <?php  $carts = App\Models\Cart::class::where('user_id',Auth::user()->id)->get(); ?>
                     <div class="modal-body">
-                        @foreach ($carts as $cart)
-                            <?php $product = App\Models\Products::class::find($cart->product_id); ?>
-                            <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
-                            <div class="cart_content">
-                                <a href="#">
-                                    <div class="pro_cart">
-                                        <img src="{{ asset('/productIMG/' . $media->img_name) ?? '' }}" alt="">
-                                    </div>
-                                </a>
-                                <div class="min_wreap">
-                                    <div class="text_wreap">
-                                        <h5>{{ $product->name }}</h5>
-                                        <?php //$total = $cart->total_price*$cart->qty
-                                        ?>
-                                        <span>{{ $cart->total_price }}</span>
-                                    </div>
-                                    <div class="number">
-                                        <span class="minus">-</span>
-                                        <input type="text" value="{{ $cart->qty }}">
-                                        <span class="plus">+</span>
-                                    </div>
+                        <div class="cart_content" style="display: none" id="cartDIV">
+                            <a href="#">
+                                <div id="productIMG" class="pro_cart">
+                                  
+                                </div>
+                            </a>
+                            <div class="min_wreap">
+                                <div class="text_wreap">
+                                    <h5 id="productname"></h5>
+                                   
+                                    <span id="productprice">$</span>
+                                </div>
+                                <div class="number">
+                                    <span class="minus"><button class="deletebtn"
+                                            data-id="">-</button></span>
+                                    <input type="text" id="qty" readonly
+                                        value="1">
+                                    <button class="updatebtn" data-id="">+</button>
                                 </div>
                             </div>
-                        @endforeach
-    @endif
-    <div class="might_wrapper">
-        <h3>You might also like</h3>
-        <?php $products=App\Models\Products::Class::latest()->take(5)->get(); ?>
-        {{-- {{ dd($products) }} --}}
-        @foreach ($products as $product)
-            <?php $m=App\Models\Media::Class::where('product_id',$product->id)->first(); ?>
-            <?php $v=App\Models\ProductVariations::Class::where('product_id',$product->id)->first(); ?>
-            <div class="prolist_wrapper">
-                <div class="prolist_wreap">
-                    <div class="card border-0">
-                        <div class="product_img">
-                            <img class="card-img-top" src="{{ asset('/productIMG/' . $m->img_name) ?? '' }}"
-                                alt="Card image cap">
                         </div>
-                        <div class="card-body">
-                            <div class="price">
-                                <ul class="d-flex list-unstyled">
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li>4.5</li>
-                                </ul>
-                                <span class="prodollar">{{ $v->price }}</span>
+                        
+                        @if ($carts->isEmpty())
+                        @else
+                            @foreach ($carts as $cart) 
+                                <?php   $product = App\Models\Products::class::find($cart->product_id); ?>
+                                <?php $media = App\Models\Media::class::where('product_id',$cart->product_id)->first(); ?>
+
+                                <div class="cart_content">
+                                    <a href="#">
+                                        <div class="pro_cart">
+                                            <img src="{{ asset('/productIMG/' . $media->img_name) ?? '' }}"
+                                                alt="">
+                                        </div>
+                                    </a>
+                                    <div class="min_wreap">
+                                        <div class="text_wreap">
+                                            <h5>{{ $product->name }}</h5>
+                                            <?php $total[] = $cart->total_price * $cart->qty;
+                                            ?>
+                                            <span>${{ $cart->total_price * $cart->qty }}</span>
+                                        </div>
+                                        <div class="number">
+                                            <span class="minus"><button class="deletebtn"
+                                                    data-id="{{ $cart->id }}">-</button></span>
+                                            <input type="text" id="qty" readonly
+                                                value="{{ $cart->qty }}">
+                                            <button class="updatebtn" data-id="{{ $cart->id }}">+</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                            @endif
+                            <div class="might_wrapper">
+                                <h3>You might also like</h3>
+
+                                <div class="prolist_wrapper">
+
+                                    <?php  $products=App\Models\Products::Class::latest()->take(5)->get(); ?>
+
+                                    @foreach ($products as $product)
+                                        <?php   $m=App\Models\Media::Class::where('product_id',$product->id)->first(); ?>
+                                        <?php $v=App\Models\ProductVariations::Class::where('product_id',$product->id)->first(); ?>
+
+                                        <div class="prolist_wreap">
+                                            <div class="card border-0">
+                                                <div class="product_img">
+                                                    <img class="card-img-top"
+                                                        src="{{ asset('/productIMG/' . $m->img_name) ?? '' }}"
+                                                        alt="Card image cap">
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="price">
+                                                        <ul class="d-flex list-unstyled">
+                                                            <li><i class="fa-solid fa-star"></i></li>
+                                                            <li><i class="fa-solid fa-star"></i></li>
+                                                            <li><i class="fa-solid fa-star"></i></li>
+                                                            <li><i class="fa-solid fa-star"></i></li>
+                                                            <li><i class="fa-solid fa-star"></i></li>
+                                                            <li>4.5</li>
+                                                        </ul>
+                                                        <span class="prodollar">${{ $v->price }}</span>
+                                                    </div>
+                                                    <h5 class="card-title">{{ $product->name }}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
-                            <h5 class="card-title">{{ $product->name }}</h5>
+                        
+                    </div>
+                  
+                  
+                 <div class="modal-footer">
+                        <div class="shoping_list">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <div>
+                                        <span>Total</span>
+                                        <p>Shipping & taxes calculated at checkout</p>
+                                    </div>
+                                    @if($carts->isEmpty())
+                                    @else
+                                    <span>$ {{ array_sum($total) }}</span>
+                                    @endif
+                                </li>
+                                <li>
+                                    <select id="inputState" class="form-control">
+                                        <option selected>Select Redeem Points</option>
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select>
+                                    <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
+                                </li>
+                            </ul>
+                            <button type="button" onclick="location.href='{{ url('checkout') }}'"
+                                class="btn main-btn">Go to
+                                checkout</button>
                         </div>
+                        
                     </div>
-                </div>
-        @endforeach
-    </div>
-    </div>
-    </div>
-    <div class="modal-footer">
-        <div class="shoping_list">
-            <ul class="list-unstyled">
-                <li>
-                    <div>
-                        <span>Total</span>
-                        <p>Shipping & taxes calculated at checkout</p>
-                    </div>
-                    <span>$178.00</span>
-                </li>
-                <li>
-                    <select id="inputState" class="form-control">
-                        <option selected>Select Redeem Points</option>
-                        <option>1</option>
-                        <option>2</option>
-                    </select>
-                    <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
-                </li>
-            </ul>
-            <button type="button" onclick="location.href='{{ url('checkout') }}'" class="btn main-btn">Go to
-                checkout</button>
+           
+                    @endif
+                
+            </div>
         </div>
-    </div>
-    </div>
-    </div>
     </div>
 
     <!-- end cart -->
@@ -359,7 +404,76 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>
+    {{-- // add to cart function --}}
+    <script>
+        // add qty function
+        $(document).ready(function() {
 
+            $('.updatebtn').click(function(e) {
+                e.preventDefault();
+                // const cartproduct =  document.getElementById('cart_content');
+                var productId = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('updateCart') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: productId,
+
+
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if(response.msg1){
+
+                            $(this).remove();
+                        }else{
+                        document.getElementById('qty').value = response.msg;
+                    }},
+                    error: function(xhr, status, error) {
+                        console.log('Error:', xhr, status, error);
+                    }
+                });
+            });
+        });
+
+        // delete qty function
+        $(document).ready(function() {
+
+            $('.deletebtn').click(function(e) {
+                e.preventDefault();
+                // const cartproduct =  document.getElementById('cart_content');
+                var productId = $(this).data('id');
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('delCart') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        id: productId,
+
+
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.msg) {
+
+                            document.getElementById('qty').value = response.msg;
+                        } else {
+
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        console.log('Error:', xhr, status, error);
+                    }
+                });
+            });
+        });
+    </script>
     @if (Session::get('error'))
         <script>
             iziToast.error({

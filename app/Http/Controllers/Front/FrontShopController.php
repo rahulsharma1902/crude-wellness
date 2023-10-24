@@ -38,6 +38,7 @@ class FrontShopController extends Controller
         $SID = $request->input('Sid');
         $varID = $request->input('varID');
         $price = $request->input('Price');
+        //  return $price;
         $carts = Cart::where('product_id',$PID)->where('user_id',Auth::user()->id)->get();
         if($carts->isEmpty()){
             $cart = new Cart();
@@ -52,7 +53,13 @@ class FrontShopController extends Controller
            }
             $cart->total_price = $price;
             $cart->save();
-            return "done";
+            $p = Products::find($PID);
+            $media = Media::where('product_id',$PID)->first();
+            $src = '<img src="' . asset('/productIMG/' . $media->img_name) . '" alt="Product Image">';
+            $name = ' <h5 id="productname">'.$p->name.'</h5>';
+            $cprice = ' <span id="productprice">$'.$price.'</span>';
+            // $data =['name'=>$p->name,'image'=>$src,'price'=>$price]; 
+            return response()->json(['msg'=>"new",'name'=>$name,'image'=>$src,'price'=>$cprice,'qty'=>$cart->qty]);
          }else
          
            $c= Cart::where('product_variation_id',$varID)->where('product_id',$PID)->get();
@@ -69,24 +76,59 @@ class FrontShopController extends Controller
                }
                 $cart->total_price = $price;
                 $cart->save();
-                return "new done";
+                $p = Products::find($PID);
+                $media = Media::where('product_id',$PID)->first();
+                $src = '<img src="' . asset('/productIMG/' . $media->img_name) . '" alt="Product Image">';
 
+                // $data =['name'=>$p->name,'image'=>$src,'price'=>$price,'qty'=>$cart->qty]; 
+                return response()->json(['msg'=>"new",'name'=>$p->name,'image'=>$src,'price'=>$price,'qty'=>$cart->qty]);
             }else{
                 foreach($c as $cart){
                 if(!$SID){
-                    $cart->update(['qty'=>$cart->qty + 1]);
+                    $cart->update([
+                        'total_price'=>$price,
+                        'qty'=>$cart->qty + 1]);
                 }else{
                
                     $cart->update([
                         'subscription_id'=>$SID,
+                        'total_price'=>$price,
                         'qty'=>$cart->qty + 1]);
                }
               
-                return "qty";
+              return response()->json(['update'=>$cart->qty,'sID'=>$SID,'totalprice'=>$price]);
             }
             }
            
          }
+
+         //delete from cart 
+         public function delCart(Request $request){
+            $ID = $request->input('id');
+            //  return $ID;
+            $cart = Cart::find($ID);
+            
+            if($cart->qty>=2){
+                $cart->update(['qty'=>$cart->qty - 1]);
+         
+            $Newqty= $cart->qty;
+            return response()->json(['qty'=>$Newqty,]);
+        }else{
+            $cart->delete();
+            // return "done";
+        return response()->json(['msg1'=>"done"]);
+         }
+        }
+
+        public function updateCart(Request $request){
+            $ID = $request->input('id');
+            //  return $ID;
+            $cart = Cart::find($ID);
+            $cart->update(['qty'=>$cart->qty+1]);
+            $newqty = $cart->qty ;
+            
+            return response()->json(['msg'=>$newqty]);
+        }
     }
 
     
