@@ -10,11 +10,11 @@ class UserDashController extends Controller
 {
     public function index(){
         if(Auth::user()){
-            echo '<pre>';
-            $order =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.productDetails.category')->where('customer_id',Auth::user()->id)->get()->toArray();
-            print_r($order);
-            die();
+            $orders =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.productDetails.category')->where('customer_id',Auth::user()->id)->get()->toArray();
+            // echo '<pre>';
+            // print_r($orders);
+            // die();
         }
-        return view('user.index');  
+        return view('user.index',compact('orders'));  
     }
 }
