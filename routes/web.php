@@ -23,6 +23,8 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
 
+use App\Http\Controllers\Stripe\StripeWebHooks;
+
 
 /*
 |--------------------------------------------------------------------------

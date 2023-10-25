@@ -147,8 +147,10 @@
                             </div>
                         </div>
                         <div class="sav_total">
+                        @if($subscriptions->isNotEmpty())
                             <h6 class="total_saving">You're saving ${{ number_format($discount,2) ?? '' }}</h6>
                             <p>Total: <span>$<span class="total_price">{{ number_format($final_price,2) ?? '' }}</span></span></p>
+                        @endif
                         </div>
                         <button type="submit" class="main-btn">Add To Cart</button>
                     </div>

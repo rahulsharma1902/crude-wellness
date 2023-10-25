@@ -17,8 +17,7 @@ class PaymentConfirmation extends Mailable
      * Create a new message instance.
      */
 
-     public $mailData;
-     public function __construct($mailData)
+     public function __construct(private $mailData)
      {
          $mailData = $this->mailData;
      }

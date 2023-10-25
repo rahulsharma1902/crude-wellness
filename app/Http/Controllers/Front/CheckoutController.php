@@ -150,7 +150,7 @@ class CheckoutController extends Controller
         
         }
 
-        $payment = $this->Payment($customer->id,$request->token,$order->id);
+        $payment = $this->Payment($customer,$request->token,$order->id);
         $payment = $this->onetimepayment($customer,$request->token,$order->id);
 
         return redirect()->back()->with('success','Please check your email for payment confirmation');
@@ -199,6 +199,7 @@ class CheckoutController extends Controller
          if(!empty($invoice)){
             $payment = new PaymentCollection;
             $payment->order_id = $orderid;
+            
             $payment->inovice_id = $createMembership->latest_invoice;
             $payment->payment_intent = $invoice->payment_intent;
             $payment->invoice_url = $invoice->hosted_invoice_url;
@@ -282,7 +283,6 @@ class CheckoutController extends Controller
          $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
           return true;
         }
-
     }
 
 
@@ -292,9 +292,10 @@ class CheckoutController extends Controller
          $invoice_number,
           []
         );
-        
+        return $invoice;
     }
 
+    
     public function test(){
         Stripe::setApiKey($stripeSecretKey);
             header('Content-Type: application/json');
