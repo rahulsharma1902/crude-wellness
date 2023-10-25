@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('order_metas', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
+            $table->integer('order_id')->nullable();
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total_price');

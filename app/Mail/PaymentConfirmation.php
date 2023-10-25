@@ -18,7 +18,7 @@ class PaymentConfirmation extends Mailable
      */
 
      public function __construct(private $mailData)
-     {
+    {
          $mailData = $this->mailData;
      }
  
@@ -40,9 +40,9 @@ class PaymentConfirmation extends Mailable
     {
         return new Content(
             view: 'mail.paymentconfirmation',
-            with:[
-                'mailData'=>$this->mailData,
-            ]
+                  with: [
+                    'mailData' => $this->mailData,
+                    ],
         );
     }
 

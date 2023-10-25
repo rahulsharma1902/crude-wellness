@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminSiteMetaController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
@@ -150,6 +151,9 @@ Route::group(['middleware'=>['auth','admin']],function(){
     // AdminAccountSetting
     Route::get('admin-dashboard/setting',[AdminSettingController::class,'index'])->name('account-setting');
     Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
+
+
+    Route::get('admin-dashboard/orders',[OrdersController::class,'index'])->name('orders');
 
 });
 
