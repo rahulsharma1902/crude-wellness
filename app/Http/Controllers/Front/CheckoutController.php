@@ -213,9 +213,6 @@ class CheckoutController extends Controller
             'invoice_pdf' => $payment->invoice_pdf,
             'payment_status' => $payment->payment_status,
          ]; 
-        //  echo '<pre>';
-        //  print_r($mailData);
-        //  die();
          $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
          
           }

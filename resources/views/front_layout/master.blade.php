@@ -590,17 +590,17 @@
 
 <!-- 15% off modal close -->
 <script>
-    // $(document).ready(function(){
-    //     if(localStorage.modalstatus === 'hide'){
-    //         $('div.popup-onload').addClass('d-none');
-    //     }else{
-    //     $('.modal_close_button').click(function(e){
-    //         e.preventDefault();
-    //         localStorage.modalstatus = 'hide';
+    $(document).ready(function(){
+        if(localStorage.modalstatus === 'hide'){
+            $('div.popup-onload').addClass('d-none');
+        }else{
+        $('.modal_close_button').click(function(e){
+            e.preventDefault();
+            localStorage.modalstatus = 'hide';
 
-    //     })
-    //     }
-    // });
+        })
+        }
+    });
 
     $('a#checkdiscount').click(function(e){
         e.preventDefault();

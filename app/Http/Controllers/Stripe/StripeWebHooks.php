@@ -9,7 +9,5 @@ class StripeWebHooks extends Controller
 {
     public function index(){
 
-        
-
     }
 }
