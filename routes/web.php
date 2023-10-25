@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\ContactUsController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
+use App\Http\Controllers\Front\FrontDiscountController;
 
 use App\Http\Controllers\Stripe\StripeWebHooks;
 
@@ -86,6 +87,8 @@ Route::post('paymentProcc',[CheckoutController::class,'paymentProcc']);
 ////StripeWebhookcall
 Route::post('/stripe/webhook',[StripeWebHooks::class,'index']);
 
+/////discount
+Route::post('/discountcheck',[FrontDiscountController::class,'SingleTimeDiscount']);
 
 /////Admin Dashboarda
 Route::group(['middleware'=>['auth','admin']],function(){
@@ -157,4 +160,4 @@ Route::group(['middleware' =>['auth','user']],function(){
 
 
 
-Route::get('test',[CheckoutController::class,'test']);
+// Route::get('test',[CheckoutController::class,'test']);

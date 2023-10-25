@@ -31,7 +31,7 @@
                     <h4>Welcome to Crude</h4>
                     <p>Get 15% off your first order</p>
                     <input type="email" name="discount_email" class="form-control" placeholder="Email">
-                    <a href="#"id="checkdiscount" class="main-btn">Get My Discount</a>
+                    <a href="#" id="checkdiscount" class="main-btn">Get My Discount</a>
                     <p>(We respect your inbox. 1-click unsubscribe any time)</p>
                 </form>
                 <div class="popup_bg_img">
@@ -587,6 +587,19 @@
     })
 </script>
 <!-- END SHOP DETAILS -->
+<script>
+    $(document).ready(function(){
+        if(localStorage.modalstatus === 'hide'){
+            $('div.popup-onload').addClass('d-none');
+        }else{
+        $('.modal_close_button').click(function(e){
+            e.preventDefault();
+            localStorage.modalstatus = 'hide';
+
+        })
+        }
+    });
+
 <script>
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){

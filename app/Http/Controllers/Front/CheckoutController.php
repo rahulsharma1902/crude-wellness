@@ -22,7 +22,7 @@ class CheckoutController extends Controller
         }else{
             $address = null;
         }
-        $invoice = $this->getinvoice('in_1O4dUvSHFLlPQCJ7cGnVZ8Vc');
+        // $invoice = $this->getinvoice('in_1O4dUvSHFLlPQCJ7cGnVZ8Vc');
         // dd($invoice);
         $cartitems = Cart::where('user_id',Auth::user()->id)->get();
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
@@ -214,9 +214,6 @@ class CheckoutController extends Controller
             'invoice_pdf' => $payment->invoice_pdf,
             'payment_status' => $payment->payment_status,
          ]; 
-        //  echo '<pre>';
-        //  print_r($mailData);
-        //  die();
          $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
          
           }
@@ -300,17 +297,17 @@ class CheckoutController extends Controller
         Stripe::setApiKey($stripeSecretKey);
             header('Content-Type: application/json');
 
-            $YOUR_DOMAIN = 'http://localhost:4242';
+    //         $YOUR_DOMAIN = 'http://localhost:4242';
 
-            $checkout_session = \Stripe\Checkout\Session::create([
-            'line_items' => [[
-                # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-                'price' => '{{PRICE_ID}}',
-                'quantity' => 1,
-            ]],
-            'mode' => 'payment',
-            'success_url' => $YOUR_DOMAIN . '/success.html',
-            'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-            ]);
+    //         $checkout_session = \Stripe\Checkout\Session::create([
+    //         'line_items' => [[
+    //             # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
+    //             'price' => '{{PRICE_ID}}',
+    //             'quantity' => 1,
+    //         ]],
+    //         'mode' => 'payment',
+    //         'success_url' => $YOUR_DOMAIN . '/success.html',
+    //         'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
+    //         ]);
     }
 }
