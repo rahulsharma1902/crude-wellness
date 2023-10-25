@@ -24,6 +24,7 @@ use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
 use App\Http\Controllers\Front\FrontDiscountController;
+use App\Http\Controllers\Admin\PaymentController;
 
 use App\Http\Controllers\Stripe\StripeWebHooks;
 
@@ -152,8 +153,12 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/setting',[AdminSettingController::class,'index'])->name('account-setting');
     Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
 
-
+    //orders
     Route::get('admin-dashboard/orders',[OrdersController::class,'index'])->name('orders');
+    Route::get('admin-dashboard/orders/{slug}',[OrdersController::class,'orderdetail'])->name('orders-detail');
+
+    //payments
+    Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
 
 });
 

@@ -54,7 +54,7 @@
     }else{
         $user_id = null;
     }
-    $cart = App\Models\Cart::where('user_id',$user_id)->with('product','subscription','variations')->get();
+    $cart = App\Models\Cart::where([['user_id',$user_id],['status',1]])->with('product','subscription','variations')->get();
     $subscriptions = App\Models\SubscriptionOption::where('status',1)->get();
     
    
@@ -599,7 +599,7 @@
         })
         }
     });
-
+</script>
 <script>
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){

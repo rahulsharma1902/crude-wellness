@@ -54,6 +54,14 @@ class StripeWebHooks extends Controller
             $paymentcollection->save();
         }
         $order = Order::find($orderMeta->order_id);
+        $status = 1;
+            foreach($order->payment as $payment){
+                if($payment->status == 'incomplete'){
+                    $status = 0;
+                }
+            }
+            $order->status = $status;
+            $order->update();
         $user = User::find($order->customer_id);
             $mailData = [
                 'name' => $user->name,

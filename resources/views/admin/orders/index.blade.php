@@ -23,7 +23,7 @@
                             </div>
                         </th>
                         <th class="nk-tb-col"><span class="sub-text">Order Id</span></th>
-                        <th class="nk-tb-col"><span class="sub-text">Payment Intent </span></th>
+                        <th class="nk-tb-col"><span class="sub-text"></span>Customer ID</th>
                         <th class="nk-tb-col tb-col-mb"><span class="sub-text">User Name</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Amount</span></th>
                         <th class="nk-tb-col tb-col-md"><span class="sub-text">Status</span></th>
@@ -71,7 +71,19 @@
                         </td>
                         <td class="nk-tb-col tb-col-md">
                             <span>
-                                {{ $order->status ?? '' }}
+                                <?php $status = true; ?>
+                              @if(isset($order->payment))
+                                @foreach($order->payment as $payments)
+                                    @if($payments->payment_status == 'incomplete')
+                                    <?php $status = false;  ?>
+                                    @endif
+                                @endforeach
+                              @endif
+                                @if($status == true)
+                                    confirmed
+                                @else
+                                    pending
+                                @endif
                             </span>
                         </td>
 
@@ -101,7 +113,7 @@
                         </td>
                     </tr>
                     <div class="modal fade" tabindex="-1" id="ordrDetails{{ $order->id ?? '' }}">
-                        <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-dialog modal-xl" role="document">
                             <div class="modal-dialog modal-dialog-top" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -189,7 +201,8 @@
                                             </div>
                                             <div class="container">
                                                 <div class="row header">
-                                                    <div class="col-3">Name</div>
+                                                    <div class="col-2">Name</div>
+                                                    <div class="col-2">Strength</div>
                                                     <div class="col-2">Price</div>
                                                     <div class="col-2">Quantity</div>
                                                     <div class="col-2">Total</div>
@@ -200,11 +213,16 @@
                                                     
                                                     @foreach ($order->orderDetails as $detail)
                                                         <div class="row">
-                                                            <div class="col-3">{{ $detail->productDetails->name ?? '' }}</div>
+                                                            <div class="col-2">{{ $detail->productDetails->name ?? '' }}</div>
+                                                            <div class="col-2">{{ $detail->variations->strength ?? '' }}mg</div>
                                                             <div class="col-2">$ {{ $detail->price ?? '' }}</div>
                                                             <div class="col-2">{{ $detail->quantity ?? '' }}</div>
                                                             <div class="col-2">$ {{ $detail->total_price ?? '' }}</div>
-                                                            <div class="col-2">$ {{ $detail->total_price ?? '' }}</div>
+                                                            @if($detail->order_type == 'multi_time')
+                                                            <div class="col-2"><span class="badge bg-primary"><?php print_r($detail->paymentStatus->payment_status); ?></span></div>
+                                                            @else
+                                                            <div class="col-2"><span class="badge bg-primary"><?php print_r($detail->PaymentDetail->payment_status);  ?></span></div>
+                                                            @endif
                                                         </div>
                                                         
                                                     @endforeach

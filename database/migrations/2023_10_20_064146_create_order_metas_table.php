@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('order_metas', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
-            $table->integer('order_id')->nullable();
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total_price');
@@ -22,6 +21,7 @@ return new class extends Migration
             $table->string('order_type');
             $table->string('variation_id');
             $table->string('product_id');
+            $table->string('payment_id')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

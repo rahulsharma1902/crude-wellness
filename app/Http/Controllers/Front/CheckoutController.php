@@ -23,7 +23,7 @@ class CheckoutController extends Controller
             $address = null;
         }
         // dd($invoice);
-        $cartitems = Cart::where('user_id',Auth::user()->id)->get();
+        $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
         #################### Create setupintent ##########################
         $intent =  $stripe->setupIntents->create([
@@ -64,12 +64,12 @@ class CheckoutController extends Controller
     public function paymentProcc(Request $request){
         try{
             $user = User::find(Auth::user()->id);
-            $cartitems = Cart::with('product')->where('user_id',$user->id)->get();
+            $cartitems = Cart::with('product')->where([['user_id',$user->id],['status',1]])->get();
             $totalprice = 0;
             foreach($cartitems as $items){
                 $totalprice +=  $items->price*$items->quantity;
             }
-            $orderid = '#ORD_'.rand(0,10).time();
+            $orderid = 'ORD_'.rand(0,10).time();
             $order = new Order;
             $order->order_id = $orderid;
             $order->customer_id = Auth::user()->id;
@@ -149,8 +149,17 @@ class CheckoutController extends Controller
 
             $payment = $this->Payment($customer,$request->token,$order->id);
             $payment = $this->onetimepayment($customer,$request->token,$order->id);
+            
+            $status = 1;
+            foreach($order->payment as $payment){
+                if($payment->status == 'incomplete'){
+                    $status = 0;
+                }
+            }
+            $order->status = $status;
+            $order->update();            
            
-            Cart::where('user_id', Auth::user()->id)->update(['status' => 2]);
+            Cart::where([['user_id', Auth::user()->id],['status',1]])->update(['status' => 2]);
 
         // return redirect()->back()->with('success', 'Please check your email for payment confirmation');
         return redirect('/')->with('success', 'Please check your email for payment confirmation');
@@ -196,7 +205,9 @@ class CheckoutController extends Controller
                 'quantity' => $meta->quantity,]
             ],
          ]);
-        
+         
+         
+
 /* payment */
          $invoice = $this->getinvoice($createMembership->latest_invoice);
         //  echo '<pre>';
@@ -217,6 +228,10 @@ class CheckoutController extends Controller
                 $payment->payment_amount = ($createMembership->plan->amount / 100) * $meta->quantity;
                 $payment->payment_status = $createMembership->status;
                 $payment->save();
+
+                $order_meta_data = OrderMeta::find($meta->id);
+                $order_meta_data->payment_id = $payment->id;
+                $order_meta_data->update();
             
             $mailData = [
                 'name' => Auth::user()->name,
@@ -285,6 +300,9 @@ class CheckoutController extends Controller
             $payment->payment_amount = $stripePaymentIntent->amount / 100;
             $payment->payment_status = $stripePaymentIntent->status;
             $payment->save();
+
+            OrderMeta::where([['order_id',$orderid],['order_type','one_time']])->update(['payment_id' => $payment->id]);
+
           }
 
           $mailData = [
@@ -310,11 +328,11 @@ class CheckoutController extends Controller
 
     
     public function test(){
-        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-        $invoice = $stripe->invoices->retrieve(
-            "in_1O4eedSHTa61PzN8YcSThb6m",
-          []
-        );
+        // $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+        // $invoice = $stripe->invoices->retrieve(
+        //     "in_1O4eedSHTa61PzN8YcSThb6m",
+        //   []
+        // );
         
         // Stripe::setApiKey($stripeSecretKey);
         //     header('Content-Type: application/json');
