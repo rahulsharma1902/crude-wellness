@@ -11,7 +11,8 @@
             </div>
         </div>
         <div class="col-lg-8">
-            <h4>Welcome {{ Auth::user()->name ?? '' }}</h4>
+            <h3>My Orders</h3>
+
         </div>
     </div>
 </div>

@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderMeta;
 use App\Models\PaymentCollection;
 use App\Mail\PaymentConfirmation;
+use App\Mail\OneTimePaymentConfirmation;
 use Auth;
 use Mail;
 
@@ -118,6 +119,7 @@ class CheckoutController extends Controller
                 $ordermeta->order_id = $order->id;
                 $ordermeta->price = $items->price;
                 $ordermeta->quantity = $items->quantity;
+                $ordermeta->subscription_id = $items->subscription_id;
                 $ordermeta->total_price = $items->price*$items->quantity;
                 $ordermeta->stripe_price_id = $price->id;
                 $ordermeta->order_type = $items->purchase_type;
@@ -137,6 +139,7 @@ class CheckoutController extends Controller
                 $ordermeta->price = $items->price;
                 $ordermeta->quantity = $items->quantity;
                 $ordermeta->total_price = $items->price*$items->quantity;
+                $ordermeta->subscription_id = null;
                 $ordermeta->stripe_price_id = null;
                 $ordermeta->order_type = $items->purchase_type;
                 $ordermeta->variation_id = $items->variation_id;
@@ -152,7 +155,7 @@ class CheckoutController extends Controller
             
             $status = 1;
             foreach($order->payment as $payment){
-                if($payment->status == 'incomplete'){
+                if($payment->payment_status == 'incomplete'){
                     $status = 0;
                 }
             }
@@ -225,12 +228,14 @@ class CheckoutController extends Controller
                 $payment->payment_intent = $invoice->payment_intent;
                 $payment->invoice_url = $invoice->hosted_invoice_url;
                 $payment->invoice_pdf = $invoice->invoice_pdf;
+                $payment->payment_type = 'Recurring';
                 $payment->payment_amount = ($createMembership->plan->amount / 100) * $meta->quantity;
                 $payment->payment_status = $createMembership->status;
                 $payment->save();
 
                 $order_meta_data = OrderMeta::find($meta->id);
                 $order_meta_data->payment_id = $payment->id;
+                $order_meta_data->reccuring_id = $createMembership->id;
                 $order_meta_data->update();
             
             $mailData = [
@@ -295,6 +300,7 @@ class CheckoutController extends Controller
             $payment->order_meta_id = null;
             $payment->inovice_id = $invoice->id;
             $payment->payment_intent = $stripePaymentIntent->id;
+            $payment->payment_type = 'one_time';
             // $payment->invoice_url = $invoice->hosted_invoice_url;
             // $payment->invoice_pdf = $invoice->invoice_pdf;
             $payment->payment_amount = $stripePaymentIntent->amount / 100;
@@ -310,7 +316,7 @@ class CheckoutController extends Controller
             'payment_status' => $payment->payment_status,
           ];
 
-        $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+        $mail = Mail::to(Auth::user()->email)->send(new OneTimePaymentConfirmation($mailData)); 
         return true;
         }
     }

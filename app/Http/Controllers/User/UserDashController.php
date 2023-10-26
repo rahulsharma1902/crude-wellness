@@ -12,4 +12,10 @@ class UserDashController extends Controller
         
         return view('user.index');  
     }
+    public function orders(){
+        $orders = Order::where('customer_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+        
+
+        return view('user.orders',compact('orders'));
+    }
 }

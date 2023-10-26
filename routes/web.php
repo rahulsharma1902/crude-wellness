@@ -164,6 +164,7 @@ Route::group(['middleware'=>['auth','admin']],function(){
 
 Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
+    Route::get('account/orders',[UserDashController::class,'orders']);
 });
 
 

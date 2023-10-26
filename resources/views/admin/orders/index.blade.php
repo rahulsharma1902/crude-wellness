@@ -219,9 +219,9 @@
                                                             <div class="col-2">{{ $detail->quantity ?? '' }}</div>
                                                             <div class="col-2">$ {{ $detail->total_price ?? '' }}</div>
                                                             @if($detail->order_type == 'multi_time')
-                                                            <div class="col-2"><span class="badge bg-primary"><?php print_r($detail->paymentStatus->payment_status); ?></span></div>
+                                                            <div class="col-2"><span class="badge bg-primary">{{ $detail->paymentStatus->payment_status ?? '' }}</span></div>
                                                             @else
-                                                            <div class="col-2"><span class="badge bg-primary"><?php print_r($detail->PaymentDetail->payment_status);  ?></span></div>
+                                                            <div class="col-2"><span class="badge bg-primary">{{ $detail->PaymentDetail->payment_status ?? '' }}</span></div>
                                                             @endif
                                                         </div>
                                                         

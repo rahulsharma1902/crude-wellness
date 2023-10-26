@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('inovice_id');
             $table->string('payment_intent');
             $table->string('payment_amount');
+            $table->string('payment_type');
             $table->text('invoice_url')->nullable();
             $table->text('invoice_pdf')->nullable();
             $table->string('payment_status');

@@ -56,7 +56,7 @@ class StripeWebHooks extends Controller
         $order = Order::find($orderMeta->order_id);
         $status = 1;
             foreach($order->payment as $payment){
-                if($payment->status == 'incomplete'){
+                if($payment->payment_status == 'incomplete'){
                     $status = 0;
                 }
             }
