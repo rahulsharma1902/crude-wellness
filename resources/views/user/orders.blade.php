@@ -12,6 +12,11 @@
         </div>
         <div class="col-lg-8">
             <h3>My Orders</h3>
+            <pre>
+                <?php  
+                print_r($orders);
+                ?>
+            </pre>
 
         </div>
     </div>

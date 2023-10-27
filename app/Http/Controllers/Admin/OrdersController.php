@@ -24,4 +24,7 @@ class OrdersController extends Controller
         }
         return view('admin.orders.orderdetail',compact('order')); 
     }
+    public function recurringorders(){
+        
+    }
 }
