@@ -241,7 +241,7 @@
                                             <li><i class="fa-solid fa-star"></i></li>
                                             <li>4.5</li>
                                         </ul>
-                                        <span class="prodollar">{{ $products->variations[0]->price ?? '' }}</span>
+                                        <span class="prodollar">${{ number_format($products->variations[0]->price,2) ?? '' }}</span>
                                     </div>
                                     <h6 class="card-title">{{ $products->name ?? '' }}</h6>
                                     <a href="{{ url('shop-detail') }}/{{ $products->slug ?? '' }}" type="button" class="btn main-btn  btn-lg btn-block">Shop Now</a>
