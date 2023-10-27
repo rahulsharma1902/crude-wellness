@@ -17,4 +17,14 @@ class OrdersController extends Controller
         // die();
         return view('admin.orders.index',compact('orders'));
     }
+    public function orderdetail($orderid){
+        $order = Order::where('order_id',$orderid)->first();
+        if(!$order){
+            abort(404);
+        }
+        return view('admin.orders.orderdetail',compact('order')); 
+    }
+    public function recurringorders(){
+        
+    }
 }

@@ -23,6 +23,10 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
+use App\Http\Controllers\Front\FrontDiscountController;
+use App\Http\Controllers\Admin\PaymentController;
+
+use App\Http\Controllers\Stripe\StripeWebHooks;
 
 
 /*
@@ -85,6 +89,8 @@ Route::post('paymentProcc',[CheckoutController::class,'paymentProcc']);
 ////StripeWebhookcall
 Route::post('/stripe/webhook',[StripeWebHooks::class,'index']);
 
+/////discount
+Route::post('/discountcheck',[FrontDiscountController::class,'SingleTimeDiscount']);
 
 /////Admin Dashboarda
 Route::group(['middleware'=>['auth','admin']],function(){
@@ -147,16 +153,21 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/setting',[AdminSettingController::class,'index'])->name('account-setting');
     Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
 
-
+    //orders
     Route::get('admin-dashboard/orders',[OrdersController::class,'index'])->name('orders');
+    Route::get('admin-dashboard/orders/{slug}',[OrdersController::class,'orderdetail'])->name('orders-detail');
+
+    //payments
+    Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
 
 });
 
 Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
+    Route::get('account/orders',[UserDashController::class,'orders']);
 });
 
 
 
 
-Route::get('test',[CheckoutController::class,'test']);
+// Route::get('test',[CheckoutController::class,'test']);

@@ -14,14 +14,16 @@ return new class extends Migration
         Schema::create('order_metas', function (Blueprint $table) {
             $table->id();
             $table->integer('order_id');
-            $table->integer('order_id')->nullable();
             $table->integer('price');
             $table->integer('quantity');
             $table->integer('total_price');
             $table->string('stripe_price_id')->nullable();
             $table->string('order_type');
+            $table->string('subscription_id')->nullable();
+            $table->string('reccuring_id')->nullable();
             $table->string('variation_id');
             $table->string('product_id');
+            $table->string('payment_id')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

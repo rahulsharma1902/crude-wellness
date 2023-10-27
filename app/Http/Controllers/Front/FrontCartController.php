@@ -19,7 +19,7 @@ class FrontCartController extends Controller
         $cart = Cart::find($request->cart_id);
         ///check already item with this variations
 
-        $alreadyitems = Cart::where([['user_id',$cart->user_id],['purchase_type',$request->purchase_type],['subscription_id',$cart->subscription_id],['variation_id',$cart->variation_id]])->first();
+        $alreadyitems = Cart::where([['user_id',$cart->user_id],['status',1],['purchase_type',$request->purchase_type],['subscription_id',$cart->subscription_id],['variation_id',$cart->variation_id]])->first();
         
         if($alreadyitems){
             $alreadyitems->quantity = $alreadyitems->quantity+$cart->quantity;
@@ -43,7 +43,7 @@ class FrontCartController extends Controller
         $cart->price = $price;
         $cart->update();
 
-        $allcartitems = Cart::where('user_id',Auth::user()->id)->get();
+        $allcartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
         $total_price = null;
         foreach($allcartitems as $items){
             $total_price += $items->price*$items->quantity; 
@@ -55,7 +55,7 @@ class FrontCartController extends Controller
         $newsubscription = SubscriptionOption::find($request->subscriptionid);
         $cart = Cart::find($request->cart_id);
 
-        $alreadyitems = Cart::where([['user_id',$cart->user_id],['purchase_type',$cart->purchase_type],['subscription_id',$request->subscriptionid],['variation_id',$cart->variation_id]])->first();
+        $alreadyitems = Cart::where([['user_id',$cart->user_id],['purchase_type',$cart->purchase_type],['subscription_id',$request->subscriptionid],['variation_id',$cart->variation_id],['status',1]])->first();
         if($alreadyitems){
                 $alreadyitems->quantity = $alreadyitems->quantity+$cart->quantity;
                 $alreadyitems->update();
@@ -76,7 +76,7 @@ class FrontCartController extends Controller
         $cart->price = $price;
         $cart->update();
 
-        $allcartitems = Cart::where('user_id',Auth::user()->id)->get();
+        $allcartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
 
             $total_price = null;
             foreach($allcartitems as $items){
@@ -92,7 +92,7 @@ class FrontCartController extends Controller
                         $cart->quantity = $request->quantity;
                         $cart->update();
                     }
-                    $cartitems = Cart::where('user_id',Auth::user()->id)->get();
+                    $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
                     $total_price = 0;
                     foreach($cartitems as $c){
                         $item_price = $c->price*$c->quantity;

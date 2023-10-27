@@ -30,15 +30,15 @@
                 <form>
                     <h4>Welcome to Crude</h4>
                     <p>Get 15% off your first order</p>
-                    <input type="email" class="form-control" placeholder="Email">
-                    <a href="#" class="main-btn">Get My Discount</a>
+                    <input type="email" name="discount_email" class="form-control" placeholder="Email">
+                    <a href="#" id="checkdiscount" class="main-btn">Get My Discount</a>
                     <p>(We respect your inbox. 1-click unsubscribe any time)</p>
                 </form>
                 <div class="popup_bg_img">
                     <img src="{{ asset('/front/img/popup-bg-img.png') }}" class="img-fluid" alt="">
                 </div>
                 <div class=close_onload>
-                    <a href='#'>×</a>
+                    <a class="modal_close_button" href='#'>×</a>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
     }else{
         $user_id = null;
     }
-    $cart = App\Models\Cart::where('user_id',$user_id)->with('product','subscription','variations')->get();
+    $cart = App\Models\Cart::where([['user_id',$user_id],['status',1]])->with('product','subscription','variations')->get();
     $subscriptions = App\Models\SubscriptionOption::where('status',1)->get();
     
    
@@ -587,7 +587,47 @@
     })
 </script>
 <!-- END SHOP DETAILS -->
+<script>
+    $(document).ready(function(){
+        if(localStorage.modalstatus === 'hide'){
+            $('div.popup-onload').addClass('d-none');
+        }else{
+        $('.modal_close_button').click(function(e){
+            e.preventDefault();
+            localStorage.modalstatus = 'hide';
 
+        })
+        }
+    });
+</script>
+<script>
+    $(document).ready(function(){
+        if(localStorage.modalstatus === 'hide'){
+            $('div.popup-onload').addClass('d-none');
+        }else{
+        $('.modal_close_button').click(function(e){
+            e.preventDefault();
+            localStorage.modalstatus = 'hide';
+
+        })
+        }
+    });
+
+    $('a#checkdiscount').click(function(e){
+        e.preventDefault();
+        email = $('input[name="discount_email"]').val();
+        $.ajax({
+            method:'post',
+            url:'{{ url('discountcheck') }}',
+            data: { email:email,_token:"{{ csrf_token() }}" },
+            success: function(response){
+                console.log(response);
+            }
+            
+        })
+
+    });
+</script>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>

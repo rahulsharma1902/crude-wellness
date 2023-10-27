@@ -9,12 +9,14 @@ use Auth;
 class UserDashController extends Controller
 {
     public function index(){
-        if(Auth::user()){
-            $orders =  Order::with('orderDetails','orderDetails.productDetails','orderDetails.productDetails.category')->where('customer_id',Auth::user()->id)->get()->toArray();
-            // echo '<pre>';
-            // print_r($orders);
-            // die();
-        }
-        return view('user.index',compact('orders'));  
+        
+        return view('user.index');  
+    }
+    public function orders(){
+        $orders = Order::where('customer_id',Auth::user()->id)->orderBy('created_at','desc')->get();
+        
+        
+
+        return view('user.orders',compact('orders'));
     }
 }
