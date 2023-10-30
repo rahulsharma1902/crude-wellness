@@ -453,6 +453,25 @@ $(document).ready(function(){
                             active.next().removeClass("disabled");
                             nextTab(active);
                             $("#summary").load(location.href + " #summary");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var errors = jqXHR.responseJSON.errors;
+                        // console.log(errors);
+                        $.each(errors ,function(key,value){
+                            console.log(key);
+                            console.log(value[0]);
+                            $('input[name="'+key+'"]').css({'border-color':'red'});
+                        });
+                        // for (var fieldName in errors) {
+                        //     if (errors.hasOwnProperty(fieldName)) {
+                        //         var errorMessages = errors[fieldName];
+                        //         console.log(errorMessages);
+                        //         errorMessages.forEach(function(errorMessage) {
+                        //             console.log(errorMessage);
+                                    
+                        //         });
+                        //     }
+                        // }
                     }
                    })
              

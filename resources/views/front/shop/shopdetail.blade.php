@@ -97,7 +97,7 @@
                                         </div>
                                         <?php 
                                             $percentage_off = $subscriptions[0]->discount_percentage;
-                                            $price = number_format($product->variations[0]->price,2);
+                                            $price = $product->variations[0]->price;
                                             $discount = ($percentage_off/100)*$price;
                                             $final_price = $price - $discount;
 

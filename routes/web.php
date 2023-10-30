@@ -168,6 +168,8 @@ Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
     Route::get('account/orders',[UserDashController::class,'orders']);
     Route::get('account/orders/{orderid}',[UserDashController::class,'orderdetail']);
+    Route::get('account/subscriptions/',[UserDashController::class,'subscriptions']);
+    Route::get('account/subscriptions/{subscription_id}',[UserDashController::class,'subscriptionsDetail']);
 });
 
 

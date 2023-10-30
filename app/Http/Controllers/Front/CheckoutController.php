@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderMeta;
 use App\Models\PaymentCollection;
+use App\Models\UserSubscription;
 use App\Mail\PaymentConfirmation;
 use App\Mail\OneTimePaymentConfirmation;
 use Auth;
@@ -36,6 +37,17 @@ class CheckoutController extends Controller
         return view('front.checkout.index',compact('cartitems','address','intent'));
     }
     public function addresssave(Request $request){
+
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'address' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'zipcodes' => 'required',
+            'phone' => 'required',
+        ]);
      
         if($request->id){
             $address = Address::find($request->id);
@@ -128,6 +140,7 @@ class CheckoutController extends Controller
                 $ordermeta->order_type = $items->purchase_type;
                 $ordermeta->variation_id = $items->variation_id;
                 $ordermeta->product_id = $items->product_id;
+                $ordermeta->user_id = Auth::user()->id;
                 $ordermeta->status = 0;
                 $ordermeta->save();
             }else{
@@ -147,11 +160,11 @@ class CheckoutController extends Controller
                 $ordermeta->stripe_price_id = null;
                 $ordermeta->order_type = $items->purchase_type;
                 $ordermeta->variation_id = $items->variation_id;
+                $ordermeta->user_id = Auth::user()->id;
                 $ordermeta->product_id = $items->product_id;
                 $ordermeta->status = 0;
                 $ordermeta->save();
             }
-
             
             }
 
@@ -213,13 +226,13 @@ class CheckoutController extends Controller
                 'quantity' => $meta->quantity,]
             ],
          ]);
+
          
          
          
 
 /* payment */
          $invoice = $this->getinvoice($createMembership->latest_invoice);
-        //  dd($invoice);
         //  echo '<pre>';
         //  print_r($createMembership);
         //  echo '<hr>';
@@ -227,6 +240,17 @@ class CheckoutController extends Controller
         //  echo '<hr>';
         //  print_r($invoice);
         //  die();
+         $subscriptions = new UserSubscription;
+         $subscriptions->subscription_id = $createMembership->id;
+         $subscriptions->order_meta_id = $meta->id;
+         $subscriptions->price_id = $meta->stripe_price_id;
+         $subscriptions->user_id = Auth::user()->id;
+         $subscriptions->subscription_plan_id = $meta->subscription_id;
+         $subscriptions->started_on = $this->changedate($invoice->period_start);
+         $subscriptions->end_on = $this->changedate($invoice->period_end); 
+         $subscriptions->subscription_status = 0;
+         $subscriptions->save();
+
          if(!empty($invoice)){
                 $payment = new PaymentCollection;
                 $payment->order_id = $orderid;
@@ -338,17 +362,27 @@ class CheckoutController extends Controller
         return $invoice;
         
     }
-    
+    protected function changedate($date){
+        $datetime = date('Y-m-d H:i:s', $date);
+        return $datetime;
+    }
     
     public function test(){
-        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+
+
+        // $order = OrderMeta::get();
+        // dd($order[0]->productDetails);
+        // $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
         // $subscriptiondetail =  $stripe->subscriptions->retrieve(
-        //     'sub_1O5ot7SHFLlPQCJ7oHdevImx',
+        //     'sub_1O5nDISHFLlPQCJ78T7Fidnf',
         //     []
         //   );
         //   echo '<pre>';
         //   print_r($subscriptiondetail);
         //   echo '</pre>';
+                // $timestamp = 1699618301;
+                // $expirationDate = date('Y-m-d H:i:s', $timestamp);
+                // echo $expirationDate;
 
         // $subscriptions = $stripe->subscriptions->all();
         // dd($subscriptions);
@@ -366,5 +400,6 @@ class CheckoutController extends Controller
     //       'cancel_url' => 'https://example.com/cancel',
     //     ]);
     //     return redirect($session->url);
+    return view('test',compact('order'));
     }
 }

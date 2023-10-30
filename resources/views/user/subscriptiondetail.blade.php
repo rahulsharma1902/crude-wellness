@@ -2,7 +2,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-3 py-4">
             <div class="p-1">
                 <a href="{{ url('account/orders') }}" class="main-btn" style="width:100%;">Orders</a>
             </div>
@@ -14,7 +14,10 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <h4>Welcome {{ Auth::user()->name ?? '' }}</h4>
+            <h5>#{{ $subscription_detail->subscription_id ?? '' }}</h5>
+            
+
+
         </div>
     </div>
 </div>

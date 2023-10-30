@@ -14,30 +14,30 @@
             </div>
         </div>
         <div class="col-lg-9">
-            <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between">
                 <h4>Order details</h4>
                 <h6>#{{ $order->order_id ?? '' }}</h6>
             </div>
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Product name</th>
-                        <th>Order type</th>
+                        <th>Product image</th>
+                        <th>Product Name</th>
                         <th>Quantity</th>
                         <th>Total Amount</th>
-                        <th>Payment Status</th>
-                        <th>Order Status</th>
+                        <th>Subscription Status</th>
+                        <th>View</th>
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach($order->orderDetails as $meta)
+                    @foreach($subscription as $products)
                     <tr>
-                        <td><img src="{{ asset('productIMG') }}/{{ $meta->productDetails->featured_img ?? '' }}" alt="" width="50%"></td>
-                        <td>{{ $meta->order_type ?? '' }}</td>
-                        <td>{{ $meta->quantity ?? '' }}</td>
-                        <td>${{ number_format($meta->total_price,2) ?? '' }}</td>
-                        <td>{{ $meta->PaymentDetail->payment_status ?? '' }}</td>
-                        <td>@if($meta->status == 1) confirmed @elseif($meta->status == 0) pending @elseif($meta->status == 2) shipped @elseif($meta->status == 3) delivered @endif</td>
+                        <td><img src="{{ asset('productIMG') }}/{{ $products->ordermeta->productDetails->featured_img ?? '' }}" alt="" width="50%"></td>
+                        <td>{{ $products->ordermeta->productDetails->name ?? '' }}</td>
+                        <td>{{ $products->ordermeta->quantity ?? '' }}</td>
+                        <td>${{ number_format($products->ordermeta->total_price,2) ?? '' }}</td>
+                        <td>@if($products->ordermeta->status == 1) confirmed @elseif($products->ordermeta->status == 0) pending @elseif($products->ordermeta->status == 2) shipped @elseif($products->ordermeta->status == 3) delivered @endif</td>
+                        <td><a href="{{ url('account/subscriptions') }}/{{ $products->ordermeta->reccuring_id ?? '' }}">view</a></td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -45,4 +45,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection
