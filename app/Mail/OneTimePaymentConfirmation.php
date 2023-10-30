@@ -9,19 +9,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class PaymentConfirmation extends Mailable
+class OneTimePaymentConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-
-     public function __construct(private $mailData)
+    public function __construct(private $mailData)
     {
-         $mailData = $this->mailData;
-     }
- 
+        $mailData = $this->mailData;
+    }
 
     /**
      * Get the message envelope.
@@ -39,10 +37,10 @@ class PaymentConfirmation extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.paymentconfirmation',
-                  with: [
-                    'mailData' => $this->mailData,
-                    ],
+            view: 'mail.onetimepaymentconfirmation',
+            with: [
+                'mailData' => $this->mailData,
+                ],
         );
     }
 

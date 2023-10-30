@@ -71,7 +71,6 @@ class ProductsController extends Controller
                 'description' => $request->description,
             ]);
             $product->stripe_product_id = $productstripe->id;
-
             $product->save();
 
             $imageNames = $this->uploadImages($request,$product->id);

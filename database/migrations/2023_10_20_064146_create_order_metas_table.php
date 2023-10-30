@@ -19,8 +19,12 @@ return new class extends Migration
             $table->integer('total_price');
             $table->string('stripe_price_id')->nullable();
             $table->string('order_type');
+            $table->string('subscription_id')->nullable();
+            $table->string('reccuring_id')->nullable();
             $table->string('variation_id');
             $table->string('product_id');
+            $table->string('payment_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->integer('status')->default(1);
             $table->timestamps();
         });

@@ -52,19 +52,19 @@ class FrontShopController extends Controller
             $final_off = $percentage_off/100 * $request->price;
             $final_price = $request->price - $final_off; 
             $response = [
-                "final_price" => number_format($final_price,2),
-                "final_off" => number_format($final_off,2),
+                "final_price" => number_format(round($final_price),2),
+                "final_off" => number_format(round($final_off),2),
             ];
             return response()->json($response);
         }elseif($request->action){
             $price =  ProductVariations::find($request->variation)->price;
             $subscriptions = SubscriptionOption::find($request->plan_id);
             $percentage_off = $subscriptions->discount_percentage;
-            $final_off = ($percentage_off/100) * $price;
+            $final_off = ($percentage_off/100) * round($price);
             $final_price = $price - $final_off;
             $response = [
-                "final_price" => number_format($final_price,2),
-                "final_off" => number_format($final_off,2),
+                "final_price" => number_format(round($final_price),2),
+                "final_off" => number_format(round($final_off),2),
             ]; 
             return response()->json($response);
         }
@@ -76,7 +76,7 @@ class FrontShopController extends Controller
         }
 
         $user_id = Auth::user()->id;
-        $cartitem = Cart::where([['user_id',$user_id],['purchase_type',$request->purchase_type],['subscription_id',$request->subscription_plan],['variation_id',$request->variation]])->first();
+        $cartitem = Cart::where([['user_id',$user_id],['status',1],['purchase_type',$request->purchase_type],['subscription_id',$request->subscription_plan],['variation_id',$request->variation]])->first();
         $product = Products::find($request->id);
         $variation = ProductVariations::find($request->variation);
         $subscriptions = SubscriptionOption::find($request->subscription_plan);
@@ -93,7 +93,7 @@ class FrontShopController extends Controller
             $cart->price = $price;
             $cart->update();
 
-            $cartitems = Cart::where('user_id',Auth::user()->id)->get();
+            $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
             $totalprice = 0;
             foreach($cartitems as $item){
                 $totalprice += $item->price*$item->quantity;
@@ -111,13 +111,13 @@ class FrontShopController extends Controller
             $cart->status = 1;
             $cart->save();
             
-            $cartitems = Cart::where('user_id',Auth::user()->id)->get();
+            $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
             $totalprice = 0;
             foreach($cartitems as $item){
                 $totalprice += $item->price*$item->quantity;
             }
             $allsubscriptions  = SubscriptionOption::where('status',1)->get();
-            return response()->json(['success'=>'created','price'=>number_format($cart->price,2),'cart'=>$cart,'product'=>$product,'variation'=>$variation,'total_items'=>count($cartitems),'subcriptions'=>$allsubscriptions,'total_price'=>number_format($totalprice,2)]);
+            return response()->json(['success'=>'created','price'=>number_format(round($cart->price),2),'cart'=>$cart,'product'=>$product,'variation'=>$variation,'total_items'=>count($cartitems),'subcriptions'=>$allsubscriptions,'total_price'=>number_format(round($totalprice),2)]);
         }
         
     }

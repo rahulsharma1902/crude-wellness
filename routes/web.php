@@ -19,10 +19,12 @@ use App\Http\Controllers\Admin\CategoriesController;
 use App\Http\Controllers\Admin\AdminBlogController;
 use App\Http\Controllers\Admin\AdminSiteMetaController;
 use App\Http\Controllers\Admin\ContactUsController;
+use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
 use App\Http\Controllers\Front\FrontDiscountController;
+use App\Http\Controllers\Admin\PaymentController;
 
 use App\Http\Controllers\Stripe\StripeWebHooks;
 
@@ -151,13 +153,26 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/setting',[AdminSettingController::class,'index'])->name('account-setting');
     Route::post('admin-dashboard/settingupdate',[AdminSettingController::class,'updateprocc']);
 
+    //orders
+    Route::get('admin-dashboard/orders',[OrdersController::class,'index'])->name('orders');
+    Route::get('admin-dashboard/recurringorders',[OrdersController::class,'recurringorders'])->name('recurringorders');
+    Route::get('admin-dashboard/orders/{slug}',[OrdersController::class,'orderdetail'])->name('orders-detail');
+    Route::get('admin-dashboard/subscriptiondetail/{subcription_id}',[OrdersController::class,'subscriptiondetail'])->name('subscription-detail');
+
+    //payments
+    Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
+
 });
 
 Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
+    Route::get('account/orders',[UserDashController::class,'orders']);
+    Route::get('account/orders/{orderid}',[UserDashController::class,'orderdetail']);
+    Route::get('account/subscriptions/',[UserDashController::class,'subscriptions']);
+    Route::get('account/subscriptions/{subscription_id}',[UserDashController::class,'subscriptionsDetail']);
 });
 
 
 
 
-// Route::get('test',[CheckoutController::class,'test']);
+Route::get('test',[CheckoutController::class,'test']);

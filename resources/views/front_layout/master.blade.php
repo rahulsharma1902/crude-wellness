@@ -54,7 +54,7 @@
     }else{
         $user_id = null;
     }
-    $cart = App\Models\Cart::where('user_id',$user_id)->with('product','subscription','variations')->get();
+    $cart = App\Models\Cart::where([['user_id',$user_id],['status',1]])->with('product','subscription','variations')->get();
     $subscriptions = App\Models\SubscriptionOption::where('status',1)->get();
     
    
@@ -160,7 +160,13 @@
                     <p class="cart_empty_text">Your cart is Empty </p>
                 @endif
                 @foreach($cart as $c)
-                <?php $total_cart_price += $c->price*$c->quantity;   ?>
+                <?php if($c->purchase_type == 'multi_time'){
+                    $amount_off = ($c->subscription->discount_percentage/100) * $c->variations->price;
+                }elseif($c->purchase_type == 'one_time'){
+                    $amount_off = 0;
+                }
+                $price = $c->variations->price - $amount_off;
+                $total_cart_price += $price * $c->quantity;   ?>
                 <div class="cart_content" id="cart_content{{ $c->id ?? '' }}">
                     <a href="#">
                         <div class="pro_cart">
@@ -173,7 +179,7 @@
                     <div class="min_wreap">
                         <div class="text_wreap">
                             <h5>{{ $c->product->name ?? '' }}</h5>
-                            <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($c->price,2) ?? '' }}</span></span>
+                            <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($price,2) ?? '' }}</span></span>
                         </div>
                         <div class="number">
                             <span class="minus change_quantity" cart-id="{{ $c->id ?? '' }}" action="decrease">-</span>
@@ -419,6 +425,7 @@
                     url: '{{ url('cart/update') }}',
                     data: { action:'change_plan', subscriptionid:subscriptionid,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
+                        console.log(response);
                         if(response.response == 'quantityupdate'){
                             $('#cart_content'+cart_id).remove();
                             $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
@@ -445,7 +452,7 @@
                 url: '{{ url('shop/getPrices') }}',
                 data: { id:variation_id, _token:"{{ csrf_token() }}" },
                 success: function(response){
-                    price = parseFloat(response);
+                    price = parseInt(response);
                     subscription = getsubscriptionprice(subscriptionplan,price);
                     // console.log(subscription);
                     $('span.multi_time_price').html(subscription.final_price);
@@ -471,7 +478,7 @@
                 url: '{{  url('shop/getPrices') }}',
                 data: { action:'planchange',plan_id:id,variation:strength, _token:"{{ csrf_token() }}" },
                 success: function(response){
-                    console.log(purchase_type);
+                    console.log(response);
                     $('span.multi_time_price').html(response.final_price);
                     if(purchase_type === 'multi_time'){
                         $('span.total_price').html(response.final_price);
@@ -599,7 +606,12 @@
         })
         }
     });
+<<<<<<< HEAD
 
+=======
+</script>
+<script>
+>>>>>>> 25ab48baed1156cbf27037decd6c9c98cec65ed6
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){
             $('div.popup-onload').addClass('d-none');

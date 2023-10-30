@@ -30,21 +30,14 @@
                                                 <img class="w-100px" src="{{ asset('admin-theme/images/email/kyc-progress.png') }}" alt="In Process">
                                             </td>
                                         </tr>
-                                        @if(isset($mailData['invoice_url']) && $mailData['invoice_url'] == 'active')
+                                        
                                             <tr>
                                                 <td class="px-3 px-sm-5 pb-3 pb-sm-5">
-                                                    <h5 class="text-primary mb-3">Congratulations! Your payment is successfully completed. Check the invoice below the button.</h5>
-                                                    <a href="{{ $mailData['invoice_pdf'] ?? '' }}" class="btn btn-info">Invoice</a>
+                                                    <h5 class="text-primary mb-3">Congratulations! Your payment is successfully completed.</h5>
+                                                    
                                                 </td>
                                             </tr>
-                                        @else
-                                            <tr>
-                                                <td class="px-3 px-sm-5 pb-3 pb-sm-5">
-                                                    <h5 class="text-primary mb-3">Your payment process is pending. Complete it by clicking the link below!</h5>
-                                                    <a href="{{ $mailData['invoice_url'] ?? '' }}" class="btn btn-info">Invoice</a>
-                                                </td>
-                                            </tr>
-                                        @endif
+                                      
 
                                         
                                     </tbody>

@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}" />
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
@@ -397,6 +397,7 @@ $(document).ready(function(){
                     quantity = parseInt($('.cart_quantity[cart-id="'+cart_id+'"]').val())-1;
                 }
                 if(quantity === 0){
+                return false;
                     $('#cart_content'+cart_id).remove();
                    
                 }
@@ -406,7 +407,7 @@ $(document).ready(function(){
                     url: '{{ url('cart/update') }}',
                     data: { quantity:quantity,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
-                        console.log(response);
+                      
                         // $('span.cart_total_price').html(response.price);
                         // $('span.cart_items_count').html(response.total_items);
                         // if(response.count == 0){
@@ -452,6 +453,25 @@ $(document).ready(function(){
                             active.next().removeClass("disabled");
                             nextTab(active);
                             $("#summary").load(location.href + " #summary");
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        var errors = jqXHR.responseJSON.errors;
+                        // console.log(errors);
+                        $.each(errors ,function(key,value){
+                            console.log(key);
+                            console.log(value[0]);
+                            $('input[name="'+key+'"]').css({'border-color':'red'});
+                        });
+                        // for (var fieldName in errors) {
+                        //     if (errors.hasOwnProperty(fieldName)) {
+                        //         var errorMessages = errors[fieldName];
+                        //         console.log(errorMessages);
+                        //         errorMessages.forEach(function(errorMessage) {
+                        //             console.log(errorMessage);
+                                    
+                        //         });
+                        //     }
+                        // }
                     }
                    })
              
@@ -471,6 +491,7 @@ $(document).ready(function(){
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('front/js/script.js') }}"></script>
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/js/iziToast.min.js"></script>
     <script>
     const stripe = Stripe('{{ env('STRIPE_PUBLIC_KEY') }}');
     // console.log(stripe);
@@ -521,5 +542,21 @@ $(document).ready(function(){
     // ajax 
     
   </script>
+      @if(Session::get('error'))
+    <script>
+        iziToast.error({
+            message: "{{ Session::get('error') }}",
+            position: 'topRight' 
+        });
+        </script>
+    @endif
+    @if(Session::get('success'))
+    <script>
+        iziToast.success({
+            message: "{{ Session::get('success') }}",
+            position: 'topRight' 
+        });
+    </script>
+    @endif
 </body>
 </html>
