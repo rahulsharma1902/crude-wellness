@@ -62,6 +62,12 @@ class StripeWebHooks extends Controller
             }
             $order->status = $status;
             $order->update();
+
+          //update order meta
+            $orderMeta->status = 1;
+            $orderMeta->update();
+
+        /////send mail
         $user = User::find($order->customer_id);
             $mailData = [
                 'name' => $user->name,

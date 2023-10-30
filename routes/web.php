@@ -155,7 +155,9 @@ Route::group(['middleware'=>['auth','admin']],function(){
 
     //orders
     Route::get('admin-dashboard/orders',[OrdersController::class,'index'])->name('orders');
+    Route::get('admin-dashboard/recurringorders',[OrdersController::class,'recurringorders'])->name('recurringorders');
     Route::get('admin-dashboard/orders/{slug}',[OrdersController::class,'orderdetail'])->name('orders-detail');
+    Route::get('admin-dashboard/subscriptiondetail/{subcription_id}',[OrdersController::class,'subscriptiondetail'])->name('subscription-detail');
 
     //payments
     Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
@@ -165,9 +167,10 @@ Route::group(['middleware'=>['auth','admin']],function(){
 Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account',[UserDashController::class,'index']);
     Route::get('account/orders',[UserDashController::class,'orders']);
+    Route::get('account/orders/{orderid}',[UserDashController::class,'orderdetail']);
 });
 
 
 
 
-// Route::get('test',[CheckoutController::class,'test']);
+Route::get('test',[CheckoutController::class,'test']);

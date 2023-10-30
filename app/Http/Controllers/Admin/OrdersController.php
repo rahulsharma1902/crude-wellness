@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderMeta;
 use Auth;
 class OrdersController extends Controller
 {
@@ -25,6 +26,16 @@ class OrdersController extends Controller
         return view('admin.orders.orderdetail',compact('order')); 
     }
     public function recurringorders(){
-        
+        $ordermeta = OrderMeta::where('order_type','multi_time')->with('orderdata')->get();
+        // dd($ordermeta);
+       return view('admin.orders.recurringorders',compact('ordermeta'));
     }
+    public function subscriptiondetail($subscription_id){
+    $metadetail = OrderMeta::where('reccuring_id',$subscription_id)->first();
+    if(!$metadetail){
+        abort(404);
+    }
+    return view('admin.orders.subscriptiondetail',compact('metadetail'));
+    }
+
 }
