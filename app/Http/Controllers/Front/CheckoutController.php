@@ -278,7 +278,11 @@ class CheckoutController extends Controller
             //  echo '<pre>';
             //  print_r($mailData);
             //  die();
+            try {
             $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             }
           }
         }
@@ -346,8 +350,13 @@ class CheckoutController extends Controller
             'name' => Auth::user()->name,
             'payment_status' => $payment->payment_status,
           ];
-
-        $mail = Mail::to(Auth::user()->email)->send(new OneTimePaymentConfirmation($mailData)); 
+          try {
+          
+            $mail = Mail::to(Auth::user()->email)->send(new OneTimePaymentConfirmation($mailData)); 
+            //code...
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
         return true;
         }
     }

@@ -132,6 +132,9 @@
                                         <li class="nk-menu-item">
                                             <a href="{{ url('/admin-dashboard/orders') }}" class="nk-menu-link"><span class="nk-menu-text">Orders-List</span></a>
                                         </li>
+                                        <li class="nk-menu-item">
+                                            <a href="{{ url('/admin-dashboard/recurringorders') }}" class="nk-menu-link"><span class="nk-menu-text">Recurring Orders-List</span></a>
+                                        </li>
                                     </ul>
                                 </li>
 
@@ -332,6 +335,23 @@
             NioApp.Toast('{{ Session::get("success") }}', 'info', {position: 'top-right'});
         </script>
         @endif
+        <!-- script make theme dark mode dinamic: -->
+        <script>
+        $(document).ready(function(){
+            var theme = localStorage.getItem('siteTheme');
+            if(theme && theme === 'dark') {
+                $('body').addClass('nk-body bg-lighter npc-general has-sidebar no-touch nk-nio-theme dark-mode');
+            }
+            $('.dark-switch').on('click', function() {
+                if ($(this).hasClass('active')) {
+                    localStorage.setItem('siteTheme', 'light');   
+                } else {
+                    localStorage.setItem('siteTheme', 'dark');   
+                }
+            });
+        });
+        </script>
+        <!-- script make theme dark mode dinamic end: -->
 </body>
 
 </html>

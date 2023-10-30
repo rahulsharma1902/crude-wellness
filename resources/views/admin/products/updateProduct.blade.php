@@ -12,7 +12,7 @@
             <div class="card-head">
                 <h5 class="card-title">Product Info </h5>
             </div>
-            <form action="{{ url('productUpdate') ?? '' }}" class="form-validate" novalidate="novalidate" method="post"
+            <form id="productSaveForm" action="{{ url('productUpdate') ?? '' }}" class="form-validate" novalidate="novalidate" method="post"
                 enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="id" value="{{ $product->id ?? '' }}">
@@ -211,6 +211,35 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+    $('#productSaveForm').on('submit', function(e){
+        e.preventDefault();
+
+        function isNullOrEmpty(selector) {
+            var isNull = false;
+            $(selector).each(function() {
+                if ($(this).val() === null || $(this).val().trim() === '') {
+                    isNull = true;
+                    return false;
+                }
+            });
+            return isNull;
+        }
+        var priceIsNull = isNullOrEmpty('.price');
+        var qtyIsNull = isNullOrEmpty('.qty');
+        var strengthIsNull = isNullOrEmpty('.strength');
+
+        if (priceIsNull || qtyIsNull || strengthIsNull) {
+            toastr.clear();
+            NioApp.Toast('All Variation field are required !', 'error', {position: 'top-right'});
+        } else {
+            this.submit(); 
+        }
+    });
+});
+
+</script>
 <script>
         $('.remove-image').on('click', function (){
         $(this).parent().remove();

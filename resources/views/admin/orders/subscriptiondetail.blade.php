@@ -11,12 +11,12 @@
                                             <div class="nk-block-des text-soft">
                                                 <ul class="list-inline">
                                                     <li>Order ID: <span class="text-base">{{ $metadetail->orderdata->order_id ?? '' }}</span></li>
-                                                    <li>Started At: <span class="text-base">{{ $metadetail->created_at ?? ''  }}</span></li>
+                                                    <li>Started At: <span class="text-base">{{ \Carbon\Carbon::parse($metadetail->created_at)->format('F j, Y, g:i A') }}</span></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="nk-block-head-content">
-                                            <a href="html/kyc-list-regular.html" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                                            <a href="{{ url('admin-dashboard/recurringorders') ?? '' }}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
                                             <a href="html/kyc-list-regular.html" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
                                         </div>
                                     </div>
@@ -33,23 +33,23 @@
                                                 <ul class="data-list is-compact">
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Submitted By</div>
-                                                            <div class="data-value">UD01489</div>
+                                                            <div class="data-label">Started At</div>
+                                                            <div class="data-value" style="font-size: small;">{{ \Carbon\Carbon::parse($metadetail->userSubscription->started_on)->format('F j, Y, g:i A') }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Submitted At</div>
-                                                            <div class="data-value">18 Dec, 2019 01:02 PM</div>
+                                                            <div class="data-label">End At</div>
+                                                            <div class="data-value" style="font-size: inherit;">{{ \Carbon\Carbon::parse($metadetail->userSubscription->end_on)->format('F j, Y, g:i A') }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Status</div>
-                                                            <div class="data-value"><span class="badge badge-dim badge-sm bg-outline-success">Approved</span></div>
+                                                            <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-{{ $metadetail->userSubscription->subscription_status == 0 ? "warning" : ($metadetail->userSubscription->subscription_status == 1 ? "success" : ($metadetail->userSubscription->subscription_status == 2 ? "info" : "danger")) }}'>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == 1 ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</span></div>
                                                         </div>
                                                     </li>
-                                                    <li class="data-item">
+                                                    <!-- <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Last Checked</div>
                                                             <div class="data-value">
@@ -69,39 +69,38 @@
                                                             <div class="data-label">Last Checked At</div>
                                                             <div class="data-value">19 Dec, 2019 05:26 AM</div>
                                                         </div>
-                                                    </li>
+                                                    </li> -->
                                                 </ul>
                                             </div><!-- .card -->
                                             <div class="nk-block-head">
                                                 <div class="nk-block-head-content">
-                                                    <h5 class="nk-block-title title">Uploaded Documents</h5>
-                                                    <p>Here is user uploaded documents.</p>
+                                                    <h5 class="nk-block-title title">Product Details</h5>
                                                 </div>
                                             </div><!-- .nk-block-head -->
                                             <div class="card card-bordered">
                                                 <ul class="data-list is-compact">
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Document Type</div>
-                                                            <div class="data-value">National ID Card</div>
+                                                            <div class="data-label">Product Name</div>
+                                                            <div class="data-value">{{ $metadetail->productDetails->name ?? '' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Front Side</div>
-                                                            <div class="data-value">National ID Card</div>
+                                                            <div class="data-label">Strength</div>
+                                                            <div class="data-value">{{ $metadetail->variations->strength ?? '' }} MG</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Back Side</div>
-                                                            <div class="data-value">National ID Card</div>
+                                                            <div class="data-label">Price</div>
+                                                            <div class="data-value">${{ $metadetail->price ?? '' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Proof/Selfie</div>
-                                                            <div class="data-value">National ID Card</div>
+                                                            <div class="data-label">Quantity</div>
+                                                            <div class="data-value">{{ $metadetail->quantity ?? '' }}</div>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -119,71 +118,42 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">First Name</div>
-                                                            <div class="data-value">Abu Bin</div>
+                                                            <div class="data-value">{{ $metadetail->orderdata->user->address->first_name ?? 'Not available' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Last Name</div>
-                                                            <div class="data-value">Ishtiyak</div>
+                                                            <div class="data-value">{{ $metadetail->orderdata->user->address->last_name ?? 'Not available' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Email Address</div>
-                                                            <div class="data-value">info@softnio.com</div>
+                                                            <div class="data-value">{{ $metadetail->orderdata->user->email ?? 'Not available' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Phone Number</div>
-                                                            <div class="data-value text-soft"><em>Not available</em></div>
+                                                            <div class="data-value text-soft">{{ $metadetail->orderdata->user->address->mobiles ?? 'Not available' }}</div>
                                                         </div>
                                                     </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Date of Birth</div>
-                                                            <div class="data-value">28 Oct, 2015</div>
-                                                        </div>
-                                                    </li>
+                                                   
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Full Address</div>
-                                                            <div class="data-value">6516, Eldoret, Uasin Gishu, 30100</div>
+                                                            <div class="data-value">{{ $metadetail->orderdata->user->address->address ?? '' }},{{ $metadetail->orderdata->user->address->city ?? '' }},{{ $metadetail->orderdata->user->address->state ?? '' }} {{ $metadetail->orderdata->user->address->zipcodes ?? '' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Country of Residence</div>
-                                                            <div class="data-value">Kenya</div>
+                                                            <div class="data-value">{{ $metadetail->orderdata->user->address->region ?? '' }}</div>
                                                         </div>
                                                     </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Full Address</div>
-                                                            <div class="data-value">6516, Eldoret, Uasin Gishu, 30100</div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Wallet Type</div>
-                                                            <div class="data-value">Bitcoin</div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Wallet Address</div>
-                                                            <div class="data-value text-break">1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX</div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Telegram</div>
-                                                            <div class="data-value">
-                                                                <span>@tokenlite</span> <a href="https://t.me/tokenlite" target="_blank"><em class="icon ni ni-telegram"></em></a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
+                                                   
+                                                   
                                                 </ul>
                                             </div>
                                         </div><!-- .col -->
