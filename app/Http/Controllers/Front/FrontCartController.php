@@ -95,8 +95,14 @@ class FrontCartController extends Controller
                     $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
                     $total_price = 0;
                     foreach($cartitems as $c){
-                        $item_price = $c->price*$c->quantity;
-                        $total_price +=$item_price;
+                        if($c->purchase_type == 'multi_time'){
+                            $amount_off = ($c->subscription->discount_percentage/100) * $c->variations->price;
+                        }elseif($c->purchase_type == 'one_time'){
+                            $amount_off = 0;
+                        }
+                        $price = $c->variations->price - $amount_off;
+                        $item_price = $price*$c->quantity;
+                        $total_price += $item_price;
                     }
 
                     return response()->json(['price'=>number_format($total_price,2),'success'=>'successfully updated quantity','count'=>count($cartitems),'total_items'=>count($cartitems)]);
