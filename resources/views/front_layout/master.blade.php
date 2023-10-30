@@ -160,7 +160,13 @@
                     <p class="cart_empty_text">Your cart is Empty </p>
                 @endif
                 @foreach($cart as $c)
-                <?php $total_cart_price += $c->price*$c->quantity;   ?>
+                <?php if($c->purchase_type == 'multi_time'){
+                    $amount_off = ($c->subscription->discount_percentage/100) * $c->variations->price;
+                }elseif($c->purchase_type == 'one_time'){
+                    $amount_off = 0;
+                }
+                $price = $c->variations->price - $amount_off;
+                $total_cart_price += $price * $c->quantity;   ?>
                 <div class="cart_content" id="cart_content{{ $c->id ?? '' }}">
                     <a href="#">
                         <div class="pro_cart">
@@ -173,7 +179,7 @@
                     <div class="min_wreap">
                         <div class="text_wreap">
                             <h5>{{ $c->product->name ?? '' }}</h5>
-                            <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($c->price,2) ?? '' }}</span></span>
+                            <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($price,2) ?? '' }}</span></span>
                         </div>
                         <div class="number">
                             <span class="minus change_quantity" cart-id="{{ $c->id ?? '' }}" action="decrease">-</span>
@@ -545,7 +551,6 @@
                 processData: false,
                 success: function(response)
                 {   
-                    console.log(response);
                     if(response.error){
                         iziToast.error({
                                 message: response.error,
