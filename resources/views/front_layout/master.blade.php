@@ -419,6 +419,7 @@
                     url: '{{ url('cart/update') }}',
                     data: { action:'change_plan', subscriptionid:subscriptionid,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
+                        console.log(response);
                         if(response.response == 'quantityupdate'){
                             $('#cart_content'+cart_id).remove();
                             $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
@@ -445,7 +446,7 @@
                 url: '{{ url('shop/getPrices') }}',
                 data: { id:variation_id, _token:"{{ csrf_token() }}" },
                 success: function(response){
-                    price = parseFloat(response);
+                    price = parseInt(response);
                     subscription = getsubscriptionprice(subscriptionplan,price);
                     // console.log(subscription);
                     $('span.multi_time_price').html(subscription.final_price);
@@ -471,7 +472,7 @@
                 url: '{{  url('shop/getPrices') }}',
                 data: { action:'planchange',plan_id:id,variation:strength, _token:"{{ csrf_token() }}" },
                 success: function(response){
-                    console.log(purchase_type);
+                    console.log(response);
                     $('span.multi_time_price').html(response.final_price);
                     if(purchase_type === 'multi_time'){
                         $('span.total_price').html(response.final_price);
@@ -544,6 +545,7 @@
                 processData: false,
                 success: function(response)
                 {   
+                    console.log(response);
                     if(response.error){
                         iziToast.error({
                                 message: response.error,

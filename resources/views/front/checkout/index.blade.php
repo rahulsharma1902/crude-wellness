@@ -397,6 +397,7 @@ $(document).ready(function(){
                     quantity = parseInt($('.cart_quantity[cart-id="'+cart_id+'"]').val())-1;
                 }
                 if(quantity === 0){
+                return false;
                     $('#cart_content'+cart_id).remove();
                    
                 }
@@ -406,7 +407,7 @@ $(document).ready(function(){
                     url: '{{ url('cart/update') }}',
                     data: { quantity:quantity,cart_id:cart_id,_token:"{{ csrf_token() }}" },
                     success: function(response){
-                        console.log(response);
+                      
                         // $('span.cart_total_price').html(response.price);
                         // $('span.cart_items_count').html(response.total_items);
                         // if(response.count == 0){

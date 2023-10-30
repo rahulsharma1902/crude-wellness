@@ -25,6 +25,9 @@ class CheckoutController extends Controller
         }
         // dd($invoice);
         $cartitems = Cart::where([['user_id',Auth::user()->id],['status',1]])->get();
+        if($cartitems->IsEmpty()){
+            abort(404);
+        }
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
         #################### Create setupintent ##########################
         $intent =  $stripe->setupIntents->create([
@@ -125,6 +128,7 @@ class CheckoutController extends Controller
                 $ordermeta->order_type = $items->purchase_type;
                 $ordermeta->variation_id = $items->variation_id;
                 $ordermeta->product_id = $items->product_id;
+                $ordermeta->status = 0;
                 $ordermeta->save();
             }else{
                 // $price = $stripe->prices->create(
@@ -144,6 +148,7 @@ class CheckoutController extends Controller
                 $ordermeta->order_type = $items->purchase_type;
                 $ordermeta->variation_id = $items->variation_id;
                 $ordermeta->product_id = $items->product_id;
+                $ordermeta->status = 0;
                 $ordermeta->save();
             }
 
@@ -210,9 +215,11 @@ class CheckoutController extends Controller
          ]);
          
          
+         
 
 /* payment */
          $invoice = $this->getinvoice($createMembership->latest_invoice);
+        //  dd($invoice);
         //  echo '<pre>';
         //  print_r($createMembership);
         //  echo '<hr>';
@@ -307,7 +314,7 @@ class CheckoutController extends Controller
             $payment->payment_status = $stripePaymentIntent->status;
             $payment->save();
 
-            OrderMeta::where([['order_id',$orderid],['order_type','one_time']])->update(['payment_id' => $payment->id]);
+            OrderMeta::where([['order_id',$orderid],['order_type','one_time']])->update(['payment_id' => $payment->id,'status' => 1]);
 
           }
 
@@ -331,29 +338,33 @@ class CheckoutController extends Controller
         return $invoice;
         
     }
-
+    
     
     public function test(){
-        // $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-        // $invoice = $stripe->invoices->retrieve(
-        //     "in_1O4eedSHTa61PzN8YcSThb6m",
-        //   []
-        // );
-        
-        // Stripe::setApiKey($stripeSecretKey);
-        //     header('Content-Type: application/json');
+        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+        // $subscriptiondetail =  $stripe->subscriptions->retrieve(
+        //     'sub_1O5ot7SHFLlPQCJ7oHdevImx',
+        //     []
+        //   );
+        //   echo '<pre>';
+        //   print_r($subscriptiondetail);
+        //   echo '</pre>';
 
-    //         $YOUR_DOMAIN = 'http://localhost:4242';
+        // $subscriptions = $stripe->subscriptions->all();
+        // dd($subscriptions);
 
-    //         $checkout_session = \Stripe\Checkout\Session::create([
-    //         'line_items' => [[
-    //             # Provide the exact Price ID (e.g. pr_1234) of the product you want to sell
-    //             'price' => '{{PRICE_ID}}',
-    //             'quantity' => 1,
-    //         ]],
-    //         'mode' => 'payment',
-    //         'success_url' => $YOUR_DOMAIN . '/success.html',
-    //         'cancel_url' => $YOUR_DOMAIN . '/cancel.html',
-    //         ]);
+    //     \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+
+    //     $session = \Stripe\Checkout\Session::create([
+    //       'payment_method_types' => ['card'],
+    //       'line_items' => [[
+    //         'price' => 'price_1O4kO1SHFLlPQCJ7pxpCd8uu',
+    //         'quantity' => 1,
+    //       ]],
+    //       'mode' => 'subscription',
+    //       'success_url' => 'https://example.com/success',
+    //       'cancel_url' => 'https://example.com/cancel',
+    //     ]);
+    //     return redirect($session->url);
     }
 }

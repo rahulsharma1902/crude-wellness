@@ -24,4 +24,8 @@ class OrderMeta extends Model
         
         return $this->hasOne(SubscriptionOption::class,'id','subscription_id');
     }
+    public function orderdata(){
+
+        return $this->hasOne(Order::class,'id','order_id');
+    }
 }

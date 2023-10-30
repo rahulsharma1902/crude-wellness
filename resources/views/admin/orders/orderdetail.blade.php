@@ -75,8 +75,8 @@
                                             </div>
                                             <div class="container">
                                                 <div class="row header">
-                                                    <div class="col-3">Name</div>
-                                                    <div class="col-3">Strength</div>
+                                                    <div class="col-2">Name</div>
+                                                    <div class="col-2">Strength</div>
                                                     <div class="col-2">Price</div>
                                                     <div class="col-2">Quantity</div>
                                                     <div class="col-2">Total</div>
