@@ -32,8 +32,8 @@ class OrdersController extends Controller
        return view('admin.orders.recurringorders',compact('ordermeta'));
     }
     public function subscriptiondetail($subscription_id){
-    $metadetail = OrderMeta::with('subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first();
-    // $metadetail = OrderMeta::with('subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first()->toArray();
+    $metadetail = OrderMeta::with('userSubscription','subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first();
+    // $metadetail = OrderMeta::with('userSubscription','subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first()->toArray();
     // echo '<pre>';
     // print_r($metadetail);
     // die();
@@ -43,4 +43,12 @@ class OrdersController extends Controller
     return view('admin.orders.subscriptiondetail',compact('metadetail'));
     }
 
+    // private function getSubscriptionDetail($subscription_id){
+    //     $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+    //     $subscriptiondetail =  $stripe->subscriptions->retrieve(
+    //         $subscription_id,
+    //         []
+    //       );
+    //     return $subscriptiondetail;
+    // }
 }

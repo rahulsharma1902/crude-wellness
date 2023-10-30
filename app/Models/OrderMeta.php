@@ -26,4 +26,7 @@ class OrderMeta extends Model
     public function orderdata(){
         return $this->hasOne(Order::class,'id','order_id');
     }
+    public function userSubscription(){
+        return $this->hasOne(UserSubscription::class,'order_meta_id','id');
+    }
 }

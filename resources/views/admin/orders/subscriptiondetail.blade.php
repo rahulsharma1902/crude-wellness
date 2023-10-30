@@ -34,25 +34,19 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Started At</div>
-                                                            <div class="data-value" style="font-size: inherit;">{{ \Carbon\Carbon::parse($metadetail->created_at)->format('F j, Y, g:i A') }}</div>
+                                                            <div class="data-value" style="font-size: small;">{{ \Carbon\Carbon::parse($metadetail->userSubscription->started_on)->format('F j, Y, g:i A') }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
-                                                            <div class="data-label">Last Payment</div>
-                                                            <div class="data-value" style="font-size: inherit;">{{ \Carbon\Carbon::parse($metadetail->updated_at)->format('F j, Y, g:i A') }}</div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="data-item">
-                                                        <div class="data-col">
-                                                            <div class="data-label">Upcoming Payment</div>
-                                                            <div class="data-value" style="font-size: inherit;" >{{ \Carbon\Carbon::parse($metadetail->updated_at)->format('F j, Y, g:i A') }}</div>
+                                                            <div class="data-label">End At</div>
+                                                            <div class="data-value" style="font-size: inherit;">{{ \Carbon\Carbon::parse($metadetail->userSubscription->end_on)->format('F j, Y, g:i A') }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Status</div>
-                                                            <div class="data-value"><span class="badge badge-dim badge-sm bg-outline-success">{{ $metadetail->status == 0 ? "Pending" : ($metadetail->status == 1 ? "Active" : ($metadetail->status == 2 ? "Pause" : "Cancelled")) }}</span></div>
+                                                            <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-{{ $metadetail->userSubscription->subscription_status == 0 ? "warning" : ($metadetail->userSubscription->subscription_status == 1 ? "success" : ($metadetail->userSubscription->subscription_status == 2 ? "info" : "danger")) }}'>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == 1 ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</span></div>
                                                         </div>
                                                     </li>
                                                     <!-- <li class="data-item">
@@ -100,7 +94,7 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Price</div>
-                                                            <div class="data-value">$ {{ $metadetail->price ?? '' }}</div>
+                                                            <div class="data-value">${{ $metadetail->price ?? '' }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
@@ -142,7 +136,7 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Phone Number</div>
-                                                            <div class="data-value text-soft"><em>{{ $metadetail->orderdata->user->address->mobiles ?? 'Not available' }}</em></div>
+                                                            <div class="data-value text-soft">{{ $metadetail->orderdata->user->address->mobiles ?? 'Not available' }}</div>
                                                         </div>
                                                     </li>
                                                    
