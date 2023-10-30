@@ -27,11 +27,16 @@ class OrdersController extends Controller
     }
     public function recurringorders(){
         $ordermeta = OrderMeta::where('order_type','multi_time')->with('orderdata')->get();
+       
         // dd($ordermeta);
        return view('admin.orders.recurringorders',compact('ordermeta'));
     }
     public function subscriptiondetail($subscription_id){
-    $metadetail = OrderMeta::where('reccuring_id',$subscription_id)->first();
+    $metadetail = OrderMeta::with('subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first();
+    // $metadetail = OrderMeta::with('subscriptiondetail','productDetails','variations','orderdata.user.address')->where('reccuring_id',$subscription_id)->first()->toArray();
+    // echo '<pre>';
+    // print_r($metadetail);
+    // die();
     if(!$metadetail){
         abort(404);
     }

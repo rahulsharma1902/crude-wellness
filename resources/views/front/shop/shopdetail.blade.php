@@ -78,7 +78,7 @@
                         </ul>
                         <div class="purchase_wreap">
                             <h5>Purchase Type:</h5>
-                           
+                          
                                 @if($subscriptions->isNotEmpty())
                                 <div class="purchase_hd">
                                     <input type="radio" id="test1" name="purchase_type" value="multi_time"  checked="true"/>
@@ -97,7 +97,7 @@
                                         </div>
                                         <?php 
                                             $percentage_off = $subscriptions[0]->discount_percentage;
-                                            $price = number_format($product->variations[0]->price,2);
+                                            $price = $product->variations[0]->price;
                                             $discount = ($percentage_off/100)*$price;
                                             $final_price = $price - $discount;
 
