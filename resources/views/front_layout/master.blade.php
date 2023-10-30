@@ -600,7 +600,6 @@
         }
     });
 
-<script>
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){
             $('div.popup-onload').addClass('d-none');
