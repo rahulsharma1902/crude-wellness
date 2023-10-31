@@ -170,6 +170,10 @@ Route::group(['middleware' =>['auth','user']],function(){
     Route::get('account/orders/{orderid}',[UserDashController::class,'orderdetail']);
     Route::get('account/subscriptions/',[UserDashController::class,'subscriptions']);
     Route::get('account/subscriptions/{subscription_id}',[UserDashController::class,'subscriptionsDetail']);
+
+    Route::get('account/subscription-cancel/{subscription_id}',[UserDashController::class,'cancelSubscription']);
+    Route::get('account/subscription-pause/{subscription_id}',[UserDashController::class,'pauseSubscription']);
+    Route::get('account/subscription-continue/{subscription_id}',[UserDashController::class,'resumeSubscription']);
 });
 
 

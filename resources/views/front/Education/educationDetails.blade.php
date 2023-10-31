@@ -23,9 +23,9 @@
                     </div>
                     <div class="prv_next_wreap">
                         <ul class="list-unstyled">
-                            <li><a href="#" class="btn"><i class="fa-solid fa-arrow-left"></i> Previous Post</a>
+                            <li class="{{ $previousBlog->slug ?? 'active' }}"><a href="{{ $previousBlog->slug ?? '' }}" class="btn"><i class="fa-solid fa-arrow-left"></i> Previous Post</a>
                             </li>
-                            <li class="active"><a href="#" class="btn">Next Post <i class="fa-solid fa-arrow-right"></i></a></li>
+                            <li class="{{ $nextBlog->slug ?? 'active' }}"><a href="{{ $nextBlog->slug ?? '' }}" class="btn">Next Post <i class="fa-solid fa-arrow-right"></i></a></li>
                         </ul>
                     </div>
                 </div>

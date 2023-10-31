@@ -167,16 +167,43 @@ class ProductsController extends Controller
             $imageNames = $this->uploadImages($request,$product->id);
         }
       
-        ProductVariations::where('product_id',$request->id)->delete();
+        // ProductVariations::where('product_id',$request->id)->delete();
+        
 
+        // for ($i = 0; $i < count($request->strength); $i++) {
+        //     $productVariations = new ProductVariations;
+        //     $productVariations->strength = $request->strength[$i];
+        //     $productVariations->price = $request->price[$i];
+        //     $productVariations->qty = $request->qty[$i];
+        //     $productVariations->product_id = $product->id;
+        //     $productVariations->save();
+        // }
+
+        /* Code for update product Variation :: */
+
+        $newStrengths = $request->strength;
+
+        ProductVariations::where('product_id', $request->id)->whereNotIn('strength', $newStrengths)->delete();
+        
         for ($i = 0; $i < count($request->strength); $i++) {
-            $productVariations = new ProductVariations;
-            $productVariations->strength = $request->strength[$i];
+            $productVariations = ProductVariations::where('product_id', $request->id)
+                ->where('strength', $request->strength[$i])
+                ->first();
+        
+            if (!$productVariations) {
+                $productVariations = new ProductVariations;
+                $productVariations->product_id = $request->id;
+                $productVariations->strength = $request->strength[$i];
+            }
+        
             $productVariations->price = $request->price[$i];
             $productVariations->qty = $request->qty[$i];
-            $productVariations->product_id = $product->id;
             $productVariations->save();
         }
+        
+
+        /* End code of update product variation :: */
+
         $product->save();
         return redirect('admin-dashboard/product-edit/' . $request->slug)->with('success', 'Product updated successfully.');
 

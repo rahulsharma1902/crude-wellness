@@ -179,6 +179,7 @@
                     <div class="min_wreap">
                         <div class="text_wreap">
                             <h5>{{ $c->product->name ?? '' }}</h5>
+                            <span>{{ $c->variations->strength ?? '' }} MG</span>
                             <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($price,2) ?? '' }}</span></span>
                         </div>
                         <div class="number">

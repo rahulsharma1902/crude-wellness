@@ -9,7 +9,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('shop') }}">Shop</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Natural Flavour Broad Spectrum 30ml</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $product->name ?? '' }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -78,7 +78,7 @@
                         </ul>
                         <div class="purchase_wreap">
                             <h5>Purchase Type:</h5>
-                           
+                          
                                 @if($subscriptions->isNotEmpty())
                                 <div class="purchase_hd">
                                     <input type="radio" id="test1" name="purchase_type" value="multi_time"  checked="true"/>
@@ -243,7 +243,7 @@
                                             <li><i class="fa-solid fa-star"></i></li>
                                             <li>4.5</li>
                                         </ul>
-                                        <span class="prodollar">{{ $products->variations[0]->price ?? '' }}</span>
+                                        <span class="prodollar">${{ number_format($products->variations[0]->price,2) ?? '' }}</span>
                                     </div>
                                     <h6 class="card-title">{{ $products->name ?? '' }}</h6>
                                     <a href="{{ url('shop-detail') }}/{{ $products->slug ?? '' }}" type="button" class="btn main-btn  btn-lg btn-block">Shop Now</a>
