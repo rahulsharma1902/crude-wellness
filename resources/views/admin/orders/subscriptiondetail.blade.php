@@ -46,7 +46,7 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Status</div>
-                                                            <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-{{ $metadetail->userSubscription->subscription_status == 0 ? "warning" : ($metadetail->userSubscription->subscription_status == 1 ? "success" : ($metadetail->userSubscription->subscription_status == 2 ? "info" : "danger")) }}'>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == 1 ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</span></div>
+                                                            <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-{{ $metadetail->userSubscription->subscription_status == 0 ? "warning" : ($metadetail->userSubscription->subscription_status == "active" ? "success" : ($metadetail->userSubscription->subscription_status == 2 ? "info" : "danger")) }}'>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == "active" ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</span></div>
                                                         </div>
                                                     </li>
                                                     <!-- <li class="data-item">
