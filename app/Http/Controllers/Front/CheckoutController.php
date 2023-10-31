@@ -34,6 +34,7 @@ class CheckoutController extends Controller
         $intent =  $stripe->setupIntents->create([
             'payment_method_types' => ['card'],
           ]);
+         
         return view('front.checkout.index',compact('cartitems','address','intent'));
     }
     public function addresssave(Request $request){
@@ -95,6 +96,7 @@ class CheckoutController extends Controller
             $order->status = 0;
             $order->save();
             $address = Address::where('user_id',Auth::user()->id)->first();
+            
             // if (!$address) {
             //     return redirect()->back()->with('error', 'Failed to find your address. Please try again.');
             // }
@@ -108,12 +110,12 @@ class CheckoutController extends Controller
                 'default_payment_method' => $request->token,
                 ],
                 'address' => [
-                'line1' => $address->address,
-                'postal_code' => $address->zipcodes,
-                'city' => $address->city,
-                'state' => $address->state,
-                'country' => $address->country,
-                ],
+                    'line1' => '510 Townsend St',
+                    'postal_code' => '98140',
+                    'city' => 'San Francisco',
+                    'state' => 'CA',
+                    'country' => 'US',
+                  ],
             ]);
 
             foreach($cartitems as $items){
@@ -181,8 +183,6 @@ class CheckoutController extends Controller
             $order->update();            
            
             Cart::where([['user_id', Auth::user()->id],['status',1]])->update(['status' => 2]);
-
-        // return redirect()->back()->with('success', 'Please check your email for payment confirmation');
         return redirect('/')->with('success', 'Please check your email for payment confirmation');
         } catch (\Exception $e) {
             // Handle exceptions here
@@ -195,22 +195,6 @@ class CheckoutController extends Controller
         $ordermeta = OrderMeta::where('order_id',$orderid)->get();
         
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-
-        // $customer =  $stripe->customers->create([
-        //     'name' => Auth::user()->name,
-        //     'email' => Auth::user()->email,
-        //     'payment_method' => $token,
-        //     'invoice_settings' => [
-        //     'default_payment_method' => $token,
-        //     ],
-        //     'address' => [
-        //     'line1' => '510 Townsend St',
-        //     'postal_code' => '98140',
-        //     'city' => 'San Francisco',
-        //     'state' => 'CA',
-        //     'country' => 'US',
-        //     ],
-        //   ]);
 
           $order = Order::find($orderid);
           $order->stripe_customer_id = $customer->id;
@@ -233,13 +217,7 @@ class CheckoutController extends Controller
 
 /* payment */
          $invoice = $this->getinvoice($createMembership->latest_invoice);
-        //  echo '<pre>';
-        //  print_r($createMembership);
-        //  echo '<hr>';
-        //  print_r($createMembership->status);
-        //  echo '<hr>';
-        //  print_r($invoice);
-        //  die();
+
          $subscriptions = new UserSubscription;
          $subscriptions->subscription_id = $createMembership->id;
          $subscriptions->order_meta_id = $meta->id;
@@ -268,17 +246,17 @@ class CheckoutController extends Controller
                 $order_meta_data->payment_id = $payment->id;
                 $order_meta_data->reccuring_id = $createMembership->id;
                 $order_meta_data->update();
-            
-            $mailData = [
-                'name' => Auth::user()->name,
-                'invoice_url' => $payment->invoice_url,
-                'invoice_pdf' => $payment->invoice_pdf,
-                'payment_status' => $payment->payment_status,
-            ]; 
-            //  echo '<pre>';
-            //  print_r($mailData);
-            //  die();
-            $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+
+                    $invoice_payment = $this->payinvoice($createMembership->latest_invoice);
+                    if($invoice_payment == false){
+                        $mailData = [
+                            'name' => Auth::user()->name,
+                            'invoice_url' => $payment->invoice_url,
+                            'invoice_pdf' => $payment->invoice_pdf,
+                            'payment_status' => $payment->payment_status,
+                        ]; 
+                        $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+                    }
             }
           }
         }
@@ -295,21 +273,6 @@ class CheckoutController extends Controller
                 $totalprice += $order->price*$order->quantity;
             }
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
-            // $customer =  $stripe->customers->create([
-            //     'name' => Auth::user()->name,
-            //     'email' => Auth::user()->email,
-            //     'payment_method' => $token,
-            //     'invoice_settings' => [
-            //     'default_payment_method' => $token,
-            //     ],
-            //     'address' => [
-            //     'line1' => '510 Townsend St',
-            //     'postal_code' => '98140',
-            //     'city' => 'San Francisco',
-            //     'state' => 'CA',
-            //     'country' => 'US',
-            //     ],
-            // ]);
 
             $totalAmountCents = (int)($totalprice * 100);
             $stripePaymentIntent = $stripe->paymentIntents->create([
@@ -352,6 +315,19 @@ class CheckoutController extends Controller
         }
     }
 
+    protected function payinvoice($invoiceid){
+        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+       try {
+        $pay_invoice = $stripe->invoices->pay(
+            $invoiceid,
+            []
+            );
+            return true;
+        } catch (\Throwable $th) {
+            return false;
+        }       
+    }
+
 
     protected function getinvoice($invoice_number){
         $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
@@ -360,10 +336,10 @@ class CheckoutController extends Controller
           []
         );
         return $invoice;
-        
     }
     protected function changedate($date){
         $datetime = date('Y-m-d H:i:s', $date);
+
         return $datetime;
     }
     
@@ -372,9 +348,19 @@ class CheckoutController extends Controller
 
         // $order = OrderMeta::get();
         // dd($order[0]->productDetails);
-        // $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+    //     $invoice_id = 'in_1O7DRcSHFLlPQCJ75dz2ecrB';
+    //     $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+
+    // //     $stripe = new \Stripe\StripeClient('sk_test_51N11RHSHFLlPQCJ7ShmLxwl3n3a04fTip2KOrKgChOritZv0QqdxRaRyarZhbmQCilPkoTVzY1QfPxXCN5PCoIzr00zyGCOmSP');
+    //    $pay_invoice = $stripe->invoices->pay(
+    //     $invoice_id,
+    //     []
+    //     );
+    //     echo '<pre>';
+    //     print_r($pay_invoice);
+    //     echo '</pre>';
         // $subscriptiondetail =  $stripe->subscriptions->retrieve(
-        //     'sub_1O5nDISHFLlPQCJ78T7Fidnf',
+        //     'sub_1O7CFWSHFLlPQCJ7j8J5XT3L',
         //     []
         //   );
         //   echo '<pre>';
@@ -400,6 +386,6 @@ class CheckoutController extends Controller
     //       'cancel_url' => 'https://example.com/cancel',
     //     ]);
     //     return redirect($session->url);
-    return view('test',compact('order'));
+    // return view('test',compact('order'));
     }
 }

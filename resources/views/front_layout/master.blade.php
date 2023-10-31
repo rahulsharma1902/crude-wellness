@@ -606,12 +606,8 @@
         })
         }
     });
-<<<<<<< HEAD
-
-=======
 </script>
 <script>
->>>>>>> 25ab48baed1156cbf27037decd6c9c98cec65ed6
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){
             $('div.popup-onload').addClass('d-none');
