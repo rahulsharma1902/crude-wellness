@@ -82,7 +82,7 @@
                 </div>
                 <div class="row">
                     <div class="col">Status</div>
-                    <div class="col">{{ $subscription_detail->ordermeta->userSubscription->subscription_status == 0 ? "Pending" : ($subscription_detail->ordermeta->userSubscription->subscription_status == 1 ? "Active" : ($subscription_detail->ordermeta->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</div>
+                    <div class="col">{{ $subscription_detail->ordermeta->userSubscription->subscription_status == 0 ? "Pending" : ($subscription_detail->ordermeta->userSubscription->subscription_status == "active" ? "Active" : ($subscription_detail->ordermeta->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</div>
                 </div>
             </div>
         </div>
