@@ -18,7 +18,8 @@ class EducationController extends Controller
     public function details(Request $request , $slug){
         $blog = Blog::where('slug',$slug)->first();
         $recentblogs = Blog::orderBy('created_at','desc')->get()->take(3);
-
-        return view('front.Education.educationDetails',compact('blog','recentblogs'));
+        $previousBlog = Blog::where('id', '<', $blog->id)->orderBy('id', 'desc')->first();
+        $nextBlog = Blog::where('id', '>', $blog->id)->orderBy('id','asc')->first();
+        return view('front.Education.educationDetails',compact('blog','recentblogs','previousBlog','nextBlog'));
     }
 }

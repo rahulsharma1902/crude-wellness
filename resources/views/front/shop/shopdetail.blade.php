@@ -9,7 +9,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                             <li class="breadcrumb-item"><a href="{{ url('shop') }}">Shop</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">Natural Flavour Broad Spectrum 30ml</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $product->name ?? '' }}</li>
                         </ol>
                     </nav>
                 </div>

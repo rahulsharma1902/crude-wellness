@@ -10,6 +10,7 @@ use Stripe\Stripe;
 use Stripe\Webhook;
 use App\Models\OrderMeta;
 use App\Models\PaymentCollection;
+use App\Models\UserSubscription;
 use App\Models\Order;
 use App\Models\User;
 
@@ -53,6 +54,13 @@ class StripeWebHooks extends Controller
             $paymentcollection->payment_status = 'succeeded';
             $paymentcollection->save();
         }
+        $subscription_detail = $this->subscriptiondetail($orderMeta->reccuring_id);
+        $subscription = UserSubscription::where('order_meta_id',$orderMeta->id)->first();
+        $subscription->started_on = $this->changedate($subscription_detail->current_period_start);
+        $subscription->end_on = $this->changedate($subscription_detail->current_period_end);
+        $subscription->subscription_status = $subscription_detail->status;
+        $subscription->update();
+
         $order = Order::find($orderMeta->order_id);
         $status = 1;
             foreach($order->payment as $payment){
@@ -82,6 +90,19 @@ class StripeWebHooks extends Controller
     } catch (\Stripe\Exception\SignatureVerificationException $e) {
         return $e->getMessage();
     }
+
+    }
+    protected function changedate($date){
+        $datetime = date('Y-m-d H:i:s', $date);
+        return $datetime;
+    }
+    protected function subscriptiondetail($subscription_id){
+        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+        $subscriptiondetail =  $stripe->subscriptions->retrieve(
+            $subscription_id,
+            []
+        );
+          return $subscriptiondetail;
 
     }
 }

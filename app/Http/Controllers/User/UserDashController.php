@@ -35,8 +35,14 @@ class UserDashController extends Controller
     public function subscriptionsDetail($subscription_id){
         $subscription_detail = UserSubscription::where('subscription_id',$subscription_id)->first();
         
+        // $subscription_detail = UserSubscription::with('variations','ordermeta.orderdata.user.address','ordermeta.productDetails')->where('subscription_id',$subscription_id)->first()->toArray();
+        // echo '<pre>';
+        // print_r($subscription_detail);
+        // echo '<hr>';
+        // die();
+
         $subscription_data = $this->getSubscriptionDetail($subscription_id);
-      
+
         return view('user.subscriptiondetail',compact('subscription_detail','subscription_data'));
     }
     public function cancelSubscription($subscription_id){

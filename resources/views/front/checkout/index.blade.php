@@ -306,6 +306,7 @@
                         $totalcartprice = 0;
                         ?>
                         @foreach($cartitems as $cart)
+                        
                         <div class="order_wrapper">
                             <div class="d-flex">
                                 <div class="order-img">
@@ -313,6 +314,10 @@
                                 </div>
                                 <div>
                                     <h5>{{ $cart->product->name ?? '' }}</h5>
+                                    <span> {{ $cart->variations->strength ?? '' }} MG </span> <br>
+                                    @if($cart->purchase_type === 'multi_time')
+                                    <span style="font-size: small;"> Deliver Every {{ $cart->subscription->recurring_period ?? '' }} {{ $cart->subscription->recurring_type ?? '' }} and -{{ $cart->subscription->discount_percentage ?? '' }}% off</span>
+                                    @endif
                                 </div>
                             </div>
                             <div class="add_wreap">
@@ -328,7 +333,9 @@
                                     <span action="increase" class="plus change_quantity" cart-id="{{ $cart->id ?? '' }}">+</span>
                                 </div>
                             </div>
+                           
                         </div>
+                        
                         <?php
                         $totalcartprice += $totalprice;
                         ?>
