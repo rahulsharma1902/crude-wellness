@@ -33,8 +33,12 @@
                                    
                                             <tr>
                                                 <td class="px-3 px-sm-5 pb-3 pb-sm-5">
+<<<<<<< HEAD
                                                     <h5 class="text-primary mb-3">Congratulation {{ $mailData['name'] ?? '' }}! Your account is created successfully for purchasing products from Curdes Wellness.</h5>
                                                     <a href="{{ url('shop') }}" class="btn btn-info">Visit Shop Page</a>
+=======
+                                                    <h5 class="text-primary mb-3">Hello Admin! New User Registered in Curdes Wellness.</h5>
+>>>>>>> 618a5d75542e373171a05aab14e18b68645b1a18
                                                 </td>
                                             </tr>
                                         

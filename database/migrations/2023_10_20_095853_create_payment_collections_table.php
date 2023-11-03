@@ -19,9 +19,12 @@ return new class extends Migration
             $table->string('payment_intent');
             $table->string('payment_amount');
             $table->string('payment_type');
+            $table->string('period_start')->nullable();
+            $table->string('period_end')->nullable();
             $table->text('invoice_url')->nullable();
             $table->text('invoice_pdf')->nullable();
             $table->string('payment_status');
+            $table->integer('delivery_status')->default(0);   ///0 for  pending 1 for confirmed 2 for shipped 3 for delivered.
             $table->timestamps();
         });
     }

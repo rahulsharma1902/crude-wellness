@@ -2636,3 +2636,303 @@ span.animate-ping {
     cursor: pointer;
 }
 /* slider css end here : */
+
+/* userdashboard */
+.table.table-striped th,
+table.table.table-striped td {
+  white-space: nowrap;
+}
+.outer_row .col-lg-9 > div {
+  margin: 50px 0px;
+}
+.outer_row .userInformation > div > div,
+.productDetails > div > div,
+.subscriptionInformation > div > div {
+  margin: 10px 0px;
+}
+.outer_row .col-lg-3 > div {
+  margin-bottom: 20px;
+}
+.outer_row {
+  margin: 100px 0px;
+}
+.outer_row > div:last-child {
+  padding-left: 80px;
+}
+
+.outer_row > div:last-child h4 {
+  font-size: 30px;
+}
+.userInformation,
+.productDetails {
+  padding-bottom: 50px;
+  border-bottom: 1px solid #eff1f2;
+}
+.outer_row .productDetails img {
+  border: none;
+  background: #dee2e6;
+}
+
+.row.outer_row .col-lg-9 .d-flex {
+  justify-content: space-between !important;
+}
+
+
+.outer_row .col-lg-3 > div {
+    margin-bottom: 5px !important;
+  }
+  
+  .outer_row .col-lg-3 > div a {
+    padding: 15px 0px;
+    text-align: center;
+  }
+  .userInformation,
+  .productDetails {
+    padding-bottom: 30px;
+  }
+  .outer_row .col-lg-9 > div {
+    margin: 30px 0px;
+  }
+  @media only screen and (max-width: 1199px) {
+      .outer_row {
+          margin: 5px 0px;
+        }
+    .outer_row > div:last-child {
+      padding-left: 40px;
+    }
+    .userInformation,
+    .productDetails {
+      padding-bottom: 20px;
+    }
+    .outer_row .col-lg-9 > div {
+      margin: 0px 0px 30px;
+    }
+    .outer_row .userInformation > div > div,
+    .productDetails > div > div,
+    .subscriptionInformation > div > div {
+      word-break: break-all;
+    }
+  }
+  
+  @media only screen and (max-width: 991px) {
+    .outer_row {
+      margin: 30px 0px;
+    }
+    .outer_row > div:last-child {
+      padding-left: 0px;
+    }
+  }
+  @media only screen and (max-width: 767px) {
+    .row.outer_row .col-lg-9 .d-flex h5 {
+      font-size: 14px;
+    }
+  
+    .outer_row > div:last-child h4 {
+      font-size: 25px;
+    }
+  
+    .outer_row .userInformation > div > div,
+    .productDetails > div > div,
+    .subscriptionInformation > div > div {
+      margin: 5px 0px;
+    }
+  }
+  @media only screen and (max-width: 575px) {
+    .outer_row > div:last-child h4 {
+      font-size: 18px;
+    }
+    .row.outer_row .col-lg-9 .d-flex {
+      flex-wrap: wrap;
+      text-align: center;
+      align-items: center;
+      justify-content: center !important;
+      gap: 10px;
+    }
+    .outer_row > div {
+      padding: 0px;
+    }
+    .row.outer_row .col-lg-9 .d-flex h5 {
+      width: 100%;
+    }
+    .userInformation .row > div {
+      width: 50%;
+    }
+  }
+
+
+  /* slider */
+
+  .natural_img_grid img {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+  .natural_img_grid .slider-for .slick-list.draggable {
+    height: 500px !important;
+    margin: 0px;
+  }
+  
+  .natural_img_grid .store-img.slick-slide.featured-image {
+      height: 500px !important;
+      border: 1px solid #EFF1F2;
+      border-radius: 20px;
+      padding: 10px;
+  }
+  
+  .natural_img_grid .custom-img {
+      height: 70px;
+      border: 1px solid #EFF1F2;
+      padding: 5px;
+      border-radius: 5px;
+  }
+  
+  .natural_img_grid .slider-nav .slick-track {
+      height: 100% !important;
+      width: 100% !important;
+      display: flex;
+      gap: 10px;
+      transform: none !important;
+  }
+
+  /* cart css */
+  .cart_content .number {
+    display: inline-block;
+    border-radius: 28px;
+    border: 1px solid #F0F0F0;
+    padding: 5px;
+  }
+  
+  .cart_content .number input {
+    border: none;
+    vertical-align: middle;
+  }
+  .pro_cart {
+      padding: 10px;
+  }
+  .cart_content {
+      border: none;
+      padding: 0px !important;
+      margin: 10px !important;
+  }
+  /* .cart-products {
+     
+      padding-bottom: 25px;
+      margin-bottom: 25px;
+  } */
+  .cart-products .checkbox_div {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+  }
+  .cart-products .checkbox_div select {
+      border: none;
+      appearance: none;
+  }
+  .number input {
+      height: 30px !important;
+      width: 30px !important;
+  }
+  
+
+  /* checkboxes */
+
+  .cart-products input[type=checkbox] {
+    height: 0px;
+    width: 0px;
+    visibility: hidden;
+}
+
+.cart-products label.label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 60px;
+    height: 30px;
+    background: grey;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+    margin: 0px;
+}
+
+.cart-products .custom-control.custom-switch {
+  padding-left: 0px !important;
+  height: 15px;
+  width: 15px;
+}
+
+.cart-products .custom-control-input:checked~.custom-control-label::before {
+  background: transparent !important;
+}
+
+.cart-products .custom-control-input {
+  position: relative;
+  z-index: 1;
+  opacity: 1;
+  height: 100%;
+  width: 100%;
+}
+
+.cart-products .checkbox_div select {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  font-size: 14px;
+}
+.cart-products .checkbox_div {
+padding-bottom: 16px;
+margin-bottom: 24px !important;
+  gap: 0px;
+  margin: 10px;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.cart-products .custom-control {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+}
+
+.cart-products .label:after {
+	content: '';
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	width: 27px;
+	height: 27px;
+	background: #fff;
+	border-radius: 90px;
+	transition: 0.3s;
+}
+
+.cart-products input:checked + .label {
+	background: #370060;
+}
+
+.cart-products input:checked + .label:after {
+	left: calc(100% - 2px);
+	transform: translateX(-100%);
+}
+
+.cart-products .label:active:after {
+	width: 27px;
+}
+.cart-products label.label {
+    height: 20px;
+    width: 40px;
+}
+
+.cart-products .label:after {
+    width: 16px;
+    height: 16px;
+}
+.cart_content .number {
+    border-radius: 0px;
+    border: none;
+    padding: 0px;
+}
+
+.cart_content .number input {
+    border: 1px solid #CCCCCC;
+    font-size: 18px;
+    height: 45px !important;
+    width: 45px !important;
+}

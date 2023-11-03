@@ -49,6 +49,12 @@
                                                             <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-{{ $metadetail->userSubscription->subscription_status == 0 ? "warning" : ($metadetail->userSubscription->subscription_status == "active" ? "success" : ($metadetail->userSubscription->subscription_status == 2 ? "info" : "danger")) }}'>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == "active" ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</span></div>
                                                         </div>
                                                     </li>
+                                                    <li class="data-item">
+                                                        <div class="data-col">
+                                                            <div class="data-label">Delivery Status</div>
+                                                            <div class="data-value"><span class='badge badge-dim badge-sm bg-outline-success'>{{ $metadetail->status == 0 ? 'Pending' : ($metadetail->status == 1 ? 'Confirmed' : ($metadetail->status == 2 ? 'Shipped' : 'delivered'))  }}</span></div>
+                                                        </div>
+                                                    </li>
                                                     <!-- <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Last Checked</div>
@@ -94,7 +100,7 @@
                                                     <li class="data-item">
                                                         <div class="data-col">
                                                             <div class="data-label">Price</div>
-                                                            <div class="data-value">${{ $metadetail->price ?? '' }}</div>
+                                                            <div class="data-value">${{ number_format($metadetail->price ?? 0,2) }}</div>
                                                         </div>
                                                     </li>
                                                     <li class="data-item">
@@ -110,7 +116,7 @@
                                             <div class="nk-block-head">
                                                 <div class="nk-block-head-content">
                                                     <h5 class="nk-block-title title">Applicant Information</h5>
-                                                    <p>Basic info, like name, phone, address, country etc.</p>
+                                                    <!-- <p>Basic info, like name, phone, address, country etc.</p> -->
                                                 </div>
                                             </div>
                                             <div class="card card-bordered">
@@ -155,6 +161,36 @@
                                                    
                                                    
                                                 </ul>
+                                            </div>
+                                        </div><!-- .col -->
+                                        <div class="col-lg-12">
+                                            <div class="nk-block-head">
+                                                <div class="nk-block-head-content">
+                                                    <h5 class="nk-block-title title">Order Payment History</h5>
+                                                    <!-- <p>Basic info, like name, phone, address, country etc.</p> -->
+                                                </div>
+                                            </div>
+                                            <div class="card card-bordered">
+                                            <table class="table">
+                                                    <thead class="thead-dark">
+                                                    <tr>
+                                                        <th scope="col">Period Start</th>
+                                                        <th scope="col">Period End</th>
+                                                        <th scope="col">Delivery Status</th>
+                                                        <th scope="col">Status</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>{{ \Carbon\Carbon::parse($metadetail->userSubscription->started_on)->format('F j, Y, g:i A') }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($metadetail->userSubscription->end_on)->format('F j, Y, g:i A') }}</td>
+                                                        <td><button class="btn btn-success btn-md"> @if($metadetail->delivery_status == 0) Pending @elseif($metadetail->delivery_status == 1) Confirmed @elseif($metadetail->delivery_status == 2) Shipped @elseif($metadetail->delivery_status == 3) Delivered @endif</button> </td>
+                                                        <td>{{ $metadetail->userSubscription->subscription_status == 0 ? "Pending" : ($metadetail->userSubscription->subscription_status == "active" ? "Active" : ($metadetail->userSubscription->subscription_status == 2 ? "Pause" : "Cancelled")) }}</td>
+                                                    </tr>
+                                                    
+                                                    </tbody>
+                                                </table>
+                                                
                                             </div>
                                         </div><!-- .col -->
                                     </div><!-- .row -->

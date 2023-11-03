@@ -25,7 +25,8 @@ use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
 use App\Http\Controllers\Front\FrontDiscountController;
 use App\Http\Controllers\Admin\PaymentController;
-
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Stripe\StripeWebHooks;
 
 
@@ -43,9 +44,9 @@ use App\Http\Controllers\Stripe\StripeWebHooks;
 // Route::get('/', function () {
 //     return view('front_layout.master');
 // });
-// Route::get('/test', function () {
-//     return view('test');
-// });
+Route::get('/payment-confirmation', function () {
+    return view('front/checkout/payment_confirmation');
+});
 //Authentications routes
 Route::get('login',[AuthenticationController::class,'index'])->name('login');
 Route::post('loginProcc',[AuthenticationController::class,'loginprocc']);
@@ -158,9 +159,22 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard/recurringorders',[OrdersController::class,'recurringorders'])->name('recurringorders');
     Route::get('admin-dashboard/orders/{slug}',[OrdersController::class,'orderdetail'])->name('orders-detail');
     Route::get('admin-dashboard/subscriptiondetail/{subcription_id}',[OrdersController::class,'subscriptiondetail'])->name('subscription-detail');
-
+    Route::post('admin-dashboard/orders/update',[OrdersController::class,'updateorder']);
+    
     //payments
     Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
+    // users
+    Route::get('admin-dashboard/users',[UserController::class,'index']);
+
+    // Reviews
+    Route::get('admin-dashboard/reviews',[ReviewsController::class,'index']);
+    Route::get('admin-dashboard/addreviews/{id?}',[ReviewsController::class,'addreviews']);
+    Route::post('admin-dashboard/reviews/addProcc',[ReviewsController::class,'addReviewsProcc']);
+    Route::get('admin-dahboard/reviews/delete/{id}',[ReviewsController::class,'reviewDelete']);
+    Route::get('admin-dashboard/reviews-categories',[ReviewsController::class,'categories']);
+    Route::post('admin-dashboard/reviews-categories/addProcc',[ReviewsController::class,'addCatgories'])->name('add-reviews-categories');
+    Route::get('admin-dashboard/reviews-categories/delete/{id}',[ReviewsController::class,'deletereviewCategory'])->name('delete-reviews-categories');
+
 
 });
 

@@ -34,6 +34,7 @@ class StripeWebHooks extends Controller
         $invoicepdf = $event->data->object->invoice_pdf;
         $orderMeta = OrderMeta::where('stripe_price_id',$price_id)->first();
         $paymentcollection = PaymentCollection::where('payment_intent',$paymentIntent)->first();
+        $subscription_detail = $this->subscriptiondetail($orderMeta->reccuring_id);
         if($paymentcollection){
             $paymentcollection->order_id = $orderMeta->order_id;
             $paymentcollection->inovice_id = $event->data->object->id;
@@ -42,6 +43,9 @@ class StripeWebHooks extends Controller
             $paymentcollection->invoice_url = $invoiceurl;
             $paymentcollection->invoice_pdf = $invoicepdf;
             $paymentcollection->payment_status = 'succeeded';
+            $paymentcollection->delivery_status = 1;
+            $paymentcollection->period_start = $this->changedate($subscription_detail->current_period_start);
+            $paymentcollection->period_end = $this->changedate($subscription_detail->current_period_end);
             $paymentcollection->update();
         }else{
             $paymentcollection = new PaymentCollection;
@@ -52,9 +56,12 @@ class StripeWebHooks extends Controller
             $paymentcollection->invoice_url = $invoiceurl;
             $paymentcollection->invoice_pdf = $invoicepdf;
             $paymentcollection->payment_status = 'succeeded';
+            $paymentcollection->delivery_status = 1;
+            $paymentcollection->period_start = $this->changedate($subscription_detail->current_period_start);
+            $paymentcollection->period_end = $this->changedate($subscription_detail->current_period_end);
             $paymentcollection->save();
         }
-        $subscription_detail = $this->subscriptiondetail($orderMeta->reccuring_id);
+        
         $subscription = UserSubscription::where('order_meta_id',$orderMeta->id)->first();
         $subscription->started_on = $this->changedate($subscription_detail->current_period_start);
         $subscription->end_on = $this->changedate($subscription_detail->current_period_end);

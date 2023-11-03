@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/izitoast@1.4.0/dist/css/iziToast.min.css">
 
-    <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('front/css/style.css?'.time()) }}">
     <link rel="stylesheet" href="{{ asset('front/css/responsive.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 
@@ -172,36 +172,45 @@
                         <div class="pro_cart">
                             <img src="{{ asset('productIMG/') }}/{{ $c->product->featured_img ?? '' }}" alt="">
                         </div>
-                        <div class="">
-                            <input type="checkbox" class="membership_status" cart-id="{{ $c->id ?? '' }}" name="membership_plan" id="membership_status{{ $c->id ?? '' }}" @if($c->purchase_type == 'multi_time') checked @endif >
-                        </div>
+                        
                     </a>
                     <div class="min_wreap">
                         <div class="text_wreap">
-                            <h5>{{ $c->product->name ?? '' }}</h5>
-                            <span>{{ $c->variations->strength ?? '' }} MG</span>
-                            <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($price,2) ?? '' }}</span></span>
+                            <div>
+                                <h5>{{ $c->product->name ?? '' }}</h5>
+                                <span>{{ $c->variations->strength ?? '' }} MG</span>
+                            </div>
+                            <div>
+                                <span>$<span class="item_price{{ $c->id ?? '' }}">{{ number_format($price,2) ?? '' }}</span></span>
+                            </div>
                         </div>
                         <div class="number">
                             <span class="minus change_quantity" cart-id="{{ $c->id ?? '' }}" action="decrease">-</span>
-                            <input type="text" class="cart_quantity" cart-id="{{ $c->id ?? '' }}" value="{{ $c->quantity ?? '' }}">
+                            <input type="text" class="cart_quantity" cart-id="{{ $c->id ?? '' }}" value="{{ $c->quantity ?? '' }}" disabled>
                             <span class="plus change_quantity" cart-id="{{ $c->id ?? '' }}" action="increase">+</span>
                         </div>
-                        @if($c->purchase_type == 'multi_time')
-                        <div class="membership_plan" id="membership_plan{{ $c->id ?? '' }}">
-                        @else
-                        <div class="membership_plan d-none" id="membership_plan{{ $c->id ?? '' }}">
-                        @endif
-                            <select name="subscription_id" id="subscription{{ $c->id ?? '' }}" cart-id="{{ $c->id ?? '' }}" class="form-control subscription_type">
-                            
-                               @foreach($subscriptions as $sub)
-                                <option value="{{ $sub->id ?? '' }}" @if($sub->id == $c->subscription_id) selected  @endif>Delivery Every {{ $sub->recurring_period ?? '' }} {{ $sub->recurring_type ?? '' }} -{{ $sub->discount_percentage ?? '' }}% Off</option>
-                               @endforeach
-                            </select>
-                        </div>
+                      
                        
                     </div>
                 </div>
+                <div class="checkbox_div" id="checkbox_content{{ $c->id ?? '' }}">
+                        <div class="custom-control ">
+                            <input type="checkbox" class=" membership_status" cart-id="{{ $c->id ?? '' }}" name="membership_plan" id="membership_status{{ $c->id ?? '' }}" @if($c->purchase_type == 'multi_time') checked @endif >
+                            <label class="label" for="membership_status{{ $c->id ?? '' }}"></label>
+                        </div>
+                            @if($c->purchase_type == 'multi_time')
+                            <div class="membership_plan" id="membership_plan{{ $c->id ?? '' }}">
+                            @else
+                            <div class="membership_plan d-none" id="membership_plan{{ $c->id ?? '' }}">
+                            @endif
+                                <select name="subscription_id" id="subscription{{ $c->id ?? '' }}" cart-id="{{ $c->id ?? '' }}" class="form-control subscription_type">
+                                
+                                @foreach($subscriptions as $sub)
+                                    <option value="{{ $sub->id ?? '' }}" @if($sub->id == $c->subscription_id) selected  @endif>Delivery Every {{ $sub->recurring_period ?? '' }} {{ $sub->recurring_type ?? '' }} -{{ $sub->discount_percentage ?? '' }}% Off</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
                 @endforeach
                 </div>
                 <!-- <div class="might_wrapper">
@@ -245,14 +254,14 @@
                             </div>
                             <span>$<span class="cart_total_price">{{ number_format($total_cart_price,2) ?? '' }}</span> </span>
                         </li>
-                        <li>
+                        <!-- <li>
                             <select id="inputState" class="form-control">
                                 <option selected>Select Redeem Points</option>
                                 <option>1</option>
                                 <option>2</option>
                             </select>
                             <a href="product-detail.html" type="button" class="btn main-btn">Apply</a>
-                        </li>
+                        </li> -->
                     </ul>
                     <button type="button" onclick="location.href='{{ url('checkout') }}'" class="btn main-btn">Go to
                         checkout</button>
@@ -374,6 +383,7 @@
                 }
                 if(quantity === 0){
                     $('#cart_content'+cart_id).remove();
+                    $('#checkbox_content'+cart_id).remove();
                    
                 }
                 
@@ -406,6 +416,7 @@
                     success: function(response){
                         if(response.response == 'quantityupdate'){
                             $('#cart_content'+cart_id).remove();
+                            $('#checkbox_content'+cart_id).remove();
                             $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
                         }
                         $('span.cart_total_price').html(response.total_price);
@@ -429,6 +440,8 @@
                         console.log(response);
                         if(response.response == 'quantityupdate'){
                             $('#cart_content'+cart_id).remove();
+                            $('#checkbox_content'+cart_id).remove();
+                            
                             $('input.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
                         }
                         $('span.cart_total_price').html(response.total_price);
@@ -563,6 +576,7 @@
                     $('#exampleModalLong').modal("show");
                     if(response.success == 'updated'){
                        quantity = $('.cart_quantity[cart-id="'+response.cart.id+'"]').val(response.cart.quantity);
+                       $('span.cart_total_price').html(response.total_price);
 // console.log(quantity);
                     }else if(response.success == 'created'){ 
                         // optionhtml = []; 
@@ -584,7 +598,7 @@
                             checkbox = "";
                             display = "d-none";
                         }
-                        html = '<div class="cart_content" id="cart_content'+response.cart['id']+'"><a href="#"><div class="pro_cart"><img src="{{ asset('productIMG/') }}/'+response.product['featured_img']+'" alt=""></div><div class=""><input type="checkbox" class="membership_status" cart-id="'+response.cart['id']+'}" name="membership_plan" id="membership_status'+response.cart['id']+'" '+checkbox+'></div></a><div class="min_wreap"><div class="text_wreap"><h5>'+response.product.name+'</h5><span>$<span class="item_price'+response.cart['id']+'">'+response.price+'</span></span></div><div class="number"><span class="minus change_quantity" cart-id="'+response.cart['id']+'" action="decrease">-</span><input type="text" class="cart_quantity" cart-id="'+response.cart['id']+'" value="'+response.cart['quantity']+'"><span class="plus change_quantity" cart-id="'+response.cart['id']+'" action="increase">+</span></div><div class="membership_plan '+display+'" id="membership_plan'+response.cart['id']+'"><select name="subscription_id" id="subscription'+response.cart['id']+'" cart-id="'+response.cart['id']+'" class="form-control subscription_type">'+options+'</select></div> </div> </div>';
+                        html = '<div class="cart_content" id="cart_content'+response.cart['id']+'"><a href="#"><div class="pro_cart"><img src="{{ asset('productIMG/') }}/'+response.product['featured_img']+'" alt=""></div></a><div class="min_wreap"><div class="text_wreap"><div><h5>'+response.product.name+'</h5><span>'+response.variation.strength+' MG</span></div><div><span>$<span class="item_price'+response.cart['id']+'">'+response.price+'</span></span></div></div><div class="number"><span class="minus change_quantity" cart-id="'+response.cart['id']+'" action="decrease">-</span><input type="text" class="cart_quantity" cart-id="'+response.cart['id']+'" value="'+response.cart['quantity']+'"><span class="plus change_quantity" cart-id="'+response.cart['id']+'" action="increase">+</span></div> </div> </div><div class="checkbox_div" id="checkbox_content'+response.cart['id']+'"><div class="custom-control "><input type="checkbox" class="membership_status" cart-id="'+response.cart['id']+'}" name="membership_plan" id="membership_status'+response.cart['id']+'" '+checkbox+'> <label class="label" for="membership_status'+response.cart['id']+'"></label></div><div class="membership_plan '+display+'" id="membership_plan'+response.cart['id']+'"><select name="subscription_id" id="subscription'+response.cart['id']+'" cart-id="'+response.cart['id']+'" class="form-control subscription_type">'+options+'</select></div></div>';
                         $('div.cart-products').append(html);
                         $('.shoping_list').removeClass('d-none');
                         $('span.cart_total_price').html(response.total_price);
@@ -607,12 +621,8 @@
         })
         }
     });
-<<<<<<< HEAD
-
-=======
 </script>
 <script>
->>>>>>> 25ab48baed1156cbf27037decd6c9c98cec65ed6
     $(document).ready(function(){
         if(localStorage.modalstatus === 'hide'){
             $('div.popup-onload').addClass('d-none');

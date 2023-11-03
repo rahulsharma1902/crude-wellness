@@ -26,24 +26,32 @@
                             <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
                         </div> -->
                         <div class="slider slider-for">
-                        <div class="store-img">
+                        <div class="store-img featured-image">
                                 <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
                         </div>
                         @if(isset($product->media))
                             @foreach($product->media as $media)
+<<<<<<< HEAD
                             <div class="store-img featured-products">
+=======
+                            <div class="store-img featured-image">
+>>>>>>> 618a5d75542e373171a05aab14e18b68645b1a18
                               <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="">
                             </div>
                             @endforeach
                         @endif
                         </div>
                         <div class="slider slider-nav">
-                        <div class="store-img">
+                        <div class="custom-img slider-image">
                                 <img src="{{ asset('productIMG') }}/{{ $product->featured_img ?? '' }}" class="img-fluid" alt="" />
                         </div>
                         @if(isset($product->media))
                                 @foreach($product->media as $media)
+<<<<<<< HEAD
                              <div class="custom-img featured-products">
+=======
+                             <div class="custom-img slide-image">
+>>>>>>> 618a5d75542e373171a05aab14e18b68645b1a18
                                 <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" alt="">
                               </div>  
                             @endforeach
