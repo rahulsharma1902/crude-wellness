@@ -321,10 +321,17 @@
                                 </div>
                             </div>
                             <div class="add_wreap">
+                            <?php if($cart->purchase_type == 'multi_time'){
+                                    $amount_off = ($cart->subscription->discount_percentage/100) * $cart->variations->price;
+                                }elseif($cart->purchase_type == 'one_time'){
+                                    $amount_off = 0;
+                                }
+                                $price = $cart->variations->price - $amount_off;
+                                $totalprice = $price * $cart->quantity;   ?>
                                 <?php 
-                                $price = $cart->price;
-                                $quantity = $cart->quantity;
-                                $totalprice = $price*$quantity;
+                                // $price = $cart->price;
+                                // $quantity = $cart->quantity;
+                                // $totalprice = $price*$quantity;
                                 ?>
                                 <span>${{ number_format($totalprice,2) }}</span>
                                 <div class="number">

@@ -66,24 +66,12 @@
                         </td>
                         <td class="nk-tb-col tb-col-md">
                             <span>
-                                {{ $order->price ?? '' }}
+                                {{ number_format($order->price ?? 0,2) }}
                             </span>
                         </td>
                         <td class="nk-tb-col tb-col-md">
-                            <span>
-                                <?php $status = true; ?>
-                              @if(isset($order->payment))
-                                @foreach($order->payment as $payments)
-                                    @if($payments->payment_status == 'incomplete')
-                                    <?php $status = false;  ?>
-                                    @endif
-                                @endforeach
-                              @endif
-                                @if($status == true)
-                                    confirmed
-                                @else
-                                    pending
-                                @endif
+                            <span class="status{{ $order->id ?? '' }}">
+                            {{ $order->status == 0 ? "Pending" : ($order->status == 1 ? "Confirmed" : ($order->status == 2 ? "Shipped" : "Delivered")) }}
                             </span>
                         </td>
 
@@ -134,13 +122,13 @@
                                                         <em class="icon ni ni-arrow-up-right"></em>
                                                     </div>
                                                     <div class="nk-tnx-type-text">
-                                                        <h5 class="title">{{ $order->status == 0 ? "Pending" : "Complete" }}</h5>
+                                                        <h5 class="title status{{ $order->id ?? '' }}">{{ $order->status == 0 ? "Pending" : ($order->status == 1 ? "Confirmed" : ($order->status == 2 ? "Shipped" : "Delivered")) }}</h5>
                                                         <span class="sub-text mt-n1">{{ $order->created_at ?? '' }}</span>
                                                     </div>
                                                 </div>
                                                 <ul class="align-center flex-wrap gx-3">
                                                     <li>
-                                                        <span class="badge badge-sm badge-success text-{{ $order->status == 0 ? 'warning' : 'success' }}">{{ $order->status == 0 ? "Pending" : "Complete" }}</span>
+                                                        <span id="order-status" order-id ="{{ $order->id ?? '' }}" value="{{ $order->status ?? '' }}" class="badge order-status badge-sm badge-success text-{{ $order->status == 0 ? 'warning' : 'success' }} status{{ $order->id ?? '' }}">{{ $order->status == 0 ? "Pending" : ($order->status == 1 ? "Confirmed" : ($order->status == 2 ? "Shipped" : "Delivered")) }}</span>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -162,7 +150,7 @@
                                                 </div> -->
                                                 <div class="col-lg-6">
                                                     <span class="sub-text">Amount</span>
-                                                    <span class="caption-text">${{ $order->price ?? '' }}</span>
+                                                    <span class="caption-text">${{ number_format($order->price ?? 0,2) }}</span>
                                                 </div>
                                             </div><!-- .row -->
                                             <div class="nk-modal-head mt-sm-5 mt-4 mb-4">
@@ -215,9 +203,9 @@
                                                         <div class="row">
                                                             <div class="col-2">{{ $detail->productDetails->name ?? '' }}</div>
                                                             <div class="col-2">{{ $detail->variations->strength ?? '' }}mg</div>
-                                                            <div class="col-2">$ {{ $detail->price ?? '' }}</div>
+                                                            <div class="col-2">$ {{ number_format($detail->price ?? 0,2) }}</div>
                                                             <div class="col-2">{{ $detail->quantity ?? '' }}</div>
-                                                            <div class="col-2">$ {{ $detail->total_price ?? '' }}</div>
+                                                            <div class="col-2">$ {{ number_format($detail->total_price ?? 0,2) }}</div>
                                                             @if($detail->order_type == 'multi_time')
                                                             <div class="col-2"><span class="badge bg-primary">{{ $detail->paymentStatus->payment_status ?? '' }}</span></div>
                                                             @else
@@ -230,7 +218,7 @@
                                                 <hr>
                                                 <div class="row">
                                                     <div class="col-9 text-end"><strong>Total:</strong></div>
-                                                    <div class="col-3">$ {{ $order->price ?? '' }}</div>
+                                                    <div class="col-3">$ {{ number_format($order->price ?? 0,2) }}</div>
                                                 </div>
                                             </div>
 
@@ -260,5 +248,25 @@
 //         $('.'+modelClass).show();
 //     });
 // });
+</script>
+<script>
+    $('span#order-status').on('click',function(){
+        status = $(this).attr('value');
+        orderid = $(this).attr('order-id');
+        $.ajax({
+            url: '{{ url('admin-dashboard/orders/update') }}',
+            method: 'post',
+            data: { _token:"{{ csrf_token() }}",status:status,orderid:orderid },
+            success:function(response){
+                if(response.success){
+                     $('.status'+orderid).html(response.status);
+                     NioApp.Toast(response.success, 'info', {position: 'top-right'});
+                }else if(response.error){
+                    NioApp.Toast(response.error, 'error', {position: 'top-right'});
+                }
+            }
+
+        })
+    });
 </script>
 @endsection

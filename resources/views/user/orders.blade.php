@@ -1,7 +1,7 @@
 @extends('front_layout/master')
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row outer_row">
         <div class="col-lg-3 py-4">
             <div class="p-1">
                 <a href="{{ url('account/orders') }}" class="main-btn" style="width:100%;">Orders</a>

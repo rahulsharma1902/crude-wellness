@@ -183,7 +183,7 @@ class CheckoutController extends Controller
             $order->update();            
            
             Cart::where([['user_id', Auth::user()->id],['status',1]])->update(['status' => 2]);
-        return redirect('/')->with('success', 'Please check your email for payment confirmation');
+        return redirect('/payment-confirmation')->with('success', 'Please check your email for payment confirmation');
         } catch (\Exception $e) {
             // Handle exceptions here
             return redirect()->back()->with('error', 'An unexpected error occurred.');
@@ -240,6 +240,9 @@ class CheckoutController extends Controller
                 $payment->payment_type = 'Recurring';
                 $payment->payment_amount = ($createMembership->plan->amount / 100) * $meta->quantity;
                 $payment->payment_status = $createMembership->status;
+                $payment->period_start = $this->changedate($invoice->period_start);
+                $payment->period_end = $this->changedate($invoice->period_end); 
+                $payment->delivery_status = 0;
                 $payment->save();
 
                 $order_meta_data = OrderMeta::find($meta->id);
@@ -299,6 +302,7 @@ class CheckoutController extends Controller
             // $payment->invoice_pdf = $invoice->invoice_pdf;
             $payment->payment_amount = $stripePaymentIntent->amount / 100;
             $payment->payment_status = $stripePaymentIntent->status;
+            $payment->delivery_status = 1;
             $payment->save();
 
             OrderMeta::where([['order_id',$orderid],['order_type','one_time']])->update(['payment_id' => $payment->id,'status' => 1]);
@@ -344,8 +348,26 @@ class CheckoutController extends Controller
     }
     
     public function test(){
-
-
+        $subscription_id = 'sub_1O7DZESHFLlPQCJ7L8Dlmivq';
+        $stripe = new \Stripe\StripeClient( env('STRIPE_SECRET_KEY') );
+        // $pause_status = $stripe->subscriptions->update(
+        //     $subscription_id,
+        //     [
+        //       'pause_collection' => ['behavior' => 'void'],
+        //       'cancel_at_period_end' => true,
+        //     ]
+        //   );
+        // $resume_status = $stripe->subscriptions->update(
+        //     $subscription_id,
+        //     [
+        //       'pause_collection' => '',
+        //       'cancel_at_period_end' => false,
+        //     ]
+        //   );
+        $cancel_status = $stripe->subscriptions->update($subscription_id, ['cancel_at_period_end' => true]);
+        //   echo '<pre>';
+        //   print_r($resume_status);
+        //   echo '</pre>';
         // $order = OrderMeta::get();
         // dd($order[0]->productDetails);
     //     $invoice_id = 'in_1O7DRcSHFLlPQCJ75dz2ecrB';

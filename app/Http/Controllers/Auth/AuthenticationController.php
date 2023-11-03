@@ -8,6 +8,7 @@ use Auth;
 use Hash;
 use App\Models\User;
 use App\Mail\UserRegisterMail;
+use App\Mail\UserRegistered;
 use App\Mail\ForgottenPassword;
 use Mail;
 
@@ -59,6 +60,7 @@ class AuthenticationController extends Controller
             'email' => $request->email,
         ];
         $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+        $Adminmail = Mail::to('admin@gmail.com')->send(new UserRegistered($mailData)); 
         
         return redirect()->back()->with('success','Your account is created successfully');
     }
