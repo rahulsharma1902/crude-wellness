@@ -31,7 +31,7 @@
                         </div>
                         @if(isset($product->media))
                             @foreach($product->media as $media)
-                            <div class="store-img">
+                            <div class="store-img featured-products">
                               <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" class="img-fluid" alt="">
                             </div>
                             @endforeach
@@ -43,7 +43,7 @@
                         </div>
                         @if(isset($product->media))
                                 @foreach($product->media as $media)
-                             <div class="custom-img">
+                             <div class="custom-img featured-products">
                                 <img src="{{ asset('productIMG') }}/{{ $media->img_name ?? '' }}" alt="">
                               </div>  
                             @endforeach
