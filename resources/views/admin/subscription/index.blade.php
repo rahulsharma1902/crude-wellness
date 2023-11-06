@@ -3,8 +3,11 @@
                             <div class="nk-content ">
                                     <div class="nk-block nk-block-lg">
                                         <div class="nk-block-head">
-                                            <div class="nk-block-head-content">
+                                            <div class="nk-block-head-content d-flex justify-content-between">
                                                 <h4 class="title nk-block-title">Add Subscriptions Options</h4>
+                                                <div>
+                                                    {{ Breadcrumbs::render('subscription-options') }}
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="card card-bordered card-preview">

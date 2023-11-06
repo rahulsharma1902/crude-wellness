@@ -3,8 +3,9 @@
                             <div class="nk-content ">
                                     <div class="nk-block nk-block-lg">
                                         <div class="nk-block-head">
-                                            <div class="nk-block-head-content">
+                                            <div class="nk-block-head-content d-flex justify-content-between">
                                                 <h4 class="title nk-block-title">Add Reviews Categories</h4>
+                                                {{ Breadcrumbs::render('reviews-category') }}
                                             </div>
                                         </div>
                                         <div class="card card-bordered card-preview">

@@ -6,7 +6,9 @@
                      <div class="card-inner">
                          <div class="card-head">
                          <h5 class="card-title">{{ isset($edit_category) ? 'Edit Category: ' . $edit_category->name : 'Add Category' }}</h5>
-
+                            <div>
+                              {{ Breadcrumbs::render('categories-add',$edit_category->slug ?? '') }}  
+                            </div>
                          </div>
                          <div class="row">
                             <div class="col-lg-6">

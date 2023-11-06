@@ -2,7 +2,10 @@
 @section('content')
 
 <div class="nk-block">
-    <h2>Blogs list</h2>
+                        <div class="p-4 d-flex justify-content-between">
+                            <h2>Blogs list</h2>
+                            {{ Breadcrumbs::render('blogs-list') }}
+                        </div>
                                     <div class="row g-gs">
                                     @foreach($blogs as $blog)
                                         <div class="col-xxl-3 col-lg-4 col-sm-6">

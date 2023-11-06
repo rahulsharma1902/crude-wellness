@@ -95,52 +95,52 @@ Route::post('/discountcheck',[FrontDiscountController::class,'SingleTimeDiscount
 
 /////Admin Dashboarda
 Route::group(['middleware'=>['auth','admin']],function(){
-    Route::get('admin-dashboard',[AdminDashController::class,'index']);
+    Route::get('admin-dashboard',[AdminDashController::class,'index'])->name('admin-dashboard');
 
 
     //subcription option
 
-    Route::get('admin-dashboard/subscriptions-options/',[AdminSubscriptionController::class,'index']);
+    Route::get('admin-dashboard/subscriptions-options/',[AdminSubscriptionController::class,'index'])->name('subscription-options');
     Route::get('admin-dashboard/subscriptions-options/addProcc',[AdminSubscriptionController::class,'addProcc']);
     Route::get('admin-dashboard/subscriptions-options/delete/{id}',[AdminSubscriptionController::class,'delete']);
     
     /* categories */
-    Route::get('admin-dashboard/categories',[CategoriesController::class,'index']);
-    Route::get('admin-dashboard/add-category/{slug?}',[CategoriesController::class,'AddCategory']);
+    Route::get('admin-dashboard/categories',[CategoriesController::class,'index'])->name('product-categories');
+    Route::get('admin-dashboard/add-category/{slug?}',[CategoriesController::class,'AddCategory'])->name('categories-add');
 
     Route::post('save-category',[CategoriesController::class,'save']);
     Route::get('remove-category/{slug}',[CategoriesController::class,'remove']);
 
     /* blogs  */  
-    Route::get('admin-dashboard/blogs',[AdminBlogController::class,'index']);
-    Route::get('admin-dashboard/blogs/add/{id?}',[AdminBlogController::class,'addBlog']);
+    Route::get('admin-dashboard/blogs',[AdminBlogController::class,'index'])->name('blogs-list');
+    Route::get('admin-dashboard/blogs/add/{id?}',[AdminBlogController::class,'addBlog'])->name('add-blogs');
     Route::post('admin-dashboard/blogs/addProcc',[AdminBlogController::class,'addProcc']);
     Route::get('admin-dashboard/blogs/delete/{id}',[AdminBlogController::class,'blogDelete']);
 
-    Route::get('admin-dashboard/blogs/categories',[AdminBlogController::class,'categories']);
+    Route::get('admin-dashboard/blogs/categories',[AdminBlogController::class,'categories'])->name('blogs-categories');
     Route::post('admin-dashboard/blogs/categories/addProcc',[AdminBlogController::class,'categoryadd']);
     Route::get('admin-dashboard/blog/category/delete/{id}',[AdminBlogController::class,'categorydelete']);
 
 
     /* sitemeta */
-    Route::get('admin-dashboard/site-detail',[AdminSiteMetaController::class,'index']);
+    Route::get('admin-dashboard/site-detail',[AdminSiteMetaController::class,'index'])->name('site-detail');
     Route::post('admin-dashboard/site-detail/addProcc',[AdminSiteMetaController::class,'addProcc']);
-    Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs']);
+    Route::get('admin-dashboard/faqs/{slug?}',[AdminSiteMetaController::class,'faqs'])->name('faqs');
     Route::post('admin-dashboard/faqs/addProcc',[AdminSiteMetaController::class,'faqaddProcc']);
     Route::post('admin-dashboard/faqs/homestatus',[AdminSiteMetaController::class,'faqhomestatus']);
     Route::get('admin-dashboard/faqs/delete/{id}',[AdminSiteMetaController::class,'faqDelete']);
-    Route::get('admin-dashboard/ourstory-meta',[AdminSiteMetaController::class,'ourStory']);
+    Route::get('admin-dashboard/ourstory-meta',[AdminSiteMetaController::class,'ourStory'])->name('ourstory');
     Route::post('admin-dashboard/ourstory-meta/addProcc',[AdminSiteMetaController::class,'ourStoryAdd']);
 
 
 
     /* Products : */
-    Route::get('admin-dashboard/products',[ProductsController::class,'index']);
-    Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts']);
+    Route::get('admin-dashboard/products',[ProductsController::class,'index'])->name('products');
+    Route::get('admin-dashboard/add-products',[ProductsController::class,'addProducts'])->name('add-products');
     Route::post('productSave',[ProductsController::class,'save']);
     Route::post('product/updatehomestatus',[ProductsController::class,'homestatus']);
 
-    Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct']);
+    Route::get('admin-dashboard/product-edit/{slug}',[ProductsController::class,'editProduct'])->name('edit-products');
     Route::post('productUpdate',[ProductsController::class,'updateProc']);
 
     Route::get('productRemove/{slug}',[ProductsController::class,'removeProducts']);
@@ -162,16 +162,16 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('admin-dashboard/orders/update',[OrdersController::class,'updateorder']);
     
     //payments
-    Route::get('admin-dashboard/payments',[PaymentController::class,'index']);
+    Route::get('admin-dashboard/payments',[PaymentController::class,'index'])->name('payments');
     // users
-    Route::get('admin-dashboard/users',[UserController::class,'index']);
+    Route::get('admin-dashboard/users',[UserController::class,'index'])->name('users');
 
     // Reviews
-    Route::get('admin-dashboard/reviews',[ReviewsController::class,'index']);
-    Route::get('admin-dashboard/addreviews/{id?}',[ReviewsController::class,'addreviews']);
+    Route::get('admin-dashboard/reviews',[ReviewsController::class,'index'])->name('reviews');
+    Route::get('admin-dashboard/addreviews/{id?}',[ReviewsController::class,'addreviews'])->name('add-reviews');
     Route::post('admin-dashboard/reviews/addProcc',[ReviewsController::class,'addReviewsProcc']);
     Route::get('admin-dahboard/reviews/delete/{id}',[ReviewsController::class,'reviewDelete']);
-    Route::get('admin-dashboard/reviews-categories',[ReviewsController::class,'categories']);
+    Route::get('admin-dashboard/reviews-categories',[ReviewsController::class,'categories'])->name('reviews-category');
     Route::post('admin-dashboard/reviews-categories/addProcc',[ReviewsController::class,'addCatgories'])->name('add-reviews-categories');
     Route::get('admin-dashboard/reviews-categories/delete/{id}',[ReviewsController::class,'deletereviewCategory'])->name('delete-reviews-categories');
 

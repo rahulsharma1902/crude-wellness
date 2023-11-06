@@ -1,6 +1,9 @@
 @extends('admin_layout/master')
 @section('content')
 <div class="nk-content ">
+                    <div class="d-flex justify-content-end">
+                       {{ Breadcrumbs::render('subscription-detail',$metadetail->reccuring_id ?? '') }} 
+                    </div>
                     <div class="container-fluid">
                         <div class="nk-content-inner">
                             <div class="nk-content-body">

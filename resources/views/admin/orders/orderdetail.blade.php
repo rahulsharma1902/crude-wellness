@@ -1,6 +1,9 @@
 @extends('admin_layout/master')
 @section('content')
             <div class="container">
+                <div class="d-flex justify-content-end">
+                    {{ Breadcrumbs::render('orders-detail',$order->order_id ?? '') }}
+                </div>
             <div class="nk-tnx-details">
                                             <div class="nk-block-between flex-wrap g-3">
                                                 <div class="nk-tnx-type">

@@ -1,11 +1,11 @@
 @extends('admin_layout/master')
 @section('content')
 <div class="nk-block nk-block-lg" id="maindiv">
-    <div class="nk-block-head d-flex justify-content-between">
-        <div class="nk-block-head-content">
+    <div class="nk-block-head">
+        <div class="nk-block-head-content d-flex justify-content-between">
             <h4 class="nk-block-title">Products Table</h4>
             <div class="nk-block-des">
-                <p><code class="code-class"></code> </p>
+               {{ Breadcrumbs::render('products') }}
             </div>
         </div>
     </div>

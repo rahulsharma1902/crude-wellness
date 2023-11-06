@@ -306,7 +306,6 @@
                         $totalcartprice = 0;
                         ?>
                         @foreach($cartitems as $cart)
-                        
                         <div class="order_wrapper">
                             <div class="d-flex">
                                 <div class="order-img">
@@ -314,24 +313,13 @@
                                 </div>
                                 <div>
                                     <h5>{{ $cart->product->name ?? '' }}</h5>
-                                    <span> {{ $cart->variations->strength ?? '' }} MG </span> <br>
-                                    @if($cart->purchase_type === 'multi_time')
-                                    <span style="font-size: small;"> Deliver Every {{ $cart->subscription->recurring_period ?? '' }} {{ $cart->subscription->recurring_type ?? '' }} and -{{ $cart->subscription->discount_percentage ?? '' }}% off</span>
-                                    @endif
                                 </div>
                             </div>
                             <div class="add_wreap">
-                            <?php if($cart->purchase_type == 'multi_time'){
-                                    $amount_off = ($cart->subscription->discount_percentage/100) * $cart->variations->price;
-                                }elseif($cart->purchase_type == 'one_time'){
-                                    $amount_off = 0;
-                                }
-                                $price = $cart->variations->price - $amount_off;
-                                $totalprice = $price * $cart->quantity;   ?>
                                 <?php 
-                                // $price = $cart->price;
-                                // $quantity = $cart->quantity;
-                                // $totalprice = $price*$quantity;
+                                $price = $cart->price;
+                                $quantity = $cart->quantity;
+                                $totalprice = $price*$quantity;
                                 ?>
                                 <span>${{ number_format($totalprice,2) }}</span>
                                 <div class="number">
@@ -340,9 +328,7 @@
                                     <span action="increase" class="plus change_quantity" cart-id="{{ $cart->id ?? '' }}">+</span>
                                 </div>
                             </div>
-                           
                         </div>
-                        
                         <?php
                         $totalcartprice += $totalprice;
                         ?>
@@ -476,16 +462,6 @@ $(document).ready(function(){
                             console.log(value[0]);
                             $('input[name="'+key+'"]').css({'border-color':'red'});
                         });
-                        // for (var fieldName in errors) {
-                        //     if (errors.hasOwnProperty(fieldName)) {
-                        //         var errorMessages = errors[fieldName];
-                        //         console.log(errorMessages);
-                        //         errorMessages.forEach(function(errorMessage) {
-                        //             console.log(errorMessage);
-                                    
-                        //         });
-                        //     }
-                        // }
                     }
                    })
              

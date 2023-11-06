@@ -20,4 +20,5 @@ class Cart extends Model
     public function variations(){
         return $this->hasOne(ProductVariations::class,'id','variation_id');
     }
+    
 }

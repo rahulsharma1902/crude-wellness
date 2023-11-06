@@ -2,8 +2,9 @@
 @section('content')
 <div class="nk-block nk-block-lg">
                                         <div class="nk-block-head">
-                                            <div class="nk-block-head-content">
+                                            <div class="nk-block-head-content d-flex justify-content-between">
                                                 <h4 class="title nk-block-title">Add Faqs</h4>
+                                                {{ Breadcrumbs::render('faqs',$editdata->slug ?? '') }}
                                             </div>
                                         </div>
                                         <div class="card card-bordered card-preview">
@@ -58,7 +59,7 @@
                                                             <hr>
                                                             <div class="d-flex justify-content-between">
                                                                 <h6 class="overline-title title">Question {{ $i+1 }}</h6>
-                                                                <button class="btn btn-link close" data-id='{{ $i+1 }}'>close</button>
+                                                                <button class="btn btn-link close" data-id='{{ $i+1 }}'><i class="fas fa-times"></i></button>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label class="form-label" for="question">Question</label>
@@ -155,7 +156,7 @@
                                     i = 0;
                                         $('#addquestion').on('click',function(){
                                             i = i+1;
-                                            html ='<div class="col-lg-6 html'+ i +'"><hr><div class="d-flex justify-content-between"><h6 class="overline-title title">Question '+ i +'</h6><button class="btn btn-link close" data-id='+ i +'>close</button></div><div class="form-group"><label class="form-label" for="question">Question</label><div class="form-control-wrap"><input type="text" class="form-control" name="question[]" id="question" ></div></div><div class="form-group"><label class="form-label" for="answer">Answer</label><div class="form-control-wrap"><textarea class="form-control" name="answer[]" id="answer"></textarea></div></div></div>';
+                                            html ='<div class="col-lg-6 html'+ i +'"><hr><div class="d-flex justify-content-between"><h6 class="overline-title title">Question '+ i +'</h6><button class="btn btn-link close" data-id='+ i +'><i class="fas fa-times"></i></button></div><div class="form-group"><label class="form-label" for="question">Question</label><div class="form-control-wrap"><input type="text" class="form-control" name="question[]" id="question" ></div></div><div class="form-group"><label class="form-label" for="answer">Answer</label><div class="form-control-wrap"><textarea class="form-control" name="answer[]" id="answer"></textarea></div></div></div>';
                                             $('#qustiondiv').append(html);
                                         });
                                   

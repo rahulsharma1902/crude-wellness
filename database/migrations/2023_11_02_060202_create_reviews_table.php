@@ -17,11 +17,7 @@ return new class extends Migration
             $table->string('position');
             $table->string('image');
             $table->string('text');
-<<<<<<< HEAD
-            $table->string('category_id');
-=======
             $table->integer('category_id');
->>>>>>> 618a5d75542e373171a05aab14e18b68645b1a18
             $table->integer('status')->default(1);
             $table->timestamps();
         });
