@@ -28,7 +28,7 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Stripe\StripeWebHooks;
-
+use App\Http\Controllers\Front\TermConditionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,7 +93,12 @@ Route::post('/stripe/webhook',[StripeWebHooks::class,'index']);
 /////discount
 Route::post('/discountcheck',[FrontDiscountController::class,'SingleTimeDiscount']);
 
-/////Admin Dashboarda
+////term&conditions
+Route::get('shippings-terms',[TermConditionController::class,'index']);
+Route::get('cookies',[TermConditionController::class,'cookies']);
+Route::get('privacy-policy',[TermConditionController::class,'policies']);
+
+/////Admin Dashboard
 Route::group(['middleware'=>['auth','admin']],function(){
     Route::get('admin-dashboard',[AdminDashController::class,'index'])->name('admin-dashboard');
 

@@ -323,10 +323,14 @@
                         <div class="legal-links">
                             <h6>Legal Links</h6>
                             <ul>
-                                <li><a href="#">Account</a></li>
-                                <li><a href="terms.html">Shipping & Terms </a></li>
-                                <li><a href="about.html">Cookies</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
+                                @if(Auth::check())
+                                <li><a href="{{ url('account') }}">Account</a></li>
+                                @else
+                                <li><a href="{{ url('login') }}">Account</a></li>
+                                @endif
+                                <li><a href="{{ url('shippings-terms') }}">Shipping & Terms </a></li>
+                                <li><a href="{{ url('cookies') }}">Cookies</a></li>
+                                <li><a href="{{ url('privacy-policy') }}">Privacy Policy</a></li>
                             </ul>
                         </div>
                     </div>
