@@ -33,6 +33,9 @@ class StripeWebHooks extends Controller
         $invoiceurl = $event->data->object->hosted_invoice_url;
         $invoicepdf = $event->data->object->invoice_pdf;
         $orderMeta = OrderMeta::where('stripe_price_id',$price_id)->first();
+        if($orderMeta->order_type == 'one_time'){
+            return response('success',200);
+        }
         $paymentcollection = PaymentCollection::where('payment_intent',$paymentIntent)->first();
         $subscription_detail = $this->subscriptiondetail($orderMeta->reccuring_id);
         if($paymentcollection){
@@ -97,8 +100,9 @@ class StripeWebHooks extends Controller
     } catch (\Stripe\Exception\SignatureVerificationException $e) {
         return $e->getMessage();
     }
-
+   
     }
+
     protected function changedate($date){
         $datetime = date('Y-m-d H:i:s', $date);
         return $datetime;

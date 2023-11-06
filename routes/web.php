@@ -29,6 +29,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ReviewsController;
 use App\Http\Controllers\Stripe\StripeWebHooks;
 use App\Http\Controllers\Front\TermConditionController;
+use App\Http\Controllers\Admin\AdminDiscountController;
 
 /*
 |--------------------------------------------------------------------------
@@ -180,6 +181,12 @@ Route::group(['middleware'=>['auth','admin']],function(){
     Route::post('admin-dashboard/reviews-categories/addProcc',[ReviewsController::class,'addCatgories'])->name('add-reviews-categories');
     Route::get('admin-dashboard/reviews-categories/delete/{id}',[ReviewsController::class,'deletereviewCategory'])->name('delete-reviews-categories');
 
+    ///Discounts
+    Route::get('admin-dashboard/discount-coupons',[AdminDiscountController::class,'index'])->name('discount-coupons');
+    Route::get('admin-dashboard/discount-coupons/add/{id?}',[AdminDiscountController::class,'addCoupon'])->name('add-coupons');
+    Route::get('admin-dashboard/discount-coupons/delete/{id}',[AdminDiscountController::class,'deleteCoupon'])->name('delete-coupons');
+    Route::post('admin-dashboard/discount-coupons/submitProcc',[AdminDiscountController::class,'submitProcc']);
+    Route::post('admin-dashboard/discounts/updatestatus',[AdminDiscountController::class,'updateStatus']);
 
 });
 

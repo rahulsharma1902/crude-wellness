@@ -133,5 +133,14 @@ Breadcrumbs::for('contact-us',function(BreadcrumbTrail $trail){
     $trail->push('CONTACT-US',route('contact-us'));
 });
 
+//Discounts 
+Breadcrumbs::for('discount-list',function(BreadcrumbTrail $trail){
+    $trail->parent('admin-dashboard');
+    $trail->push('DISCOUNTS',route('discount-coupons'));
+});
+Breadcrumbs::for('add-discount',function(BreadcrumbTrail $trail){
+    $trail->parent('discount-list');
+    $trail->push('ADD',route('add-coupons'));
+});
 
 ?>

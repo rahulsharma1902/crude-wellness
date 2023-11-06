@@ -107,7 +107,7 @@ class ProductsController extends Controller
     }
 
     public function updateProc(Request $request){
-         
+        
         $request->validate([
             'name' => 'required|unique:products,name,' . $request->id,
             'slug' => 'required|unique:products,slug,' . $request->id,
@@ -253,8 +253,6 @@ class ProductsController extends Controller
 
     protected function uploadImages(Request $request,$id)
     {
-
-    
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $extension = $file->getClientOriginalExtension();

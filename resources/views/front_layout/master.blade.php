@@ -615,13 +615,13 @@
 <!-- END SHOP DETAILS -->
 <script>
     $(document).ready(function(){
+        localStorage.modalstatus = 'show';
         if(localStorage.modalstatus === 'hide'){
             $('div.popup-onload').addClass('d-none');
         }else{
         $('.modal_close_button').click(function(e){
             e.preventDefault();
             localStorage.modalstatus = 'hide';
-
         })
         }
     });
@@ -634,7 +634,6 @@
         $('.modal_close_button').click(function(e){
             e.preventDefault();
             localStorage.modalstatus = 'hide';
-
         })
         }
     });
@@ -647,7 +646,19 @@
             url:'{{ url('discountcheck') }}',
             data: { email:email,_token:"{{ csrf_token() }}" },
             success: function(response){
-                console.log(response);
+                $('.popup-onload').hide();
+                localStorage.modalstatus = 'hide';
+                if(response.success){
+                iziToast.success({
+                    message: response.success,
+                    position: 'topRight' 
+                });
+                }else{
+                    iziToast.success({
+                    message: response.error,
+                    position: 'topRight' 
+                });
+                }
             }
             
         })

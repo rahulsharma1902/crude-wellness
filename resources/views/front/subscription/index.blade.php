@@ -140,14 +140,15 @@
                 <h4>What people are saying about Crude</h4>
             </div>
             <div class="testimonial-slider">
+                @foreach($reviews as $review)
                 <div class="testimonial-list">
                     <div class="testimonial-para">
                         <div class="test_view">
                             <div class="test_img">
-                                <img src="{{ asset('front/img/testimonial_4.png') }}" class="img-fluid" alt="">
+                                <img src="{{ asset('reviewsIMG') }}/{{ $review->image ?? '' }}" class="img-fluid" alt="">
                             </div>
                             <div class="test_hd">
-                                <h6>Jerry C. Prentice</h6>
+                                <h6>{{ $review->review_by ?? '' }}</h6>
                                 <ul class="start_view">
                                     <li><i class="fa-solid fa-star"></i></li>
                                     <li><i class="fa-solid fa-star"></i></li>
@@ -158,76 +159,11 @@
                             </div>
                         </div>
                         <p>
-                            “It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages”
+                            “{{ $review->text ?? '' }}”
                         </p>
                     </div>
                 </div>
-                <div class="testimonial-list">
-                    <div class="testimonial-para">
-                        <div class="test_view">
-                            <div class="test_img">
-                                <img src="{{ asset('front/img/testimonial_4.png') }}" class="img-fluid" alt="">
-                            </div>
-                            <div class="test_hd">
-                                <h6>Ruth D. Grinnell</h6>
-                                <ul class="start_view">
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p>
-                            “Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s”
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-list">
-                    <div class="testimonial-para">
-                        <div class="test_view">
-                            <div class="test_img">
-                                <img src="{{ asset('front/img/testimonial_4.png') }}" class="img-fluid" alt="">
-                            </div>
-                            <div class="test_hd">
-                                <h6>Orlando R. Bean</h6>
-                                <ul class="start_view">
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p>
-                            “Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock”
-                        </p>
-                    </div>
-                </div>
-                <div class="testimonial-list">
-                    <div class="testimonial-para">
-                        <div class="test_view">
-                            <div class="test_img">
-                                <img src="{{ asset('front/img/testimonial_4.png') }}" class="img-fluid" alt="">
-                            </div>
-                            <div class="test_hd">
-                                <h6>Jerry C. Prentice</h6>
-                                <ul class="start_view">
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                    <li><i class="fa-solid fa-star"></i></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <p>
-                            “It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages”
-                        </p>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

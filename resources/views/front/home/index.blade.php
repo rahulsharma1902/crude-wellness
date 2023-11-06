@@ -34,7 +34,6 @@
                             <div class="best-warp">
                                 <div class="best-text">
                                     <a href="{{ url('education-details/'.$b->slug) }}"><h6>{{ $b->title ?? '' }}</h6></a>
-                                  
                                 </div>
                             </div>
                         </div>
