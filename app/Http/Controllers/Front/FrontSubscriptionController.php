@@ -16,6 +16,7 @@ class FrontSubscriptionController extends Controller
         }else{
             $reviews = Review::where('status',1)->get();
         }
+        
         return view('front.subscription.index',compact('reviews'));
     }
 }

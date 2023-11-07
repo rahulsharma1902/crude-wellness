@@ -165,6 +165,11 @@ class CheckoutController extends Controller
                 $ordermeta->status = 0;
                 $ordermeta->save();
             }
+
+            ////decrease variations
+            //  $variations = ProductVariations::find($items->variation_id);
+            // $variations->qty = $variations->qty-1;
+            // $variations->update();
             
             }
 
