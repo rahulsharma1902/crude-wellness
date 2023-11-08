@@ -4,76 +4,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/tsparticles/1.18.11/tsparticles.min.js"> </script>
-<style>
-    * {
-  margin: 0;
-  padding: 0;
-}
-
-canvas {
-  display: block;
-}
-
-#space {
-  width: 100%;
-  height: 100vh;
-  background: black;
-}
-</style>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
 <body>
-<div id="space"></div>
+<canvas class="canvas" id="myCanvas" >
+
+</canvas>
 <script>
-    particlesJS("space", {
-  "particles": {
-    "number": {
-      "value": 50,
-      "density": {
-        "enable": true,
-        "value_area": 500
-      }
-    },
-    "color": {
-      "value": "#fff"
-    },
-    "opacity": {
-      "value": 1,
-      "anim": {
-        "enable": true,
-        "speed": 8,
-        "opacity_min": 0.4,
-        "sync": false
-      }
-    },
-    "shape": {
-      "type": "circle"
-    },
-    "size": {
-      "value": 5,
-      "random": true
-    },
-    "line_linked": {
-      "enable": false
-    },
-    "move": {
-      "enable": true,
-      "speed": 3,
-      "direction": "right",
-      "straight": true
-    }
-  },
-  "interactivity": {
-    "detect_on": "canvas",
-    "events": {
-      "onhover": {
-        "enable": false
-      },
-      "onclick": {
-        "enable": false
-      }
-    }
-  }
-});
+    const canvas = document.getElementById('myCanvas');
+    const context = canvas.getContext('2d');
+    context.fillStyle = 'red'; 
+    context.fillRect(50, 50, 100, 100);
+    context.strokeStyle = 'blue';
+    context.strokeRect(200, 50, 100, 100);
+    context.clearRect(75, 75, 50, 50);
+    context.font = '24px Arial';
+    context.fillStyle = 'black'; 
+    context.fillText('Hello, World!', 50, 50);
+    const image = new Image();
+    image.src = "{{ asset('front/img/blog-1.png') }}";
+    image.onload =()=>{
+        context.drawImage(image, 100, 100);
+    };
+    // canvas.toBlob(blob => {
+    //     let data = window.URL.createObjectURL(blob);
+    //     let link = document.createElement('a');
+    //     link.href = data;
+    //     link.download = 'feed.jpg';
+    //     link.click();
+    // }, 'image/jpeg');
 </script>
 </body>
 </html>
