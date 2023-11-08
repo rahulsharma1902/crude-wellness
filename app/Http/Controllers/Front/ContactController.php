@@ -36,7 +36,10 @@ class ContactController extends Controller
                 'email' => $request->email,
                 'message' => $request->message,
             ];
-            $mail = Mail::to($adminUser->email)->send(new ContactUsMail($mailData)); 
+            try {
+                $mail = Mail::to($adminUser->email)->send(new ContactUsMail($mailData)); 
+            } catch (\Throwable $th) {
+            }
 
             return redirect()->back()->with('success', 'Your message has been submitted.');
         } else {

@@ -30,7 +30,11 @@ class FrontDiscountController extends Controller
             $mailData = [
                 'discount_code' => $discount->discount_code
             ];
-            $mail = Mail::to($email)->send(new DiscountMail($mailData));
+            try {
+                $mail = Mail::to($email)->send(new DiscountMail($mailData));
+            } catch (\Throwable $th) {
+            }
+           
             return response()->json(['success'=>'Congratulation you got a new discount coupon']);
         }else{
             return response()->json(['error'=>'You are not eligible for this discount! Thank you']);

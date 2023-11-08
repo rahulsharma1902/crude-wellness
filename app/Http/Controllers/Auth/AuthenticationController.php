@@ -59,8 +59,12 @@ class AuthenticationController extends Controller
             'name' => $request->name,
             'email' => $request->email,
         ];
-        $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
-        $Adminmail = Mail::to('admin@gmail.com')->send(new UserRegistered($mailData)); 
+        try {
+            $mail = Mail::to($request['email'])->send(new UserRegisterMail($mailData)); 
+            $Adminmail = Mail::to('admin@gmail.com')->send(new UserRegistered($mailData)); 
+        } catch (\Throwable $th) {
+        }
+        
         
         return redirect()->back()->with('success','Your account is created successfully');
     }

@@ -280,7 +280,11 @@ class CheckoutController extends Controller
                 'invoice_pdf' => $payment->invoice_pdf,
                 'payment_status' => $payment->payment_status,
             ];
-            $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+            try {
+                $mail = Mail::to(Auth::user()->email)->send(new PaymentConfirmation($mailData)); 
+            } catch (\Throwable $th) {
+            }
+            
             }
           }
         }
@@ -348,8 +352,11 @@ class CheckoutController extends Controller
             'name' => Auth::user()->name,
             'payment_status' => $payment->payment_status,
           ];
-
-        $mail = Mail::to(Auth::user()->email)->send(new OneTimePaymentConfirmation($mailData)); 
+          try {
+            $mail = Mail::to(Auth::user()->email)->send(new OneTimePaymentConfirmation($mailData)); 
+          } catch (\Throwable $th) {
+          }
+        
         return true;
         }
     }

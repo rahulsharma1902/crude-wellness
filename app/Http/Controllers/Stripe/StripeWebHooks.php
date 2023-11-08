@@ -93,8 +93,11 @@ class StripeWebHooks extends Controller
                 'invoice_pdf' => $paymentcollection->invoice_pdf,
                 'payment_status' => $paymentcollection->payment_status,
             ]; 
-            $mail = Mail::to($user->email)->send(new PaymentConfirmation($mailData)); 
-        
+            try {
+                $mail = Mail::to($user->email)->send(new PaymentConfirmation($mailData)); 
+            } catch (\Throwable $th) {
+                
+            }
             return response('success',200);
 
     } catch (\Stripe\Exception\SignatureVerificationException $e) {
