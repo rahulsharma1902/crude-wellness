@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\OrdersController;
 use App\Http\Controllers\Admin\AdminSettingController;
 use App\Http\Controllers\Front\FrontCartController;
 use App\Http\Controllers\User\UserDashController;
+use App\Http\Controllers\TestController;
 
 
 /*
@@ -159,4 +160,4 @@ Route::group(['middleware' =>['auth','user']],function(){
 
 
 
-Route::get('test',[CheckoutController::class,'test']);
+Route::get('test',[TestController::class,'index']);

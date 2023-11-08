@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Mail;
 use App\Mail\ForgottenPassword;
+use App\Models\ProductVariations;
 
 class TestCron extends Command
 {
@@ -27,9 +29,12 @@ class TestCron extends Command
      */
     public function handle()
     {
-        // $mailData = [
-        //     'test' => 'test',
-        // ];
-        // Mail::to('test@gmail.com')->send(new ForgottenPassword($mailData));
+      $variations = new ProductVariations;
+      $variations->product_id = 10;
+      $variations->strength = 20;
+      $variations->qty = 10;
+      $variations->price = 30;
+      $variations->save();
+      return 'done';
     }
 }
